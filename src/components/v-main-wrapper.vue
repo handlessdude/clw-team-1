@@ -1,10 +1,13 @@
 <template>
   <div class="v-main-wrapper">
     <p>{{title}}</p>
+    <p>{{ getCostList }}</p>
   </div>
 </template>
 
 <script>
+import {mapActions,mapGetters} from "vuex"
+
 export default {
   name: "v-main-wrapper",
   components : {},
@@ -14,16 +17,21 @@ export default {
       title: 'Main Wrapper'
     }
   },
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapGetters(['getCostList']),
+  },
+  methods: {
+     ...mapActions(['fetchCosts']),
+  },
   watch: {},
   mounted() {
     console.log('The app has been planted.')
+    this.fetchCosts()
   }
 }
 </script>
 
-<style>
+<style>   
   .v-main-wrapper{
     display: flex;
     justify-content: center;
