@@ -1,18 +1,19 @@
 <template>
   <div id="app">
-    <v-main-wrapper/>
+    <main-wrapper/>
   </div>
 </template>
 
 <script>
 
-import vMainWrapper from './components/v-main-wrapper'
+import MainWrapper from './components/main-wrapper'
 
 export default {
   name: 'App',
   components: {
-    vMainWrapper
-  }
+    MainWrapper
+  },
+
 }
 </script>
 

@@ -1,12 +1,16 @@
-import {
-    createApp
-} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import store from "./store/store"
+import components from '@/components/ui-components'
 
+const app = createApp(App)
 
+//global registration for simple reusable objects
+components.forEach(component => {
+    app.component(component.name, component)
+})
 
-createApp(App).use(store).mount('#app')
+app.use(store).mount('#app')
 
 // import Vue from 'vue'
 // import App from './App.vue'

@@ -1,7 +1,8 @@
 const API = 'https://raw.githubusercontent.com/mucholocobbb/API-s/master/ForGeekBrains/vueCostsApi.json'
+//import axios from 'axios';
 
 const state = {
-    operationList: []
+    operationList: [],
 }
 
 const getters = {
@@ -20,12 +21,14 @@ const actions = {
         commit
     }) {
         fetch(API)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                commit('setCostsArray', data)
-            });
+           .then((response) => {
+              return response.json();
+          })
+         .then((data) => {
+            commit('setCostsArray', data)
+        });
+
+
     },
 }
 
