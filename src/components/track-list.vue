@@ -1,12 +1,18 @@
 <template>
   <div class="track-list">
     <h3>Каталог треков</h3>
-    <div class="track-list-grid">
+    <!-- v-if removes node from DOM tree completely.
+         if you want to keep it in DOM tree, use v-show
+    -->
+    <div v-if="tracks.length > 0" class="track-list-grid">
       <track-item
          v-for="track in tracks"
          :track="track"
-          :key="track.id"/>
-  </div>
+         :key="track.id"
+         @remove="$emit('remove', track)"
+      />
+    </div>
+    <p v-else>Каталог треков пуст.</p>
   </div>
 
 

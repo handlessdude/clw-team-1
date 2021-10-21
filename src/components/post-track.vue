@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent>
-    <h4 style="align-self: flex-start">Создание трека</h4>
+    <h3 >Создание трека</h3>
     <my-input
         v-model="track.data.name"
         type="text"
@@ -22,14 +22,10 @@
 
 <script>
 
-import MyButton from "./ui-components/my-button"
-import MyInput from "./ui-components/my-input"
-
 export default {
   name: "post-track",
-  components:{
-    MyButton,
-    MyInput,
+  components: {
+
   },
   data() {
     return {
