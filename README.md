@@ -4,7 +4,7 @@ GreenATOM
 ***
 _Компанией GreenATOM проводиться Кейс-лаборатория с целью отобрать перспективных участников, для дальнейшего трудоустройства в [их компании](https://greenatom.ru/)._
 
-![Caselab](Green.jpg)
+![Caselab](Green.png)
 ***
 ### Наша комманда
 * [Лиза](https://github.com/handlessdude)
