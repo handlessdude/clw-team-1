@@ -1,7 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import store from "./store/store"
+import router from "./router/router"
 import components from './components/ui-components'
+import directives from './directives';
+import '@fortawesome/fontawesome-free/js/all'
 
 const app = createApp(App)
 
@@ -9,15 +12,8 @@ const app = createApp(App)
 components.forEach(component => {
     app.component(component.name, component)
 })
+directives.forEach(directive => {
+    app.directive(directive.name, directive)
+})
 
-app.use(store).mount('#app')
-
-// import Vue from 'vue'
-// import App from './App.vue'
-// import store from './store'
-
-
-// new Vue({
-//     render: h => h(App),
-//     store
-// }).$mount('#app')
+app.use(router).use(store).mount('#app')

@@ -5,12 +5,15 @@
          if you want to keep it in DOM tree, use v-show
     -->
     <div v-if="tracks.length > 0" class="track-list-grid">
-      <track-item
-         v-for="track in tracks"
-         :track="track"
-         :key="track.id"
-         @remove="$emit('remove', track)"
-      />
+      <transition-group name="track-list">
+        <track-item
+            v-for="track in tracks"
+            :track="track"
+            :key="track.id"
+            @remove="$emit('remove', track)"
+        />
+      </transition-group>
+
     </div>
     <p v-else>Каталог треков пуст.</p>
   </div>
@@ -55,5 +58,21 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     column-gap: 10px;
     row-gap: 1em;
+  }
+  .track-list-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .track-list-enter-active,
+  .track-list-leave-active {
+    transition: all 0.5s ease;
+  }
+  .track-list-enter-from,
+  .track-list-leave-to {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+  .track-list-move {
+    transition: transform 0.5s ease;
   }
 </style>

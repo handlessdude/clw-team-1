@@ -1,9 +1,10 @@
 <template>
-  <div class="track-item">
+  <div class="track-item" @click="$router.push(`/catalogue/${track.id}`)">
     <div class="track-info">
-      <div><strong>ID трека:</strong> {{ track.id }}</div>
-      <div><strong>Название:</strong> {{ track.data.name}}</div>
-      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>
+<!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
+<!--      <div><strong>Название:</strong> {{ track.data.name}}</div>-->
+      <h3>{{ track.data.name}}</h3>
+<!--      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>-->
     </div>
     <div class="track-item__btns">
       <my-button
@@ -39,6 +40,9 @@ export default {
   justify-content: space-between;
   border-radius: 12px;
 
+}
+.track-item:hover{
+  cursor: pointer;
 }
 .track-info{
   display: flex;

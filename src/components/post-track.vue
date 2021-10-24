@@ -2,6 +2,7 @@
   <form @submit.prevent>
     <h3 >Создание трека</h3>
     <my-input
+        v-focus
         v-model="track.data.name"
         type="text"
         placeholder="Название"

@@ -1,11 +1,23 @@
 <template>
   <div class="main-wrapper">
     <!--<h2>{{title}}</h2>-->
-    <my-button
-        style="align-self:flex-start; margin-top: 15px"
-        @click="showDialog"
-    >
-      Создать трек</my-button>
+    <my-input
+        v-focus
+        v-model="searchQuery"
+        placeholder="Поиск..."
+    />
+    <div class="main-wrapper__btns">
+      <my-button
+          style="align-self:flex-start; margin-top: 15px"
+          @click="showDialog"
+      >
+        Создать трек
+      </my-button>
+      <my-select
+          v-model="selectedSort"
+          :options="sortOptions"
+      />
+    </div>
     <!--
         'create' comes from child
         'createPost' works after emitting the event in child
@@ -15,7 +27,7 @@
     </my-dialog>
 
     <track-list
-        :tracks="tracks"
+        :tracks="sortedAndSearchedTracks"
         @remove="removeTrack"
         v-if="!isTrackListLoading"
     />
@@ -28,6 +40,7 @@
 import TrackList from './track-list'
 import PostTrack from './post-track'
 import axios from 'axios'
+import resolvePath from './auxiliary.js'
 
 export default {
  name: "main-wrapper",
@@ -41,6 +54,12 @@ export default {
      title: 'Main Wrapper',
      dialogVisible: false,
      isTrackListLoading: false,
+     selectedSort: '',
+     searchQuery: '',
+     sortOptions: [ //array of select-list items
+       { value: 'id', name: 'По ID'},
+       { value: 'data.name', name: 'По названию'}
+     ],
      tracks:[],
    }
  },
@@ -79,7 +98,7 @@ export default {
             message: "Some message to a lonely_server",
           },
           config,
-        });
+        })
         this.tracks = response.data.data;
         console.log(response)
       } catch (e) {
@@ -92,7 +111,19 @@ export default {
  mounted() {
    console.log('The app has been planted.')
    this.fetchTracks()
- }
+ },
+  computed:{
+   sortedTracks() {
+     return [...this.tracks].sort((track1, track2) =>
+         String(resolvePath(track1, this.selectedSort))?.localeCompare(String(resolvePath(track2,this.selectedSort))))
+   },
+    sortedAndSearchedTracks() {
+      return this.sortedTracks.filter(track => track.data.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+    }
+  },
+  watch: {
+
+  }
 }
 </script>
 
@@ -103,6 +134,11 @@ export default {
    justify-content: center;
    align-items: center;
    margin: 0 auto;
-   padding: 20px;
+
+ }
+ .main-wrapper__btns {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
  }
 </style>
