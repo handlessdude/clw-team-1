@@ -3,9 +3,10 @@ import { createStore } from 'vuex'
 //import { storeModule } from './storeModule' why is that
 import { trackCatalogueModule } from './modules/trackCatalogueModule'
 import { trackPageModule } from './modules/trackPageModule'
+import { sidebarModule } from './modules/sidebarModule'
 
 export default createStore({
-    state: {
+    state: () => ({
         server: "https://tml6.rosatom.ru/api/tracks",
         xApiKeyTeacher: "4kcwkcksk0gwcs4kc0wo4gws0sgcswgcosc88ok4",
         userIdTeacher: 743441,
@@ -13,9 +14,11 @@ export default createStore({
         userIdStudent: 743436,
         /*TODO: replace with normal auth with axios and some method*/
         isTeacher: true,
-    },
+    }),
+
     modules: {
         trackCatalogue: trackCatalogueModule,
         trackPage: trackPageModule,
+        sidebar: sidebarModule,
     },
 });

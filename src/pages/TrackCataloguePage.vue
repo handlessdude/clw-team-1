@@ -3,7 +3,7 @@
 <!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
         and <createTrack>(teacher)-->
 
-   <div v-if="$store.state.isTeacher"
+   <div v-if="this.$store.state.isTeacher"
         class="main-wrapper__btns">
       <my-button
           style="align-self:flex-start; margin-top: 15px"
