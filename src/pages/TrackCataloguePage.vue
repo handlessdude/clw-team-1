@@ -22,7 +22,6 @@
    <!--   goes into slot inside of my-dialog component-->
    </my-dialog>
 
-<!--   <main-wrapper></main-wrapper>-->
 
    <track-list
        :tracks="getTracks"
@@ -37,14 +36,12 @@
 
 import TrackList from '../components/track-list'
 import PostTrack from '../components/post-track'
-//import MainWrapper from "../components/main-wrapper"
 
-import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: "track-catalogue-page",
   components: {
-    /* MainWrapper,*/
     TrackList,
     PostTrack,
   },
@@ -57,16 +54,10 @@ export default {
     this.fetchTracks();
   },
   methods: {
-    ...mapMutations({
-      /*setSelectedSort: 'trackCatalogue/setSelectedSort',
-      setSearchQuery: 'trackCatalogue/setSearchQuery',*/
-    }),
     ...mapActions({
       fetchTracks: 'trackCatalogue/fetchTracks'
     }),
-    /*removeTrack(track) {
-      this.tracks = this.tracks.filter(t => t.id !== track.id)
-    },*/
+
     /*so you can create blank track cards in order to test css styles*/
     createTrack(track) {
       this.tracks.push(track);
@@ -81,23 +72,16 @@ export default {
     ...mapState({
       tracks: state => state.trackCatalogue.tracks,
       isTrackListLoading: state => state.trackCatalogue.isTrackListLoading,
-      /*selectedSort: state => state.trackCatalogue.selectedSort,
-      searchQuery: state => state.trackCatalogue.searchQuery,
-      page: state => state.trackCatalogue.page,
-      limit: state => state.trackCatalogue.limit,
-      totalPages: state => state.trackCatalogue.totalPages,
-      sortOptions: state => state.trackCatalogue.sortOptions*/
     }),
     ...mapGetters({
       getTracks: 'trackCatalogue/getTracks',
-      /*sortedTracks: 'trackCatalogue/sortedTracks',
-      sortedAndSearchedTracks: 'trackCatalogue/sortedAndSearchedTracks'*/
     })
   },
 }
 </script>
 
 <style scoped>
+
 .main-wrapper__btns {
   width: 100%;
   display: flex;
