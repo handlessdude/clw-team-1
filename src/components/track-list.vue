@@ -1,6 +1,6 @@
 <template>
   <div class="track-list">
-    <h3>Каталог треков</h3>
+    <h3 style="margin:15px;">Каталог треков</h3>
     <!-- v-if removes node from DOM tree completely.
          if you want to keep it in DOM tree, use v-show
     -->

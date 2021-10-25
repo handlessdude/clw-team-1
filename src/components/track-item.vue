@@ -6,12 +6,12 @@
       <h3>{{ track.data.name}}</h3>
 <!--      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>-->
     </div>
-    <div class="track-item__btns">
+<!--    <div class="track-item__btns">
       <my-button
-          @click="$emit('remove', track)"
+          @click.stop="$emit('remove', track)"
       >
         Удалить</my-button>
-    </div>
+    </div>-->
   </div>
 </template>
 
