@@ -1,5 +1,5 @@
 import axios from "axios"
-/*import resolvePath from './auxiliary.js'*/
+import store from '../store';
 
 export const trackCatalogueModule = {
     state: () => ({
@@ -43,8 +43,8 @@ export const trackCatalogueModule = {
         async fetchTracks({/*state,*/ commit}){
             try {
                 commit('setIsTrackListLoading', true)
-                const url = this.state.server
-                console.log(url)
+                const url = store.state.server
+                //console.log(url)
                 /* const url = "https://tml6.rosatom.ru/api/tracks"*/
                     const config = {
                     headers: {
@@ -53,7 +53,7 @@ export const trackCatalogueModule = {
                 };
 
                 axios.defaults.headers.common = {
-                    "X-API-Key": this.state.xApiKeyTeacher,
+                    "X-API-Key": store.state.xApiKeyTeacher,
                 };
 
                 const response = await axios({

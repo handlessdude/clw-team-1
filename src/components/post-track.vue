@@ -34,6 +34,11 @@ export default {
         data:{
           name: '',
           previewText: '',
+          previewPicture: '',
+          published: true,
+          dateTimeStart: 0,
+          dateTimeFinish: 0,
+          mode: "free"
         }
       }
     }

@@ -18,7 +18,7 @@
        'createPost' works after emitting the event in child
    -->
    <my-dialog v-model:show="IsDialogVisible">
-     <post-track @create="createTrack"/>
+     <post-track @create="postTrack"/>
    <!--   goes into slot inside of my-dialog component-->
    </my-dialog>
 
@@ -36,6 +36,8 @@
 
 import TrackList from '../components/track-list'
 import PostTrack from '../components/post-track'
+
+import TrackApi from '../api/Track'
 
 import {mapState, mapGetters, mapActions} from 'vuex'
 
@@ -58,9 +60,9 @@ export default {
       fetchTracks: 'trackCatalogue/fetchTracks'
     }),
 
-    /*so you can create blank track cards in order to test css styles*/
-    createTrack(track) {
-      this.tracks.push(track);
+    postTrack(track) {
+      TrackApi.post(track.data)
+      this.fetchTracks();
       this.IsDialogVisible = false;
     },
 
