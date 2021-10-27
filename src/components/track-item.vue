@@ -4,7 +4,7 @@
       <!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
       <!--      <div><strong>Название:</strong> {{ track.data.name}}</div>-->
       <h3>{{ track.data.name }}</h3>
-<!--      <button @click.stop="deleteTrack(track)">Delete</button>-->
+      <button @click.stop="deleteTrack(track)">Delete</button>
       <!--      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>-->
     </div>
     <div class="track-item__btns">
