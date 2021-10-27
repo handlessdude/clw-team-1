@@ -63,17 +63,26 @@ export default {
       setTracks: 'trackCatalogue/setTracks'
     }),
     async postTrack(track) {
-      await TrackApi.post(track.data)
-                    .then( response => track.id = response.data.data.id )
-                    .then( () => this.tracks.push(track))
-                    .catch(e => console.log(e))
-      this.IsDialogVisible = false;
+      try {
+        const response = await TrackApi.post(track.data)
+        track.id = response.data.data.id
+        this.tracks.push(track)
+        this.IsDialogVisible = false
+      } catch (err) {
+        console.log(err)
+        return err
+      }
     },
 
     async deleteTrack(track) {
-      await TrackApi.delete(track)
-      // we do not make another request to server in order to rerender the track list
-      this.setTracks(this.tracks.filter(t => t.id !== track.id))
+      try {
+        await TrackApi.delete(track)
+        // we do not make another request to server in order to rerender the track list
+        this.setTracks(this.tracks.filter(t => t.id !== track.id))
+      } catch (e) {
+        console.log(e)
+        return e
+      }
     },
 
     showDialog() {

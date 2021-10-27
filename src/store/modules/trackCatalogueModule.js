@@ -46,32 +46,26 @@ export const trackCatalogueModule = {
         }) {
             try {
                 commit("setIsTrackListLoading", true);
-                const url = store.state.server;
-                //console.log(url)
-                /* const url = "https://tml6.rosatom.ru/api/tracks"*/
+                const tracksAxios = axios.create({
+                    baseURL: store.state.server,
+                    headers: {
+                        "X-API-Key": store.state.xApiKeyTeacher
+                    }
+                })
+                const url = store.state.tracksUrl
                 const config = {
                     headers: {
-                        "Content-Type": "application/json",
+                        "accept": "application/json",
                     },
-                };
-
-                axios.defaults.headers.common = {
-                    "X-API-Key": store.state.xApiKeyTeacher,
-                };
-
-                const response = await axios({
-                    method: "get",
-                    url: url,
-                    data: {
-                        message: "Some message to a lonely_server",
-                    },
-                    config,
-                });
+                }
+                const response = await tracksAxios.get(url, config)
                 commit("setTracks", response.data.data);
                 console.log(response);
+                return response
             } catch (e) {
                 alert("Error has spawned!");
                 console.log(e);
+                return e
             } finally {
                 commit("setIsTrackListLoading", false);
             }
