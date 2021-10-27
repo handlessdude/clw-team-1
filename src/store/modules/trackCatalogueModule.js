@@ -1,52 +1,68 @@
-import axios from "axios"
-import store from '../store';
+import axios from "axios";
+import store from "../store";
 
 export const trackCatalogueModule = {
     state: () => ({
-        title: 'track-catalogue',
-        tracks:[],
+        title: "track-catalogue",
+        tracks: [],
         isTrackListLoading: false,
         /*selectedSort: '',
-        searchQuery: '',
-        sortOptions: [ //array of select-list items
-            { value: 'id', name: 'По ID'},
-            { value: 'data.name', name: 'По названию'}
-        ],*/
+            searchQuery: '',
+            sortOptions: [ //array of select-list items
+                { value: 'id', name: 'По ID'},
+                { value: 'data.name', name: 'По названию'}
+            ],*/
     }),
     getters: {
-        getTracks(state){
-            return state.tracks
-        }
-        /*sortedTracks(state) {
-            return [...state.tracks].sort((track1, track2) =>
-                String(resolvePath(track1, state.selectedSort))?.localeCompare(String(resolvePath(track2, state.selectedSort))))
+        getTracks(state) {
+            return state.tracks;
         },
-        sortedAndSearchedTracks(state, getters) {
-            return getters.sortedTracks.filter(track => track.data.name.toLowerCase().includes(state.searchQuery.toLowerCase()))
-        }*/
+        /*sortedTracks(state) {
+                return [...state.tracks].sort((track1, track2) =>
+                    String(resolvePath(track1, state.selectedSort))?.localeCompare(String(resolvePath(track2, state.selectedSort))))
+            },
+            sortedAndSearchedTracks(state, getters) {
+                return getters.sortedTracks.filter(track => track.data.name.toLowerCase().includes(state.searchQuery.toLowerCase()))
+            }*/
     },
     mutations: {
         setTracks(state, tracks) {
             state.tracks = tracks;
         },
         setIsTrackListLoading(state, bool) {
-            state.isTrackListLoading = bool
+            state.isTrackListLoading = bool;
+        },
+        deleteTrack(state, trackId) {
+            console.log(state.tracks, trackId);
+
+            // Удаление на фронте пока не работает, тк  state.tracks  это обьект обернутый в Proxy . А как с этим работать я пока не разобрался
+
+            // let elem = state.tracks.filter(el => {
+            //     return el.id === trackId
+            // })
+            // state.tracks.remove(elem)
+
+
+
         },
         /*setSelectedSort(state, selectedSort) {
-            state.selectedSort = selectedSort
-        },
-        setSearchQuery(state, searchQuery) {
-            state.searchQuery = searchQuery
-        },*/
+                state.selectedSort = selectedSort
+            },
+            setSearchQuery(state, searchQuery) {
+                state.searchQuery = searchQuery
+            },*/
     },
     actions: {
-        async fetchTracks({/*state,*/ commit}){
+        async fetchTracks({
+            /*state,*/
+            commit,
+        }) {
             try {
-                commit('setIsTrackListLoading', true)
-                const url = store.state.server
+                commit("setIsTrackListLoading", true);
+                const url = store.state.server;
                 //console.log(url)
                 /* const url = "https://tml6.rosatom.ru/api/tracks"*/
-                    const config = {
+                const config = {
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -63,16 +79,16 @@ export const trackCatalogueModule = {
                         message: "Some message to a lonely_server",
                     },
                     config,
-                })
-                commit('setTracks', response.data.data)
-                console.log(response)
+                });
+                commit("setTracks", response.data.data);
+                console.log(response);
             } catch (e) {
-                alert('Error has spawned!')
-                console.log(e)
+                alert("Error has spawned!");
+                console.log(e);
             } finally {
-                commit('setIsTrackListLoading', false)
+                commit("setIsTrackListLoading", false);
             }
-        }
+        },
     },
-    namespaced: true
-}
+    namespaced: true,
+};

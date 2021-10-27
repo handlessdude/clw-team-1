@@ -33,5 +33,31 @@ export default class TrackApi {
             console.log(e)
         }
     }
+    static async delete(data) {
+        try {
+            const url = `${store.state.trackUrl}/${data.id}`
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "accept": "*/*"
+                },
+            };
+
+            axios.defaults.headers.common = {
+                "X-API-Key": store.state.xApiKeyTeacher,
+            };
+
+            const response = await axios({
+                method: "delete",
+                url: url,
+                config,
+            })
+            console.log(response)
+        } catch (e) {
+            alert('Error has spawned!')
+            console.log(e)
+        }
+    }
 
 }
