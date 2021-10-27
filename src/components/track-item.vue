@@ -1,5 +1,5 @@
 <template>
-  <div class="track-item" @click="$router.push(`/catalogue/${track.id}`)">
+  <div class="track-item" @click="$router.push(`/tracks/${track.id}`)">
     <div class="track-info">
       <!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
       <!--      <div><strong>Название:</strong> {{ track.data.name}}</div>-->

@@ -1,7 +1,7 @@
 import Main from "../pages/Main"
-import Catalogue from "../pages/TrackCataloguePage"
+import TrackCatalogue from "../pages/TrackCataloguePage"
 import TrackPage from "../pages/TrackPage"
-//import AllTracks from "../components/main-wrapper"
+import Catalogue from "../pages/CataloguePage"
 import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
@@ -10,21 +10,15 @@ const routes = [
         component: Main
     },
     {
-        path: '/catalogue',
-        component: Catalogue,
-        /*children: [
-            {
-                path: 'all',
-                component: AllTracks
-            },
-            /!*{
-                path: 'mytracks',
-                component: UserTracks
-            }*!/
-        ]*/
+        path: '/tracks',
+        component: TrackCatalogue,
     },
     {
-        path: '/catalogue/:id',
+        path: '/catalogue',
+        component: Catalogue,
+    },
+    {
+        path: '/tracks/:id',
         component: TrackPage
     },
 ]

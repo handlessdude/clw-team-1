@@ -9,8 +9,8 @@
       <hr style="margin:15px 10px;">
     </div>
 
-
     <sidebar-link to="/" icon="fas fa-home">Главная</sidebar-link>
+    <sidebar-link to="/tracks" icon="fas fa-truck-monster">Треки</sidebar-link>
     <sidebar-link to="/catalogue" icon="fas fa-columns">Каталог</sidebar-link>
 
     <span
