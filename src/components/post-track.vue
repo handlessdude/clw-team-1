@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     createTrack() {
-      this.track.id = Date.now();
+      //this.track.id = Date.now();
       //emit: generating event 'create' for parent component to subscribe
       //passing props (this.track) to parent component
       this.$emit('create', this.track)
