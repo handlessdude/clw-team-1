@@ -1,7 +1,13 @@
 <template>
 <!--  ...-->
-  <div class="dialog" v-if="show" @click="hideDialog">
+  <div class="dialog" v-if="show">
     <div @click.stop class="dialog__content">
+      <my-button
+          style="margin-left:auto;margin-bottom: 15px;"
+          @click="hideDialog"
+      >
+        <i class="fas fa-times"></i>
+      </my-button>
       <slot></slot>
     </div>
   </div>
@@ -41,5 +47,7 @@ export default {
   min-height: 50px;
   min-width: 50px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 </style>

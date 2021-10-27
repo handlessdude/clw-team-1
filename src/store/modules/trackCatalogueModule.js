@@ -32,19 +32,6 @@ export const trackCatalogueModule = {
         setIsTrackListLoading(state, bool) {
             state.isTrackListLoading = bool;
         },
-        deleteTrack(state, trackId) {
-            console.log(state.tracks, trackId);
-
-            // Удаление на фронте пока не работает, тк  state.tracks  это обьект обернутый в Proxy . А как с этим работать я пока не разобрался
-
-            // let elem = state.tracks.filter(el => {
-            //     return el.id === trackId
-            // })
-            // state.tracks.remove(elem)
-
-
-
-        },
         /*setSelectedSort(state, selectedSort) {
                 state.selectedSort = selectedSort
             },

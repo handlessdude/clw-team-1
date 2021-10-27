@@ -3,9 +3,8 @@
     <div class="track-info">
       <!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
       <!--      <div><strong>Название:</strong> {{ track.data.name}}</div>-->
-      <h3>{{ track.data.name }}</h3>
-      <button @click.stop="deleteTrack(track)">Delete</button>
       <!--      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>-->
+      <h3>{{ track.data.name }}</h3>
     </div>
     <div class="track-item__btns">
       <my-button
@@ -17,8 +16,6 @@
 </template>
 
 <script>
-import TrackApi from "../api/Track";
-import { mapMutations } from "vuex";
 
 export default {
   name: "track-item",
@@ -29,15 +26,7 @@ export default {
       required: true, //info about track is sufficient
     },
   },
-  methods: {
-    ...mapMutations(["deleteTrack"]),
-
-    deleteTrack(track) {
-      TrackApi.delete(track);
-      this.$store.commit("trackCatalogue/deleteTrack", track.id);
-    },
-  },
-};
+}
 </script>
 
 <style scoped>

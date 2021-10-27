@@ -26,7 +26,7 @@
    <track-list
        :tracks="getTracks"
        v-if="!isTrackListLoading"
-       @remove="removeTrack"
+       @remove="deleteTrack"
    />
    <div v-else>Загружаем список треков...</div>
 
@@ -37,7 +37,6 @@
 
 import TrackList from '../components/track-list'
 import PostTrack from '../components/post-track'
-
 import TrackApi from '../api/Track'
 
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
@@ -63,19 +62,18 @@ export default {
     ...mapMutations({
       setTracks: 'trackCatalogue/setTracks'
     }),
-    postTrack(track) {
-      TrackApi.post(track.data)
-      //но у нового трека будет ID=undefined... TODO вытянуть из респонса трекАпи новый айдишник
-      this.tracks.push(track);
-      //this.fetchTracks();
+    async postTrack(track) {
+      await TrackApi.post(track.data)
+                    .then( response => track.id = response.data.data.id )
+                    .then( () => this.tracks.push(track))
+                    .catch(e => console.log(e))
       this.IsDialogVisible = false;
     },
 
-    removeTrack(track) {
-      // here should go --deleting from server--
+    async deleteTrack(track) {
+      await TrackApi.delete(track)
       // we do not make another request to server in order to rerender the track list
       this.setTracks(this.tracks.filter(t => t.id !== track.id))
-      //this.tracks = this.tracks.filter(t => t.id !== track.id)
     },
 
     showDialog() {

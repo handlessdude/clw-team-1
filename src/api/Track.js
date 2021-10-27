@@ -7,8 +7,7 @@ export default class TrackApi {
         try {
             const url = store.state.trackUrl
             //OR const url = store.getters.trackUrl
-
-            console.log('POSTING NEW TRACK!')
+            //console.log('POSTING NEW TRACK!')
 
             const config = {
                 headers: {
@@ -28,6 +27,7 @@ export default class TrackApi {
                 config,
             })
             console.log(response)
+            return response
         } catch (e) {
             alert('Error has spawned!')
             console.log(e)
@@ -59,5 +59,4 @@ export default class TrackApi {
             console.log(e)
         }
     }
-
 }
