@@ -1,25 +1,25 @@
 import axios from 'axios'
 import store from '../store/store';
 
-export default class TrackApi {
+export default class TrackDetailApi {
 
-    static trackAxios = axios.create({
+    static trackDetailAxios = axios.create({
         baseURL: store.state.server,
         headers: {
             "X-API-Key": store.state.xApiKeyTeacher
         }
     })
 
-    static async post(data) {
+    static async post(trackId, trackDetailData) {
         try {
-            const url = store.state.trackUrl
+            const url = `${store.state.trackUrl}/${trackId}/detail`
             const config = {
                 headers: {
                     "accept": "application/json",
                     "Content-Type": "application/json",
                 },
             }
-            const response = await this.trackAxios.post(url, data, config)
+            const response = await this.trackDetailAxios.post(url, trackDetailData, config)
             console.log(response)
             return response
         } catch (e) {
@@ -29,35 +29,15 @@ export default class TrackApi {
         }
     }
 
-    static async postPreview(formData) {
-        /*TODO: make out how it should be used*/
+    static async get(trackDetailId) {
         try {
-            const url = `${store.state.trackUrl}/preview/`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-            const response = await this.trackAxios.post(url, formData, config)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
-        }
-    }
-
-    static async get(data) {
-        try {
-            const url = `${store.state.trackUrl}/${data.id}`
+            const url = `${store.state.trackUrl}/detail/${trackDetailId}`
             const config = {
                 headers: {
                     "accept": "application/json",
                 },
             }
-            const response = await this.trackAxios.get(url, config)
+            const response = await this.trackDetailAxios.get(url, config)
             console.log(response)
             return response
         } catch (e) {
@@ -67,16 +47,16 @@ export default class TrackApi {
         }
     }
 
-    static async put(data) {
+    static async put(trackDetailId, trackDetailData) {
         try {
-            const url = store.state.trackUrl
+            const url = `${store.state.trackUrl}/detail/${trackDetailId}`
             const config = {
                 headers: {
                     "accept": "application/json",
                     "Content-Type": "application/json",
                 },
             }
-            const response = await this.trackAxios.put(url, data, config)
+            const response = await this.trackDetailAxios.put(url, trackDetailData, config)
             console.log(response)
             return response
         } catch (e) {
@@ -86,15 +66,15 @@ export default class TrackApi {
         }
     }
 
-    static async delete(data) {
+    static async delete(trackDetailId) {
         try {
-            const url = `${store.state.trackUrl}/${data.id}`
+            const url = `${store.state.trackUrl}/detail/${trackDetailId}`
             const config = {
                 headers: {
-                    "accept": "*/*"
+                    "accept": "*/*",
                 },
             }
-            const response = await this.trackAxios.delete(url, config)
+            const response = await this.trackDetailAxios.delete(url, config)
             console.log(response)
             return response
         } catch (e) {
