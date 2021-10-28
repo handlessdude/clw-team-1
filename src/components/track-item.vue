@@ -19,7 +19,6 @@
 
 export default {
   name: "track-item",
-  components: {},
   props: {
     track: {
       type: Object, //type of out prop 'track'

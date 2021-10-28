@@ -1,5 +1,5 @@
 <template>
-  <div class="track-detail-item" @click="$router.push(`/track_detail/${trackDetail.id}`)">
+  <div class="track-detail-item" >
     <div class="move__btns">
       <my-button>
         <i class="fas fa-arrow-up"></i>
@@ -17,22 +17,25 @@
 
     <div class="track-detail-item__btns">
       <span>
+
+<!--  TODO реализовать @click.stop="$emit('remove', trackDetail)"-->
         <my-button
-            @click.stop="$emit('remove', trackDetail)"
+
         >
           Удалить
         </my-button>
+<!--  TODO   @click.stop="$emit('lock', trackDetail)"-->
         <my-button
-           @click.stop="$emit('lock', trackDetail)"
+
         >
-         Удалить
+         Заблокировать
         </my-button>
       </span>
-      <my-select
+      <!--      <my-select
           :model-value="necessity"
           @update:model-value="setNecessity"
           :options="necessityOptions"
-      />
+      />-->
     </div>
   </div>
 </template>
@@ -50,6 +53,11 @@ export default {
 </script>
 
 <style scoped>
+.track-detail-item {
+  display: flex;
+  flex-direction: row;
+  margin-top:20px;
+}
 
 .move__btns:hover * {
   cursor: pointer;

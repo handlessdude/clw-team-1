@@ -53,11 +53,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchTracks();
+    this.loadAndSetTracks();
   },
   methods: {
     ...mapActions({
-      fetchTracks: 'trackCatalogue/fetchTracks'
+      loadAndSetTracks: 'trackCatalogue/loadAndSetTracks'
     }),
     ...mapMutations({
       setTracks: 'trackCatalogue/setTracks'

@@ -1,24 +1,34 @@
 <template>
     <div v-if="trackDetails.length > 0" class="track-detail-list">
       <transition-group name="track-detail-list">
-        <track-item
+        <track-detail
             v-for="trackDetail in trackDetails"
             :trackDetail="trackDetail"
             :key="trackDetail.id"
-            @remove="$emit('remove', trackDetail)"
         />
+<!--        @remove="$emit('remove', trackDetail)"-->
       </transition-group>
-
     </div>
     <p v-else>Курс не содержит элементов.</p>
 </template>
 
 <script>
+import TrackDetail from "./track-detail-item";
+
 export default {
-  name: "track-detail-list"
+  name: "track-detail-list",
+  components : {
+    TrackDetail,
+  },
+  props: {
+    trackDetails:{
+      type: Array,
+      required: true
+    }
+  },
 }
 </script>
-import TrackDetail from "./track-detail-item";
+
 <style scoped>
 .track-detail-list{
   display: flex;

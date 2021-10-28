@@ -1,5 +1,4 @@
-import axios from "axios";
-import store from "../store";
+import getTracks from "../../api/Tracks";
 
 export const trackCatalogueModule = {
     state: () => ({
@@ -40,27 +39,11 @@ export const trackCatalogueModule = {
             },*/
     },
     actions: {
-        async fetchTracks({
-            /*state,*/
-            commit,
-        }) {
+        async loadAndSetTracks({ commit }) {
             try {
                 commit("setIsTrackListLoading", true);
-                const tracksAxios = axios.create({
-                    baseURL: store.state.server,
-                    headers: {
-                        "X-API-Key": store.state.xApiKeyTeacher
-                    }
-                })
-                const url = store.state.tracksUrl
-                const config = {
-                    headers: {
-                        "accept": "application/json",
-                    },
-                }
-                const response = await tracksAxios.get(url, config)
+                const response = await getTracks()
                 commit("setTracks", response.data.data);
-                console.log(response);
                 return response
             } catch (e) {
                 alert("Error has spawned!");
