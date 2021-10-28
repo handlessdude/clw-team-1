@@ -1,25 +1,13 @@
-import axios from 'axios'
 import store from '../store/store';
 
 export default class TrackApi {
 
-    static trackAxios = axios.create({
-        baseURL: store.state.server,
-        headers: {
-            "X-API-Key": store.state.xApiKeyTeacher
-        }
-    })
+    static trackAxios = store.getters.serverAccess
 
     static async post(data) {
         try {
             const url = store.state.trackUrl
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-            const response = await this.trackAxios.post(url, data, config)
+            const response = await this.trackAxios.post(url, data, store.state.configs.postPutConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -33,13 +21,7 @@ export default class TrackApi {
         /*TODO: make out how it should be used*/
         try {
             const url = `${store.state.trackUrl}/preview/`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-            const response = await this.trackAxios.post(url, formData, config)
+            const response = await this.trackAxios.post(url, formData, store.state.configs.postPreviewConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -52,12 +34,7 @@ export default class TrackApi {
     static async get(data) {
         try {
             const url = `${store.state.trackUrl}/${data.id}`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                },
-            }
-            const response = await this.trackAxios.get(url, config)
+            const response = await this.trackAxios.get(url, store.state.configs.getConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -70,13 +47,7 @@ export default class TrackApi {
     static async put(data) {
         try {
             const url = store.state.trackUrl
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-            const response = await this.trackAxios.put(url, data, config)
+            const response = await this.trackAxios.put(url, data, store.state.configs.postPutConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -89,12 +60,7 @@ export default class TrackApi {
     static async delete(data) {
         try {
             const url = `${store.state.trackUrl}/${data.id}`
-            const config = {
-                headers: {
-                    "accept": "*/*"
-                },
-            }
-            const response = await this.trackAxios.delete(url, config)
+            const response = await this.trackAxios.delete(url, store.state.configs.deleteConfig)
             console.log(response)
             return response
         } catch (e) {

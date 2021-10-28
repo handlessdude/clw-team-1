@@ -1,25 +1,13 @@
-import axios from 'axios'
 import store from '../store/store';
 
 export default class TrackDetailApi {
 
-    static trackDetailAxios = axios.create({
-        baseURL: store.state.server,
-        headers: {
-            "X-API-Key": store.state.xApiKeyTeacher
-        }
-    })
+    static trackDetailAxios = store.getters.serverAccess
 
     static async post(trackId, trackDetailData) {
         try {
             const url = `${store.state.trackUrl}/${trackId}/detail`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-            const response = await this.trackDetailAxios.post(url, trackDetailData, config)
+            const response = await this.trackDetailAxios.post(url, trackDetailData, store.state.configs.postPutConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -32,12 +20,7 @@ export default class TrackDetailApi {
     static async get(trackDetailId) {
         try {
             const url = `${store.state.trackUrl}/detail/${trackDetailId}`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                },
-            }
-            const response = await this.trackDetailAxios.get(url, config)
+            const response = await this.trackDetailAxios.get(url, store.state.configs.getConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -50,13 +33,7 @@ export default class TrackDetailApi {
     static async put(trackDetailId, trackDetailData) {
         try {
             const url = `${store.state.trackUrl}/detail/${trackDetailId}`
-            const config = {
-                headers: {
-                    "accept": "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-            const response = await this.trackDetailAxios.put(url, trackDetailData, config)
+            const response = await this.trackDetailAxios.put(url, trackDetailData, store.state.configs.postPutConfig)
             console.log(response)
             return response
         } catch (e) {
@@ -69,12 +46,7 @@ export default class TrackDetailApi {
     static async delete(trackDetailId) {
         try {
             const url = `${store.state.trackUrl}/detail/${trackDetailId}`
-            const config = {
-                headers: {
-                    "accept": "*/*",
-                },
-            }
-            const response = await this.trackDetailAxios.delete(url, config)
+            const response = await this.trackDetailAxios.delete(url, store.state.configs.deleteConfig)
             console.log(response)
             return response
         } catch (e) {

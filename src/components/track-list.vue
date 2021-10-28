@@ -17,8 +17,6 @@
     </div>
     <p v-else>Каталог треков пуст.</p>
   </div>
-
-
 </template>
 
 <script>
