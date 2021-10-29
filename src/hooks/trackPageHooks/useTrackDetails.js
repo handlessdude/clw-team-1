@@ -1,5 +1,5 @@
 import {onMounted, ref} from 'vue'
-import getTrackDetails from '../api/TrackDetails'
+import getTrackDetails from '../../api/TrackDetails'
 
 export function useTrackDetails(trackId) {
     /*these are reactive variables*/

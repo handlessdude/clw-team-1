@@ -10,7 +10,7 @@
             v-for="track in tracks"
             :track="track"
             :key="track.id"
-            @remove="$emit('remove', track)"
+            @remove="$emit('remove', track.id)"
         />
       </transition-group>
 

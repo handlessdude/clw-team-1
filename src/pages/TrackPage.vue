@@ -1,8 +1,13 @@
 <template>
 <div class="track-page">
-  <div class="preview-pic">
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${previewPicture}")` }'>
     <sidebar-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></sidebar-link>
-    <h1>{{$route.params.id}}</h1>
+<!--    <h1>{{$route.params.id}}</h1>-->
+   <h1>{{name}}</h1>
+<!--    <h1>{{TEST_ANS.id}}</h1>-->
+<!--    <pre>{{ trackInfo.assigned }}</pre>
+    <pre>{{ trackInfo.id }}</pre>
+    <pre>{{ trackInfo.status }}</pre>-->
   </div>
 
   <div class="content">
@@ -11,7 +16,7 @@
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
 <!--        TODO fetching track preview text-->
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse diam mi, ornare et libero non, blandit consequat ante. Nam fermentum varius libero, non venenatis ex pellentesque in. Aliquam porta sagittis turpis. Curabitur cursus a est ut posuere. Aliquam pharetra nibh quis erat pretium pharetra. Nam congue varius congue. Sed imperdiet, sapien at dapibus ultrices, eros arcu convallis libero, sit amet feugiat lectus urna sed nulla. Suspendisse eget magna ut neque porta sodales a sit amet nisi. Quisque dictum id augue ut hendrerit. Nullam laoreet velit nulla, nec feugiat dolor venenatis sed. In hac habitasse platea dictumst. Proin congue libero vitae est gravida, a viverra mauris porta. Cras ac massa nec velit tristique rutrum.</p>
+       <p>{{previewText}}</p>
       </div>
 
       <div class="edit-and-time">
@@ -20,10 +25,10 @@
         </my-button>
         <div class="start-finish">
           <div class="start">
-            Дата открытия:
+            Дата открытия:{{dateTimeStart}}
           </div>
           <div class="finish">
-            Дата открытия:
+            Дата закрытия:{{dateTimeFinish}}
           </div>
         </div>
       </div>
@@ -65,11 +70,13 @@ TODO: create track detail post form
 </template>
 
 <script>
-
 import TrackDetailList from '../components/track-detail/track-detail-list'
 import SidebarLink from '../components/ui-components/sidebar-link'
 import { useRoute } from 'vue-router'
-import { useTrackDetails } from "../hooks/useTrackDetails";
+import { useTrackDetails } from "../hooks/trackPageHooks/useTrackDetails";
+/*import {mapActions, mapMutations} from "vuex";*/
+import { useTrack } from "../hooks/trackPageHooks/useTrack";
+import timeConverter from "../helpers/timeConverter"
 export default {
   name: "TrackPage",
   components: {
@@ -86,9 +93,37 @@ export default {
     const trackId = route.params.id
     console.log('ID of current track on the page: '+trackId)
     const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
+    const {
+     /* TEST,*/
+      assigned,
+      id ,
+      status,
+      dateTimeFinish ,
+      dateTimeStart,
+      mode,
+      name ,
+      previewPicture,
+      previewText ,
+      published,} = useTrack(trackId)
+    /*console.log('trackInfo: ')
+    console.log(trackInfo)*/
+    dateTimeStart.value = timeConverter(dateTimeStart.value)
+    dateTimeFinish.value = timeConverter(dateTimeFinish.value)
     return {
+     /* TEST,*/
+      assigned,
+      id ,
+      status,
+
+      dateTimeFinish ,
+      dateTimeStart,
+      mode,
+      name ,
+      previewPicture,
+      previewText ,
+      published,
       trackDetails,
-      isTrackDetailsLoading,
+      isTrackDetailsLoading
     }
   }
 }
@@ -99,12 +134,17 @@ export default {
   margin-left: 15px;
 }
 .preview-pic {
+  /*width: 100%;
+  height: 150px;*/
+
   width: 100%;
-  height: 150px;
+  height: 600px;
   border-radius: 12px;
   padding: 15px;
-  background: cyan;
 
+  background: #ffffff no-repeat center center;
+  background-size: cover;
+  color:black;
 }
 .about {
   display: flex;

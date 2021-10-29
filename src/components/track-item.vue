@@ -8,7 +8,7 @@
     </div>
     <div class="track-item__btns">
       <my-button
-          @click.stop="$emit('remove', track)"
+          @click.stop="$emit('remove', track.id)"
       >
         Удалить</my-button>
     </div>

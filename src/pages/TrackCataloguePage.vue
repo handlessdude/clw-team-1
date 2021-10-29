@@ -68,17 +68,21 @@ export default {
         track.id = response.data.data.id
         this.tracks.push(track)
         this.IsDialogVisible = false
+
+        const response2 = await TrackApi.get(34)
+        console.log(response2)
+
       } catch (err) {
         console.log(err)
         return err
       }
     },
 
-    async deleteTrack(track) {
+    async deleteTrack(trackId) {
       try {
-        await TrackApi.delete(track)
+        await TrackApi.delete(trackId)
         // we do not make another request to server in order to rerender the track list
-        this.setTracks(this.tracks.filter(t => t.id !== track.id))
+        this.setTracks(this.tracks.filter(t => t.id !== trackId))
       } catch (e) {
         console.log(e)
         return e
