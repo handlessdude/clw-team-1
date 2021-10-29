@@ -68,10 +68,6 @@ export default {
         track.id = response.data.data.id
         this.tracks.push(track)
         this.IsDialogVisible = false
-
-        const response2 = await TrackApi.get(34)
-        console.log(response2)
-
       } catch (err) {
         console.log(err)
         return err
@@ -106,6 +102,9 @@ export default {
 </script>
 
 <style scoped>
+.track-catalogue-page{
+  margin-left: 15px;
+}
 
 .main-wrapper__btns {
   width: 100%;

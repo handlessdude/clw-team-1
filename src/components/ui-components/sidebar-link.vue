@@ -55,10 +55,10 @@ export default {
   position: relative;
   font-weight: 400;
   user-select: none;
-  margin: 0.1em 0;
+  margin: 0;
   padding: 0.4em;
   border-radius: 0.25em;
-  height: 1.5em;
+  height: 50px;
   color: white;
   text-decoration: none;
 }

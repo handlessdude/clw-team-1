@@ -15,7 +15,6 @@
 
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-<!--        TODO fetching track preview text-->
        <p>{{previewText}}</p>
       </div>
 

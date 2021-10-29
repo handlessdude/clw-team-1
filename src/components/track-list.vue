@@ -1,6 +1,9 @@
 <template>
   <div class="track-list">
-    <h3 style="margin:15px;">Каталог треков</h3>
+    <div class="list-header">
+      <h3>Каталог треков</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem suscipit alias id voluptatem illo dolor beatae illum eveniet et consectetur corporis qui itaque pariatur praesentium voluptatibus harum, fugiat numquam officia! A consectetur quod soluta nobis quo eaque ad odit corporis ipsum quasi, culpa, itaque adipisci, accusamus commodi! Recusandae, eius et!</p>
+    </div>
     <!-- v-if removes node from DOM tree completely.
          if you want to keep it in DOM tree, use v-show
     -->
@@ -43,18 +46,30 @@ export default {
 </script>
 
 <style scoped>
+  .list-header{
+    height: 30vh;
+    margin: 20px 0 20px 0;
+    color: white;
+    border-radius: 50px;
+    background-image: url(Images/Header.png);
+    background-size: cover;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: 20px;
+    padding: 30px;
+  }
   .track-list{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    margin: 0 20px;
 
   }
   .track-list-grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 10px;
+    column-gap: 15px;
     row-gap: 1em;
   }
   .track-list-item {
@@ -72,5 +87,21 @@ export default {
   }
   .track-list-move {
     transition: transform 0.5s ease;
+  }
+  @media (max-width: 1100px){
+    .track-list-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+    row-gap: 1em;
+  }
+  }
+  @media (max-width: 725px){
+    .track-list-grid{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 10px;
+    row-gap: 1em;
+  }
   }
 </style>

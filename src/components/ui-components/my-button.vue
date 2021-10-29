@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 .btn {
-  border-radius: 12px;
+  border-radius: 50px;
   padding: 10px 15px;
   background: none;
   color: teal;
@@ -21,5 +21,7 @@ export default {
 }
 .btn:hover{
   cursor: pointer;
+  background-color: teal;
+  color: white;
 }
 </style>

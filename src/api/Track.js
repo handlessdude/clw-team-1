@@ -35,8 +35,7 @@ export default class TrackApi {
         try {
             const url = `${store.state.trackUrl}/${trackId}`
             const response = await this.trackAxios.get(url, store.state.configs.getConfig)
-            console.log('getting response: track '+trackId)
-            /*console.log(response)*/
+            console.log(response)
             return response
         } catch (e) {
             alert('Error has spawned!')
