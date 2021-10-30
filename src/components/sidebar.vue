@@ -1,20 +1,14 @@
 <template>
   <div class="sidebar" :style="{ width: getSidebarWidth }">
 
-    <span v-if="isCollapsed" class="logo">
-    </span>
+    <div v-if="isCollapsed">
+      <div class="logo"></div>
+      <hr style="margin:15px 10px;">
+    </div>
     <div v-else>
       <div class="logo-open"></div>
       <hr style="margin:15px 10px;">
     </div>
-
-<!--      <span v-if="isCollapsed">
-      <i class="far fa-flushed" style="font-size: 30px;"></i>
-    </span>
-      <div v-else>
-        <span style="font-family: 'Montserrat', sans-serif; font-size: 30px;"> <i class="far fa-flushed"></i>Lessons</span>
-        <hr style="margin:15px 10px;">
-      </div> -->
 
     <sidebar-link to="/" icon="fas fa-home">Главная</sidebar-link>
     <sidebar-link to="/tracks" icon="fas fa-truck-monster">Треки</sidebar-link>
