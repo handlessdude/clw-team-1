@@ -58,6 +58,7 @@ export default {
   methods: {
     ...mapActions({
       loadAndSetTracks: 'trackCatalogue/loadAndSetTracks'
+
     }),
     ...mapMutations({
       setTracks: 'trackCatalogue/setTracks'
@@ -79,6 +80,7 @@ export default {
         await TrackApi.delete(trackId)
         // we do not make another request to server in order to rerender the track list
         this.setTracks(this.tracks.filter(t => t.id !== trackId))
+
       } catch (e) {
         console.log(e)
         return e

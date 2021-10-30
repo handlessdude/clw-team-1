@@ -5,6 +5,7 @@
       <div class="logo"></div>
       <hr style="margin:15px 10px;">
     </div>
+
     <div v-else>
       <div class="logo-open"></div>
       <hr style="margin:15px 10px;">

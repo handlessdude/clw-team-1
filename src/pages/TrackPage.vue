@@ -65,6 +65,7 @@ TODO: create track detail post form
         @create="createTrackDetail"
     />
 </my-dialog>-->
+
 </div>
 </template>
 
@@ -76,6 +77,7 @@ import { useTrackDetails } from "../hooks/trackPageHooks/useTrackDetails";
 /*import {mapActions, mapMutations} from "vuex";*/
 import { useTrack } from "../hooks/trackPageHooks/useTrack";
 import timeConverter from "../helpers/timeConverter"
+
 export default {
   name: "TrackPage",
   components: {
@@ -164,6 +166,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
+
 .edit-and-time {
   display: flex;
   flex-direction: column;
