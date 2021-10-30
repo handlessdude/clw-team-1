@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <h3 v-if="placeholder">Загружаем {{placeholder}}...</h3>
   <div class="circles">
     <div class="circle1"></div>
     <div class="circle2"></div>
@@ -22,7 +23,13 @@
 
 <script>
 export default {
-  name: "preloader"
+  name: "preloader",
+  props: {
+    placeholder: {
+      type: String,
+      required: false,
+    },
+  },
 }
 </script>
 

@@ -1,4 +1,4 @@
-import {onMounted, ref, reactive} from 'vue'
+import {onMounted, ref, reactive, toRefs} from 'vue'
 import TrackApi from '../../api/Track'
 
 export function useTrack(trackId) {
@@ -8,7 +8,7 @@ export function useTrack(trackId) {
     const assigned = ref(false)
     const id = ref(0)
     const status = ref("")
-    const trackData = reactive({})
+    const trDat = reactive({})
 
     const fetching = async () => {
         try {
@@ -21,6 +21,8 @@ export function useTrack(trackId) {
             for (const key of Object.keys(info.data)) {
                 trackData[key] = info.data[key]
             }
+            //trackData = toRefs(trackData)
+            //trackData.target = reactive(info.data)
         } catch (e) {
             alert(e)
         } finally {
@@ -28,11 +30,13 @@ export function useTrack(trackId) {
         }
     }
     onMounted(fetching)
+    const trackData = toRefs(trDat)
     return {
         assigned,
         id ,
         status,
-        trackData,
         isTrackLoading,
+        trackData,
+
     }
 }

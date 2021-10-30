@@ -28,7 +28,7 @@
        v-if="!isTrackListLoading"
        @remove="deleteTrack"
    />
-   <div v-else>Загружаем список треков...</div>
+   <preloader v-else></preloader>
 
  </div>
 </template>
