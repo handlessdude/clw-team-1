@@ -1,5 +1,4 @@
 import store from '../store/store';
-
 export default class TrackApi {
 
     static trackAxios = store.getters.serverAccess

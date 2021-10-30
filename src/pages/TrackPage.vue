@@ -1,13 +1,10 @@
 <template>
-<div class="track-page">
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${previewPicture}")` }'>
+<div class="track-page" v-if="!isTrackLoading">
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }'>
     <sidebar-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></sidebar-link>
-<!--    <h1>{{$route.params.id}}</h1>-->
-   <h1>{{name}}</h1>
-<!--    <h1>{{TEST_ANS.id}}</h1>-->
-<!--    <pre>{{ trackInfo.assigned }}</pre>
-    <pre>{{ trackInfo.id }}</pre>
-    <pre>{{ trackInfo.status }}</pre>-->
+
+   <h1>{{trackData.name}}</h1>
+
   </div>
 
   <div class="content">
@@ -15,7 +12,7 @@
 
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-       <p>{{previewText}}</p>
+       <p>{{trackData.previewText}}</p>
       </div>
 
       <div class="edit-and-time">
@@ -24,10 +21,10 @@
         </my-button>
         <div class="start-finish">
           <div class="start">
-            Дата открытия:{{dateTimeStart}}
+            Дата открытия:{{trackData.dateTimeStart}}
           </div>
           <div class="finish">
-            Дата закрытия:{{dateTimeFinish}}
+            Дата закрытия:{{trackData.dateTimeFinish}}
           </div>
         </div>
       </div>
@@ -65,8 +62,8 @@ TODO: create track detail post form
         @create="createTrackDetail"
     />
 </my-dialog>-->
-
 </div>
+<preloader v-else></preloader>
 </template>
 
 <script>
@@ -95,34 +92,21 @@ export default {
     console.log('ID of current track on the page: '+trackId)
     const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
     const {
-     /* TEST,*/
       assigned,
       id ,
       status,
-      dateTimeFinish ,
-      dateTimeStart,
-      mode,
-      name ,
-      previewPicture,
-      previewText ,
-      published,} = useTrack(trackId)
-    /*console.log('trackInfo: ')
-    console.log(trackInfo)*/
-    dateTimeStart.value = timeConverter(dateTimeStart.value)
-    dateTimeFinish.value = timeConverter(dateTimeFinish.value)
-    return {
-     /* TEST,*/
-      assigned,
-      id ,
-      status,
+      trackData,
+      isTrackLoading } = useTrack(trackId)
 
-      dateTimeFinish ,
-      dateTimeStart,
-      mode,
-      name ,
-      previewPicture,
-      previewText ,
-      published,
+    trackData.dateTimeStart = timeConverter(trackData.dateTimeStart)
+    trackData.dateTimeFinish = timeConverter(trackData.dateTimeFinish)
+    return {
+      assigned,
+      id ,
+      status,
+      trackData,
+      isTrackLoading,
+
       trackDetails,
       isTrackDetailsLoading
     }
@@ -180,4 +164,5 @@ export default {
   border: 1px solid teal;
   padding: 5px;
 }
+
 </style>
