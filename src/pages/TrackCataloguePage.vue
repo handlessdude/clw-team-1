@@ -6,7 +6,7 @@
    <div v-if="this.$store.state.isTeacher"
         class="main-wrapper__btns">
       <my-button
-          style="align-self:flex-start; margin-top: 15px"
+          style="align-self:flex-start;"
           @click="showDialog"
       >
         Создать трек

@@ -30,6 +30,9 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+.app{
+  padding:20px;
+}
 h3{
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
