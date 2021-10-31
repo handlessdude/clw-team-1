@@ -1,5 +1,4 @@
 import store from '../store/store';
-
 export default class TrackApi {
 
     static trackAxios = store.getters.serverAccess
@@ -31,9 +30,9 @@ export default class TrackApi {
         }
     }
 
-    static async get(data) {
+    static async get(trackId) {
         try {
-            const url = `${store.state.trackUrl}/${data.id}`
+            const url = `${store.state.trackUrl}/${trackId}`
             const response = await this.trackAxios.get(url, store.state.configs.getConfig)
             console.log(response)
             return response
@@ -57,9 +56,9 @@ export default class TrackApi {
         }
     }
 
-    static async delete(data) {
+    static async delete(trackId) {
         try {
-            const url = `${store.state.trackUrl}/${data.id}`
+            const url = `${store.state.trackUrl}/${trackId}`
             const response = await this.trackAxios.delete(url, store.state.configs.deleteConfig)
             console.log(response)
             return response

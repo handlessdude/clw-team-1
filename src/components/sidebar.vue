@@ -1,17 +1,27 @@
 <template>
   <div class="sidebar" :style="{ width: getSidebarWidth }">
 
-    <span v-if="isCollapsed">
-      <i class="far fa-flushed" style="font-size: 30px;"></i>
-    </span>
+    <div v-if="isCollapsed">
+      <div class="logo"></div>
+      <hr style="margin:15px 10px;">
+    </div>
+
     <div v-else>
-      <span style="font-family: 'Montserrat', sans-serif; font-size: 30px;"> <i class="far fa-flushed"></i>Lessons</span>
+      <div class="logo-open"></div>
       <hr style="margin:15px 10px;">
     </div>
 
     <sidebar-link to="/" icon="fas fa-home">Главная</sidebar-link>
     <sidebar-link to="/tracks" icon="fas fa-truck-monster">Треки</sidebar-link>
     <sidebar-link to="/catalogue" icon="fas fa-columns">Каталог</sidebar-link>
+
+    <span v-if="isCollapsed"></span>
+    <div v-else class="account">
+      <hr style="margin:15px 10px;">
+      <div class="avatar"></div>
+      <h4>UserName</h4>
+      <p>Статус</p>
+    </div>
 
     <span
       class="collapse-icon"
@@ -85,6 +95,34 @@ export default {
   padding: 0.75em;
   color: rgba(255, 255, 255, 0.7);
   transition: 0.2s linear;
+}
+.logo {
+  background-image: url(Images/Logo.png);
+  background-size: cover;
+  width:35px;
+  height:35px;
+}
+.logo-open {
+  background-image: url(Images/Logo-open.png);
+  background-size: cover;
+  width:170px;
+  height:40px;
+}
+.sidebar-link {
+  margin: 20px 0;
+}
+.account {
+  width: 100%;
+  height: 200px;
+  margin-top: auto;
+  text-align: center;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  background-image: url(Images/Avatar.png);
+  margin: 10px auto;
 }
 .collapse-icon:hover {
   cursor:pointer;

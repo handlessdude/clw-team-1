@@ -1,5 +1,5 @@
 <template>
- <div class="track-catalogue-page">
+ <div class="track-catalogue-page"  v-if="!isTrackListLoading" >
 <!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
         and <createTrack>(teacher)-->
 
@@ -28,16 +28,17 @@
        v-if="!isTrackListLoading"
        @remove="deleteTrack"
    />
-   <div v-else>Загружаем список треков...</div>
+   <preloader v-else></preloader>
 
  </div>
+  <preloader v-else></preloader>
 </template>
 
 <script>
 
-import TrackList from '../components/track-list'
-import PostTrack from '../components/post-track'
-import TrackApi from '../api/Track'
+import TrackList from '@/components/track-list'
+import PostTrack from '@/components/post-track'
+import TrackApi from '@/api/Track'
 
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 
@@ -58,6 +59,7 @@ export default {
   methods: {
     ...mapActions({
       loadAndSetTracks: 'trackCatalogue/loadAndSetTracks'
+
     }),
     ...mapMutations({
       setTracks: 'trackCatalogue/setTracks'
@@ -74,11 +76,12 @@ export default {
       }
     },
 
-    async deleteTrack(track) {
+    async deleteTrack(trackId) {
       try {
-        await TrackApi.delete(track)
+        await TrackApi.delete(trackId)
         // we do not make another request to server in order to rerender the track list
-        this.setTracks(this.tracks.filter(t => t.id !== track.id))
+        this.setTracks(this.tracks.filter(t => t.id !== trackId))
+
       } catch (e) {
         console.log(e)
         return e
@@ -102,6 +105,9 @@ export default {
 </script>
 
 <style scoped>
+.track-catalogue-page{
+  margin-left: 15px;
+}
 
 .main-wrapper__btns {
   width: 100%;

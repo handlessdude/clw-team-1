@@ -9,7 +9,8 @@ import axios from "axios";
 
 export default createStore({
     state: () => ({
-        server: "https://tml6.rosatom.ru/api/",
+        server: "https://tml6.rosatom.ru",
+        serverApi: "https://tml6.rosatom.ru/api/",
         tracksUrl: "https://tml6.rosatom.ru/api/tracks",
         trackUrl: "https://tml6.rosatom.ru/api/track",
         xApiKeyTeacher: "4kcwkcksk0gwcs4kc0wo4gws0sgcswgcosc88ok4",
@@ -27,7 +28,7 @@ export default createStore({
         xApiKeyTeacher: state => state.xApiKeyTeacher,
         xApiKeyStudent: state => state.xApiKeyStudent,*/
         serverAccess: state => axios.create({
-            baseURL: state.server,
+            baseURL: state.serverApi,
             headers: {
                 "X-API-Key": state.xApiKeyTeacher
             }

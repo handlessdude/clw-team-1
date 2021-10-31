@@ -8,7 +8,7 @@
     </div>
     <div class="track-item__btns">
       <my-button
-          @click.stop="$emit('remove', track)"
+          @click.stop="$emit('remove', track.id)"
       >
         Удалить</my-button>
     </div>
@@ -35,7 +35,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 12px;
+  border-radius: 50px;
 }
 .track-item:hover {
   cursor: pointer;
