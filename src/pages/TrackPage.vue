@@ -1,9 +1,16 @@
 <template>
 <div class="track-page" v-if="!isTrackLoading">
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${getTrackData.previewPicture}")` }'>
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >
+
     <sidebar-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></sidebar-link>
 
-   <h1>{{getTrackParam("id")}}</h1>
+    <h2>{{trackData.name}}</h2>
+<!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
+    <pre>{{hrTimeStart}}</pre>-->
+<!--    <pre>{{assigned}}</pre>
+    <pre>{{id }}</pre>
+    <pre> {{status}}</pre>
+    <pre>{{trackData}}</pre>-->
 
   </div>
 
@@ -12,7 +19,7 @@
 
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-<!--       <p>{{trackData.previewText}}</p>-->
+       <p>{{trackData.previewText}}</p>
       </div>
 
       <div class="edit-and-time">
@@ -20,12 +27,12 @@
           Редактировать
         </my-button>
         <div class="start-finish">
-<!--          <div class="start">
-            Дата открытия:{{trackData.dateTimeStart}}
+          <div class="start">
+            Дата открытия:{{hrTimeStart}}
           </div>
           <div class="finish">
-            Дата закрытия:{{trackData.dateTimeFinish}}
-          </div>-->
+            Дата закрытия:{{hrTimeFinish}}
+          </div>
         </div>
       </div>
     </div>
@@ -67,18 +74,11 @@ TODO: create track detail post form
 </template>
 
 <script>
-import TrackDetailList from '../components/track-detail/track-detail-list'
-import SidebarLink from '../components/ui-components/sidebar-link'
+import TrackDetailList from '@/components/track-detail/track-detail-list'
+import SidebarLink from '@/components/ui-components/sidebar-link'
 import { useRoute } from 'vue-router'
-import { useTrackDetails } from "../hooks/trackPageHooks/useTrackDetails";
-/*
-
-import { useTrack } from "../hooks/trackPageHooks/useTrack";*/
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
-
-/*import TrackApi from "../api/Track";
-import nestedAccess from "../helpers/nestedAccess";*/
-//import timeConverter from "../helpers/timeConverter"
+import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
+import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 
 export default {
   name: "трек",
@@ -91,65 +91,49 @@ export default {
       dialogVisible: false,
     }
   },
-  methods: {
-    ...mapActions({
-      loadAndSetTrack: 'trackPage/loadAndSetTrack'
-
-    }),
-    ...mapMutations({
-      setTrackData: 'trackPage/setTrackData'
-    }),
-
-  },
-  computed: {
-    ...mapState({
-      trackData: state => state.trackPage.trackData,
-      isTrackLoading: state => state.trackPage.isTrackLoading,
-    }),
-    ...mapGetters({
-      getTrackData: 'trackPage/getTrackData',
-      getTrackParam: 'trackPage/getTrackParam',
-    })
-  },
-  /*mounted() {
-    this.loadAndSetTracks();
-  },*/
   setup() {
     const route = useRoute()
     const trackId = route.params.id
-    this.loadAndSetTrack(trackId)
-    const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
-    return {
-      trackDetails,
-      isTrackDetailsLoading
-    }
-    /*const route = useRoute()
-    const trackId = route.params.id*/
-    /*console.log('ID of current track on the page: '+trackId)
+
+    console.log('ID of current track on the page: '+trackId)
     const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
     const {
-      assigned,
-      id ,
-      status,
-      trackData,
-      isTrackLoading } = useTrack(trackId)
+      response,
 
-    /!*console.log(trackData.dateTimeStart)
-    trackData.dateTimeStart = timeConverter(trackData.dateTimeStart)*!/
-    //console.log(timeConverter(trackData.dateTimeStart))
-    //trackData.dateTimeFinish = timeConverter(trackData.dateTimeFinish)
-    console.log(trackData)
-    console.log(trackData.name)
-    return {
-      assigned,
-      id ,
+      assigned ,
+      id,
       status,
       trackData,
+
+      fetchTrack,
+      isTrackLoading,
+
+      hrTimeStart,
+      hrTimeFinish,
+
+    } = useTrack(trackId)
+
+    console.log('trackData = ', trackData)
+    console.log('hrTimeStart = ', hrTimeStart)
+
+    return {
+      response,
+
+      assigned ,
+      id,
+      status,
+      trackData,
+
+      fetchTrack,
       isTrackLoading,
 
       trackDetails,
-      isTrackDetailsLoading
-    }*/
+      isTrackDetailsLoading,
+
+      hrTimeStart,
+      hrTimeFinish,
+
+    }
   }
 }
 </script>

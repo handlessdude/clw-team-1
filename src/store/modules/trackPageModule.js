@@ -1,5 +1,5 @@
-import TrackApi from "../../api/Track"
-import nestedAccess from "../../helpers/nestedAccess"
+//import TrackApi from "../../api/Track"
+//import nestedAccess from "../../helpers/nestedAccess"
 export const trackPageModule = {
     state: () => ({
         title: 'track-page',
@@ -11,27 +11,27 @@ export const trackPageModule = {
         isTrackLoading: false,
     }),
     getters: {
-        getTrackData(state) {
+        /*getTrackData(state) {
             return state.trackData
         },
         getTrackParam: (state) => (path) => {
             return nestedAccess(state.trackData, path)
-        }
+        }*/
     },
     mutations: {
-        setTrackData(state, data) {
-            /*this.state.trackId = data.id
+        /*setTrackData(state, data) {
+            /!*this.state.trackId = data.id
             this.state.trackStatus= data.status
             this.state.trackAssigned= data.assigned
-            this.state.trackData = data.trackData*/
+            this.state.trackData = data.trackData*!/
             this.state.trackData = data
         },
         setIsTrackLoading(state, bool) {
             state.isTrackLoading = bool
-        },
+        },*/
     },
     actions: {
-        async loadAndSetTrack({ commit }, trackId) {
+        /*async loadAndSetTrack({ commit }, trackId) {
             try {
                 commit("setIsTrackLoading", true)
                 const response = await TrackApi.get(trackId)
@@ -45,7 +45,7 @@ export const trackPageModule = {
             } finally {
                 commit("setIsTrackLoading", false)
             }
-        },
+        },*/
     },
     namespaced: true
 }

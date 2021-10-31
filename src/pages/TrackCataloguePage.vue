@@ -1,5 +1,5 @@
 <template>
- <div class="track-catalogue-page">
+ <div class="track-catalogue-page"  v-if="!isTrackListLoading" >
 <!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
         and <createTrack>(teacher)-->
 
@@ -31,13 +31,14 @@
    <preloader v-else></preloader>
 
  </div>
+  <preloader v-else></preloader>
 </template>
 
 <script>
 
-import TrackList from '../components/track-list'
-import PostTrack from '../components/post-track'
-import TrackApi from '../api/Track'
+import TrackList from '@/components/track-list'
+import PostTrack from '@/components/post-track'
+import TrackApi from '@/api/Track'
 
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 

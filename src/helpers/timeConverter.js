@@ -2,8 +2,8 @@
  Convert a Unix timestamp to time
  */
 export default function timeConverter(UNIX_timestamp){
-    console.log(typeof(UNIX_timestamp))
-    const myDate = new Date(Number(UNIX_timestamp))
+    //console.log(typeof(UNIX_timestamp))
+    const myDate = new Date(Number(UNIX_timestamp)*1000)
     /*const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     const year = a.getFullYear()
     const month = months[a.getMonth()]
