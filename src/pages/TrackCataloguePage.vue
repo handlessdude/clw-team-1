@@ -11,6 +11,9 @@
       >
         Создать трек
       </my-button>
+
+     <my-link  to="/tracks/create" icon="fas fa-truck-monster">Создать трек</my-link>
+
    </div>
    <div v-else>Здесь должен быть переключатель вкладок!</div>
    <!--

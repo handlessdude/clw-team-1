@@ -2,7 +2,7 @@
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >
 
-    <sidebar-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></sidebar-link>
+    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>
 
     <h2>{{trackData.name}}</h2>
 <!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
@@ -75,7 +75,7 @@ TODO: create track detail post form
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
-import SidebarLink from '@/components/ui-components/sidebar-link'
+import MyLink from '@/components/ui-components/my-link'
 import { useRoute } from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
@@ -83,7 +83,7 @@ import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 export default {
   name: "трек",
   components: {
-    SidebarLink,
+    MyLink,
     TrackDetailList
   },
   data() {

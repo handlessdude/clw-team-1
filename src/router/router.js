@@ -1,6 +1,8 @@
 import Main from "../pages/Main"
 import TrackCatalogue from "../pages/TrackCataloguePage"
 import TrackPage from "../pages/TrackPage"
+import TrackCreatePage from "../pages/TrackCreatePage"
+import TrackEditPage from "../pages/TrackEditPage"
 import Catalogue from "../pages/CataloguePage"
 import {createRouter, createWebHistory} from "vue-router"
 
@@ -14,12 +16,20 @@ const routes = [
         component: TrackCatalogue,
     },
     {
+        path: '/tracks/create',
+        component: TrackCreatePage
+    },
+    {
         path: '/catalogue',
         component: Catalogue,
     },
     {
         path: '/tracks/:id',
         component: TrackPage
+    },
+    {
+        path: '/tracks/:id/edit',
+        component: TrackEditPage
     },
 ]
 
