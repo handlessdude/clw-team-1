@@ -57,8 +57,8 @@
         style="margin-top: 20px;"
         :trackDetails="trackDetails"
         v-if="!isTrackDetailsLoading"
+        @remove="removeTrackDetail"
     />
-<!--    @remove="deleteTrackDetail"-->
     <div v-else>Загружаем список элементов...</div>
   </div>
 
@@ -95,8 +95,10 @@ export default {
     const route = useRoute()
     const trackId = route.params.id
 
-    console.log('ID of current track on the page: '+trackId)
-    const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
+    console.log('ID of current track on the page: ' + trackId)
+    const { trackDetails,
+            isTrackDetailsLoading,
+            removeTrackDetail} = useTrackDetails(trackId)
     const {
       response,
 
@@ -113,8 +115,8 @@ export default {
 
     } = useTrack(trackId)
 
-    console.log('trackData = ', trackData)
-    console.log('hrTimeStart = ', hrTimeStart)
+    /*console.log('trackData = ', trackData)
+    console.log('hrTimeStart = ', hrTimeStart)*/
 
     return {
       response,
@@ -129,6 +131,7 @@ export default {
 
       trackDetails,
       isTrackDetailsLoading,
+      removeTrackDetail,
 
       hrTimeStart,
       hrTimeFinish,

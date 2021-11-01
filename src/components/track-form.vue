@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent>
+  <form @submit.prevent class="flex-form">
     <label>Название:</label>
     <my-input
         v-focus
@@ -55,11 +55,10 @@ export default {
   name: "track-form",
   setup(){
     const  router = useRouter()
-    console.log(router)
     const trackId = ref(0)
     const trackName = ref('')
     const previewText = ref('')
-    const newTrack = {
+    /*const newTrack = {
           name: trackName.value,
           previewText: previewText.value,
           previewPicture: '',
@@ -67,16 +66,25 @@ export default {
           dateTimeStart: 0,
           dateTimeFinish: 0,
           mode: "free"
-    }
+    }*/
     const createTrack = async () => {
       try {
-        const response = await TrackApi.post(newTrack)
+        const response = await TrackApi.post(
+            {
+              name: trackName.value,
+              previewText: previewText.value,
+              previewPicture: '',
+              published: true,
+              dateTimeStart: 0,
+              dateTimeFinish: 0,
+              mode: "free"
+            }
+        )
         trackId.value = response.data.data.id
-        // @click="$router.push(`/tracks/${track.id}`)"
-        console.log(router)
         await router.push(
           `/tracks/${trackId.value}`
         )
+        return response
       } catch (err) {
         console.log(err)
         return err
@@ -93,5 +101,13 @@ export default {
 </script>
 
 <style scoped>
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 
+}
+.flex-form * {
+  margin-bottom: 15px;
+}
 </style>

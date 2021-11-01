@@ -20,7 +20,7 @@
 
 <!--  TODO реализовать @click.stop="$emit('remove', trackDetail)"-->
         <my-button
-
+            @click.stop="$emit('remove', trackDetail.id)"
         >
           Удалить
         </my-button>
@@ -47,6 +47,9 @@ export default {
     trackDetail: {
       type: Object, //type of out prop 'track'
       required: true, //info about track is sufficient
+    },
+    remove: {
+
     },
   },
 }
