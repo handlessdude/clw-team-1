@@ -6,27 +6,14 @@ export function useTrack(trackId) {
     /*these are reactive variables*/
     const isTrackLoading = ref(true)
     const response = ref(null)
-
-    const assigned = ref(false)
-    const id = ref(0)
-    const status = ref("")
-    const trackData = ref(null)
+    const TEST = ref(null)
 
     const fetchTrack = async () => {
         try {
             const result = await TrackApi.get(trackId)
             response.value = result
-            assigned.value = result.data.data.assigned
-            id.value = result.data.data.id
-            status.value = result.data.data.status
-            trackData.value = result.data.data.data
-            /*console.log('response.value = ',response.value)
-
-            console.log('trackData.value = ',trackData.value)
-            console.log('assigned.value = ',assigned.value)
-            console.log('status.value = ',status.value)
-            console.log('trackData.value = ',trackData.value)*/
-
+            TEST.value = result.data.data
+            console.log('FETCHING TRACK!!!!!!!!!!')
         } catch (e) {
             alert(e)
         } finally {
@@ -35,20 +22,18 @@ export function useTrack(trackId) {
     }
 
     onMounted(fetchTrack)
-    const hrTimeStart = computed( () => timeConverter(trackData.value.dateTimeStart))
-    const hrTimeFinish = computed( () => timeConverter(trackData.value.dateTimeFinish))
+
+    const hrTimeStart = computed( () => timeConverter(TEST.value.data.dateTimeStart))
+    const hrTimeFinish = computed( () => timeConverter(TEST.value.data.dateTimeFinish))
+
     return {
         response,
 
-        assigned ,
-        id,
-        status,
-        trackData,
 
         isTrackLoading,
         fetchTrack,
         hrTimeStart,
         hrTimeFinish,
-
+        TEST
     }
 }

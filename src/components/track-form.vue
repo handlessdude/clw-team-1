@@ -1,9 +1,9 @@
 <template>
-  <form @submit.prevent class="flex-form">
+  <form @submit.prevent="submitForm" class="flex-form">
     <label>Название:</label>
     <my-input
         v-focus
-        v-model="trackName"
+        v-model="name"
         type="text"
         placeholder="Введите название..."
     />
@@ -37,9 +37,10 @@
     <input type="checkbox" id="checkbox" v-model="published">
     <label for="checkbox">{{ checked }}</label>-->
 
+    <!--        @click="createTrack"-->
     <my-button
+        type="submit"
         style="align-self: flex-end; margin-top: 15px"
-        @click="createTrack"
     >
       Подтвердить
     </my-button>
@@ -48,53 +49,16 @@
 </template>
 
 <script>
-import{ref} from 'vue'
-import { useRouter } from 'vue-router'
-import TrackApi from '@/api/Track'
 export default {
   name: "track-form",
-  setup(){
-    const  router = useRouter()
-    const trackId = ref(0)
-    const trackName = ref('')
-    const previewText = ref('')
-    /*const newTrack = {
-          name: trackName.value,
-          previewText: previewText.value,
-          previewPicture: '',
-          published: true,
-          dateTimeStart: 0,
-          dateTimeFinish: 0,
-          mode: "free"
-    }*/
-    const createTrack = async () => {
-      try {
-        const response = await TrackApi.post(
-            {
-              name: trackName.value,
-              previewText: previewText.value,
-              previewPicture: '',
-              published: true,
-              dateTimeStart: 0,
-              dateTimeFinish: 0,
-              mode: "free"
-            }
-        )
-        trackId.value = response.data.data.id
-        await router.push(
-          `/tracks/${trackId.value}`
-        )
-        return response
-      } catch (err) {
-        console.log(err)
-        return err
-      }
-
-    }
+  props: ['submitForm', 'trackData'],
+  setup(props){
     return {
-      trackName,
-      previewText,
-      createTrack,
+
+      name: props.trackData.name,
+      previewText: props.trackData.previewText,
+      /*name: props.track.data.name,
+      previewText: props.track.data.previewText,*/
     }
   }
 }

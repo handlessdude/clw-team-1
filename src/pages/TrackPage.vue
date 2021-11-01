@@ -1,10 +1,12 @@
 <template>
 <div class="track-page" v-if="!isTrackLoading">
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
+<!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
     <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>
-
-    <h2>{{trackData.name}}</h2>
+<!--    PRE - FOR DEBUG!-->
+<!--    <h2>{{trackData.name}}</h2>-->
+    <h2>{{TEST.data.name}}</h2>
 <!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
     <pre>{{hrTimeStart}}</pre>-->
 <!--    <pre>{{assigned}}</pre>
@@ -19,13 +21,17 @@
 
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-       <p>{{trackData.previewText}}</p>
+        <p>{{TEST.data.previewText}}</p>
       </div>
 
       <div class="edit-and-time">
-        <my-button>
+
+        <my-button
+            @click="toTrackUpdate"
+        >
           Редактировать
         </my-button>
+
         <div class="start-finish">
           <div class="start">
             Дата открытия:{{hrTimeStart}}
@@ -76,7 +82,7 @@ TODO: create track detail post form
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
 import MyLink from '@/components/ui-components/my-link'
-import { useRoute } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 
@@ -98,33 +104,26 @@ export default {
     console.log('ID of current track on the page: ' + trackId)
     const { trackDetails,
             isTrackDetailsLoading,
-            removeTrackDetail} = useTrackDetails(trackId)
+            removeTrackDetail
+    } = useTrackDetails(trackId)
+
     const {
       response,
-
-      assigned ,
-      id,
-      status,
-      trackData,
 
       fetchTrack,
       isTrackLoading,
 
       hrTimeStart,
       hrTimeFinish,
-
+      TEST
     } = useTrack(trackId)
 
-    /*console.log('trackData = ', trackData)
-    console.log('hrTimeStart = ', hrTimeStart)*/
-
+    const router = useRouter()
+    const  toTrackUpdate =  () => {
+      router.push(`/tracks/${trackId}/update`)
+    }
     return {
       response,
-
-      assigned ,
-      id,
-      status,
-      trackData,
 
       fetchTrack,
       isTrackLoading,
@@ -135,7 +134,8 @@ export default {
 
       hrTimeStart,
       hrTimeFinish,
-
+      TEST,
+      toTrackUpdate
     }
   }
 }

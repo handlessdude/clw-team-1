@@ -2,7 +2,7 @@ import Main from "../pages/Main"
 import TrackCatalogue from "../pages/TrackCataloguePage"
 import TrackPage from "../pages/TrackPage"
 import TrackCreatePage from "../pages/TrackCreatePage"
-import TrackEditPage from "../pages/TrackEditPage"
+import TrackUpdatePage from "../pages/TrackUpdatePage"
 import Catalogue from "../pages/CataloguePage"
 import {createRouter, createWebHistory} from "vue-router"
 
@@ -28,8 +28,8 @@ const routes = [
         component: TrackPage
     },
     {
-        path: '/tracks/:id/edit',
-        component: TrackEditPage
+        path: '/tracks/:id/update',
+        component: TrackUpdatePage
     },
 ]
 

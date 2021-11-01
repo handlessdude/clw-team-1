@@ -43,9 +43,9 @@ export default class TrackApi {
         }
     }
 
-    static async put(data) {
+    static async put(trackId, data) {
         try {
-            const url = store.state.trackUrl
+            const url = `${store.state.trackUrl}/${trackId}`
             const response = await this.trackAxios.put(url, data, store.state.configs.postPutConfig)
             console.log(response)
             return response
