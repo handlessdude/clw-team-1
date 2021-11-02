@@ -3,7 +3,8 @@
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
-    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>
+<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
+    <my-button @click="this.$router.back()">Назад</my-button>
 <!--    PRE - FOR DEBUG!-->
 <!--    <h2>{{trackData.name}}</h2>-->
     <h2>{{TEST.data.name}}</h2>
@@ -81,7 +82,6 @@ TODO: create track detail post form
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
-import MyLink from '@/components/ui-components/my-link'
 import {useRoute, useRouter} from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
@@ -89,7 +89,6 @@ import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 export default {
   name: "трек",
   components: {
-    MyLink,
     TrackDetailList
   },
   data() {

@@ -3,18 +3,17 @@
     <label>Название:</label>
     <my-input
         v-focus
-        v-model="name"
+        v-model.trim="name"
         type="text"
         placeholder="Введите название..."
     />
     <label>Описание:</label>
-    <textarea v-model="previewText"
-              class="form-control"
-              placeholder="Введите описание..."
-    ></textarea>
+    <my-textarea
+        v-model.trim="previewText"
+        placeholder="Введите описание..."
+    ></my-textarea>
 
-
-<!--    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
+    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
     <input
         type="file"
         style="display: none"
@@ -22,12 +21,12 @@
         accept="image/*"
         @change="onFilePicked"/>
 
-    <label>Дата начала</label><br>
+    <label>Дата начала</label>
     <input type="date" v-model="dateTimeStart" placeholder="Введите дату" class="form-control" />
-    <label>Дата окончания</label><br>
+    <label>Дата окончания</label>
     <input type="date" v-model="dateTimeFinish" placeholder="Введите дату" class="form-control" />
 
-    <label>Прохождение</label><br>
+    <label>Прохождение</label>
     <input type="radio" value="free" v-model="mode">
     <label>Свободное</label>
     <br>
@@ -35,7 +34,7 @@
     <label>Последовательное</label>
 
     <input type="checkbox" id="checkbox" v-model="published">
-    <label for="checkbox">{{ checked }}</label>-->
+    <label for="checkbox">Доступен студентам</label>
 
     <!--        @click="createTrack"-->
     <my-button
@@ -57,8 +56,11 @@ export default {
 
       name: props.trackData.name,
       previewText: props.trackData.previewText,
-      /*name: props.track.data.name,
-      previewText: props.track.data.previewText,*/
+      previewPicture: props.trackData.previewPicture,
+      published: props.trackData.published,
+      dateTimeStart: props.trackData.dateTimeStart,
+      dateTimeFinish: props.trackData.dateTimeFinish,
+      mode: props.trackData.mode
     }
   }
 }
@@ -73,5 +75,8 @@ export default {
 }
 .flex-form * {
   margin-bottom: 15px;
+}
+.flex-form label {
+  align-self:flex-start;
 }
 </style>

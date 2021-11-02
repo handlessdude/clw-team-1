@@ -1,6 +1,7 @@
 <template>
 <div>
-  <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>
+<!--  <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
+  <my-button @click="this.$router.back()">Назад</my-button>
   <h1>Создание трека</h1>
   <track-form
       :trackData="trackData"
@@ -22,28 +23,26 @@ export default {
   setup(){
     const router = useRouter()
     const trackId = ref(0)
-    const trackName = ref('')
+
+    const name = ref('')
     const previewText = ref('')
-    /*const newTrack = {
-          name: trackName.value,
-          previewText: previewText.value,
-          previewPicture: '',
-          published: true,
-          dateTimeStart: 0,
-          dateTimeFinish: 0,
-          mode: "free"
-    }*/
+    const previewPicture = ref('')
+    const published = ref(true)
+    const dateTimeStart = ref(0)
+    const dateTimeFinish = ref(0)
+    const mode = ref('free')
+
     const createTrack = async () => {
       try {
         const response = await TrackApi.post(
             {
-              name: trackName.value,
+              name: name.value,
               previewText: previewText.value,
-              previewPicture: '',
-              published: true,
-              dateTimeStart: 0,
-              dateTimeFinish: 0,
-              mode: "free"
+              previewPicture: previewPicture.value,
+              published: published.value,
+              dateTimeStart: dateTimeStart.value,
+              dateTimeFinish: dateTimeFinish.value,
+              mode: mode.value
             }
         )
         trackId.value = response.data.data.id
@@ -56,11 +55,14 @@ export default {
 
     }
     return {
-      /*trackName,
-      previewText,*/
       trackData: {
-        trackName,
+        name,
         previewText,
+        previewPicture,
+        published,
+        dateTimeStart,
+        dateTimeFinish,
+        mode
       },
       createTrack,
     }

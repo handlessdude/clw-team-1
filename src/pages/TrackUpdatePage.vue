@@ -1,12 +1,14 @@
 <template>
   <div v-if="!isTrackLoading">
 
-    <my-button @click="toTrack">Назад</my-button>
+<!--    <my-button @click="toTrack">Назад</my-button>-->
+    <my-button @click="this.$router.back()">Назад</my-button>
 <!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
     <h1>Настройки трека</h1>
     <h2>{{TEST.data.name}}</h2>
+    <pre>{{TEST.data}}</pre>
     <track-form
-        :trackData="TEST.data"
+        :trackData="trackData"
         :submitForm="updateTrack"
     ></track-form>
   </div>
@@ -18,17 +20,17 @@ import TrackApi from '@/api/Track'
 import TrackForm from '@/components/track-form'
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 import {useRoute, useRouter} from "vue-router";
-import {ref} from "vue";
+import { ref,/* onMounted*/ } from "vue";
 export default {
-  name: "TrackCreatePage",
+  name: "TrackUpdatePage",
   components: {
     TrackForm,
   },
-  setup(){
+  async setup(){
     const router = useRouter()
     const route = useRoute()
     const trackId = route.params.id
-    let trackData = ref({
+    const trackData = ref({
       name: '',
       previewText: '',
       previewPicture: '',
@@ -39,16 +41,24 @@ export default {
     })
 
     const {
-      //fetchTrack,
       isTrackLoading,
-      TEST
-    } = useTrack(trackId)
+      //fetchTrack,
+      TEST,
+      //TEST2
+    } = await useTrack(trackId)
 
-    console.log('TEST TRACK UPDATE PAGE = ', TEST)
-    console.log('TEST.id TRACK UPDATE PAGE = ', TEST.id)  //undefined
-    console.log('TEST.value TRACK UPDATE PAGE = ', TEST.value) //null
-    console.log('TEST.data TRACK UPDATE PAGE = ', TEST.data)  //undefined*/
-    //console.log('TEST.value.id TRACK UPDATE PAGE = ', TEST.value.id) //ERROR: Cannot read properties of null (reading 'id')
+    /*if (isTrackLoading.value) {
+      await fetchTrack()
+      isTrackLoading.value = true
+    }*/
+
+    console.log('TEST in TrackUpdatePage = ', TEST)
+    console.log('TEST.value in TrackUpdatePage = ', TEST.value)
+    console.log('trackData in TrackUpdatePage = ', trackData)
+    console.log('trackData.value in TrackUpdatePage = ', trackData.value)
+    trackData.value = TEST.value.data
+    console.log('trackData in TrackUpdatePage = ', trackData)
+    console.log('trackData.value in TrackUpdatePage = ', trackData.value)
 
     const updateTrack = async () => {
       try {
@@ -80,6 +90,7 @@ export default {
       isTrackLoading,
       toTrack,
       TEST,
+      //TEST2
     }
   }
 }

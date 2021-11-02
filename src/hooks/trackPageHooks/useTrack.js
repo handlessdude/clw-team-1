@@ -1,19 +1,27 @@
-import {onMounted, ref, /*reactive,*//* toRefs*/ computed} from 'vue'
+import {/*onMounted,*/ ref, computed } from 'vue'
 import TrackApi from '@/api/Track'
 import timeConverter from '@/helpers/timeConverter'
 
-export function useTrack(trackId) {
+export async function useTrack(trackId) {
     /*these are reactive variables*/
     const isTrackLoading = ref(true)
     const response = ref(null)
-    const TEST = ref(null)
+    const TEST = ref({})
+    //const TEST2 = reactive({})
 
+    /*ref<object | null>(null)*/
     const fetchTrack = async () => {
         try {
             const result = await TrackApi.get(trackId)
             response.value = result
-            TEST.value = result.data.data
-            console.log('FETCHING TRACK!!!!!!!!!!')
+            TEST.value = result.data.data //ok
+
+            /*for (const key of Object.keys(result.data.data)) {
+                TEST2[key] = result.data.data[key]
+            }
+            console.log('TEST2 in fetching: ', TEST2)*/
+            console.log('TEST in fetching: TEST = ', TEST)
+            console.log('TEST in fetching: TEST.value = ', TEST.value)
         } catch (e) {
             alert(e)
         } finally {
@@ -21,19 +29,22 @@ export function useTrack(trackId) {
         }
     }
 
-    onMounted(fetchTrack)
+    await fetchTrack()
+    //onMounted(fetchTrack)
 
+    //human-readable time of start/finish
     const hrTimeStart = computed( () => timeConverter(TEST.value.data.dateTimeStart))
     const hrTimeFinish = computed( () => timeConverter(TEST.value.data.dateTimeFinish))
 
     return {
         response,
 
-
         isTrackLoading,
         fetchTrack,
         hrTimeStart,
         hrTimeFinish,
-        TEST
+
+        TEST,
+        //TEST2
     }
 }

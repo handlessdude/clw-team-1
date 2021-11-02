@@ -29,7 +29,6 @@
    <!--   goes into slot inside of my-dialog component-->
    </my-dialog>
 
-
    <track-list
        :tracks="getTracks"
        v-if="!isTrackListLoading"
