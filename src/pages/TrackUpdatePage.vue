@@ -20,7 +20,7 @@ import TrackApi from '@/api/Track'
 import TrackForm from '@/components/track-form'
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 import {useRoute, useRouter} from "vue-router";
-import { ref,/* onMounted*/ } from "vue";
+import { ref } from "vue";
 export default {
   name: "TrackUpdatePage",
   components: {
@@ -30,48 +30,44 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const trackId = route.params.id
-    const trackData = ref({
-      name: '',
-      previewText: '',
-      previewPicture: '',
-      published: true,
-      dateTimeStart: 0,
-      dateTimeFinish: 0,
-      mode: "free"
-    })
 
     const {
       isTrackLoading,
       //fetchTrack,
       TEST,
-      //TEST2
     } = await useTrack(trackId)
 
+    const name = ref(TEST.value.data.name)
+    const previewText = ref(TEST.value.data.previewText)
+    const previewPicture = ref(TEST.value.data.previewPicture)
+    const published = ref(TEST.value.data.published)
+    const dateTimeStart = ref(TEST.value.data.dateTimeStart)
+    const dateTimeFinish = ref(TEST.value.data.dateTimeFinish)
+    const mode = ref(TEST.value.data.mode)
     /*if (isTrackLoading.value) {
       await fetchTrack()
       isTrackLoading.value = true
     }*/
-
+/*
     console.log('TEST in TrackUpdatePage = ', TEST)
     console.log('TEST.value in TrackUpdatePage = ', TEST.value)
     console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)
-    trackData.value = TEST.value.data
-    console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)
+    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
+    /*console.log('trackData in TrackUpdatePage = ', trackData)
+    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
 
     const updateTrack = async () => {
       try {
         const response = await TrackApi.put(
             trackId,
             {
-              name: trackData.value.name,
-              previewText: trackData.value.previewText,
-              previewPicture: trackData.value.previewPicture,
-              published: trackData.value.published,
-              dateTimeStart: trackData.value.dateTimeStart,
-              dateTimeFinish: trackData.value.dateTimeFinish,
-              mode: trackData.value.mode
+              name: name.value,
+              previewText: previewText.value,
+              previewPicture: previewPicture.value,
+              published: published.value,
+              dateTimeStart: dateTimeStart.value,
+              dateTimeFinish: dateTimeFinish.value,
+              mode: mode.value
             }
         )
         await router.push(`/tracks/${trackId}`)
@@ -85,7 +81,15 @@ export default {
       router.push(`/tracks/${trackId}`)
     }
     return {
-      trackData,
+      trackData: {
+        name,
+        previewText,
+        previewPicture,
+        published,
+        dateTimeStart,
+        dateTimeFinish,
+        mode
+      },
       updateTrack,
       isTrackLoading,
       toTrack,

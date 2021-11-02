@@ -28,7 +28,7 @@
       <div class="edit-and-time">
 
         <my-button
-            @click="toTrackUpdate"
+            @click="this.$router.push(`/tracks/${TEST.id}/update`)"
         >
           Редактировать
         </my-button>
@@ -82,7 +82,7 @@ TODO: create track detail post form
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
-import {useRoute, useRouter} from 'vue-router'
+import {useRoute/*, useRouter*/} from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 
@@ -96,7 +96,7 @@ export default {
       dialogVisible: false,
     }
   },
-  setup() {
+  async setup() {
     const route = useRoute()
     const trackId = route.params.id
 
@@ -104,7 +104,7 @@ export default {
     const { trackDetails,
             isTrackDetailsLoading,
             removeTrackDetail
-    } = useTrackDetails(trackId)
+    } = await useTrackDetails(trackId)
 
     const {
       response,
@@ -115,12 +115,8 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST
-    } = useTrack(trackId)
+    } = await useTrack(trackId)
 
-    const router = useRouter()
-    const  toTrackUpdate =  () => {
-      router.push(`/tracks/${trackId}/update`)
-    }
     return {
       response,
 
@@ -134,7 +130,6 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST,
-      toTrackUpdate
     }
   }
 }

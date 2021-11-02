@@ -1,13 +1,13 @@
-import {onMounted, ref} from 'vue'
+import { ref } from 'vue'
 import getTrackDetails from '@/api/TrackDetails'
 import TrackDetailApi from '@/api/TrackDetail'
 
-export function useTrackDetails(trackId) {
+export async function useTrackDetails(trackId) {
     /*these are reactive variables*/
     const trackDetails = ref([])
     const isTrackDetailsLoading = ref(true)
 
-    const fetching = async () => {
+    const fetchTrackDetails = async () => {
         try {
             const response = await getTrackDetails(trackId)
             trackDetails.value = response.data.data
@@ -30,13 +30,15 @@ export function useTrackDetails(trackId) {
         } catch (e) {
             alert(e)
         }
-
-
     }
-    onMounted(fetching)
+
+    await fetchTrackDetails()
+    //onMounted(fetching)
+
     return {
         trackDetails,
         isTrackDetailsLoading,
+        fetchTrackDetails,
         removeTrackDetail
     }
 }

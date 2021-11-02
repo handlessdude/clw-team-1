@@ -53,7 +53,6 @@ export default {
   props: ['submitForm', 'trackData'],
   setup(props){
     return {
-
       name: props.trackData.name,
       previewText: props.trackData.previewText,
       previewPicture: props.trackData.previewPicture,

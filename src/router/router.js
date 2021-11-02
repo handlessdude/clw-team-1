@@ -1,6 +1,6 @@
 import Main from "@/pages/Main"
 import TrackCatalogue from "@/pages/TrackCataloguePage"
-import TrackPage from "@/pages/TrackPage"
+import TrackViewer from "@/pages/page-viewers/TrackViewer"
 import TrackCreatePage from "@/pages/TrackCreatePage"
 //import TrackUpdatePage from "@/pages/TrackUpdatePage"
 import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
@@ -26,12 +26,8 @@ const routes = [
     },
     {
         path: '/tracks/:id',
-        component: TrackPage
+        component: TrackViewer
     },
-    /*{
-        path: '/tracks/:id/update',
-        component: TrackUpdatePage
-    },*/
     {
         path: '/tracks/:id/update',
         component: TrackUpdateViewer

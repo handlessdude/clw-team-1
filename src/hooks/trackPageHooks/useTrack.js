@@ -7,21 +7,15 @@ export async function useTrack(trackId) {
     const isTrackLoading = ref(true)
     const response = ref(null)
     const TEST = ref({})
-    //const TEST2 = reactive({})
 
-    /*ref<object | null>(null)*/
     const fetchTrack = async () => {
         try {
             const result = await TrackApi.get(trackId)
             response.value = result
             TEST.value = result.data.data //ok
 
-            /*for (const key of Object.keys(result.data.data)) {
-                TEST2[key] = result.data.data[key]
-            }
-            console.log('TEST2 in fetching: ', TEST2)*/
-            console.log('TEST in fetching: TEST = ', TEST)
-            console.log('TEST in fetching: TEST.value = ', TEST.value)
+            /*console.log('TEST in fetching: TEST = ', TEST)
+            console.log('TEST in fetching: TEST.value = ', TEST.value)*/
         } catch (e) {
             alert(e)
         } finally {
