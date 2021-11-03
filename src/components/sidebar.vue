@@ -19,8 +19,8 @@
     <div v-else class="account">
       <hr style="margin:15px 10px;">
       <div class="avatar"></div>
-      <h4>UserName</h4>
-      <p>Статус</p>
+      <h4>{{ getUserInfo.userName }}</h4>
+      <p>{{ getUserInfo.status }}</p>
     </div>
 
     <span
@@ -54,7 +54,9 @@ export default {
     }),
     ...mapGetters({
       getSidebarWidth: 'sidebar/getSidebarWidth',
+      getUserInfo: 'getUserInfo'
     })
+    // ...mapGetters(['sidebar/getSidebarWidth'])
   },
 }
 </script>

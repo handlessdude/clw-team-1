@@ -21,6 +21,7 @@ export default createStore({
 
         /*TODO: replace with normal auth with axios and some method*/
         isTeacher: false,
+        actualUser: {},
 
     }),
     getters: {
@@ -34,13 +35,18 @@ export default createStore({
                 "X-API-Key": state.xApiKeyTeacher
             }
         }),
-        getUserRole: state => state.isTeacher
+        getUserRole: state => state.isTeacher,
+        getUserInfo: state => state.actualUser,
     },
     mutations: {
         setUserRole(state, role) {
             state.isTeacher = role
-            console.log('change');
+        },
+        setActualUser(state, user) {
+            state.actualUser = user
+            console.log(state.actualUser);
         }
+
     },
     modules: {
         trackCatalogue: trackCatalogueModule,
