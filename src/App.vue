@@ -1,5 +1,6 @@
 <template>
   <sidebar></sidebar>
+  <Navbar/>
   <div class="app" :style="{ marginLeft: getSidebarWidth }">
     <router-view></router-view>
   </div>
@@ -7,11 +8,14 @@
 
 <script>
 import Sidebar from "./components/sidebar";
+import Navbar from './components/navbar.vue';
+
 import { mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
     Sidebar,
+    Navbar,
   },
   computed: {
     ...mapGetters({
@@ -51,7 +55,7 @@ h4{
   /*color: #122523;
   color: #5daba4;*/
   color: #343434;
-  height: 100vh;
+  // height: 100vh;
   /*
   background: linear-gradient(220.16deg, #25414d -6%, #380c49  138%);*/
   background: #f2f2f2;
