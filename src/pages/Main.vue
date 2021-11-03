@@ -3,7 +3,7 @@
     <div class="mainpage__header">
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
-          Добро пожаловать {{ user.userName }}
+          Добро пожаловать {{ getUserInfo.userName }}
 
         </h3>
         <p class="mainpage__header_maintext">
@@ -16,18 +16,18 @@
         <div class="mainpage__header_userinfo">
           <img
             class="mainpage__header_useravatar"
-            src="@/components/Images/Avatar.png"
+            src="@/components/Images/AvatarTeacher.png"
             alt="User Avatar"
           />
           <div class="mainpage__header_userparams">
-            <h3 class="mainpage__header_userparamsname">{{ user.userName }}</h3>
-            <p class="mainpage__header_userparamsstatus">Статус: {{ user.status }}</p>
+            <h3 class="mainpage__header_userparamsname">{{ getUserInfo.userName }}</h3>
+            <p class="mainpage__header_userparamsstatus">Статус: {{ getUserInfo.status }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
           <p class="mainpage__header_itemtext">Заданные треки</p>
           <div class="mainpage__header_loading">
-            <p class="mainpage__header_loadinfo">{{ user.setTracks }}</p>
+            <p class="mainpage__header_loadinfo">{{ getUserInfo.setTracks }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -35,13 +35,13 @@
           <div class="mainpage__header_loading">
             <p
               class="mainpage__header_loadinfo"
-              v-bind:class="[{ lightText: user.percentProgress >= 40 }]"
+              v-bind:class="[{ lightText: getUserInfo.percentProgress >= 40 }]"
             >
-              {{ user.percentProgress }}%
+              {{ getUserInfo.percentProgress }}%
             </p>
             <div
               class="mainpage__header_loadstatus"
-              :style="{ width: user.percentProgress + '%' }"
+              :style="{ width: getUserInfo.percentProgress + '%' }"
             ></div>
           </div>
         </div>
@@ -52,7 +52,7 @@
               class="mainpage__header_loadinfo"
               v-bind:class="[{ lightText: tracksPercent >= 45 }]"
             >
-              {{ user.finTracks }}/{{ user.allTracks }}
+              {{ getUserInfo.finTracks }}/{{ getUserInfo.allTracks }}
             </p>
             <div
               class="mainpage__header_loadstatus"
@@ -76,14 +76,14 @@
           <p class="mainpage__itemlist_text">Перейти</p>
           <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
         </div>
-        {{ user.avatar }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
+
 
 export default {
   name: "Main",
@@ -96,32 +96,30 @@ export default {
   computed: {
     ...mapGetters([
       'getUserRole',
+      'getUserInfo'
     ]),
+    // ...mapState(['isTeacher']),
     tracksPercent() {
       return +(
         100 -
-        ((this.user.allTracks - this.user.finTracks) / this.user.allTracks) * 100
+        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) / this.getUserInfo.allTracks) * 100
       ).toFixed(0);
     },
-    setUser: {
-      get: function () {
-        return this.getUserRole
-      },
-      set: function () {
-        this.change = !this.change
-      }
-    }
   },
   watch: {
-    change: function () {
-        if(this.getUserRole) {
-          this.user = this.$store.state.userInfo.teacher
+    getUserRole: function () {
+        if(this.getUserRole === 'true') {
+          this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
         } else {
-          this.user = this.$store.state.userInfo.student
+          this.$store.commit('setActualUser', this.$store.state.userInfo.student)
         }
     }
   },
   methods: {
+    ...mapMutations([
+      'setActualUser',
+    ]),
+
     toCatalog() {
       this.$router.push({path: "/catalogue"})
     },
@@ -130,10 +128,10 @@ export default {
     }
   },
   created() {
-    if(this.getUserRole) {
-      this.user = this.$store.state.userInfo.teacher
+    if(this.getUserRole == 'true') {
+      this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
     } else {
-      this.user = this.$store.state.userInfo.student
+      this.$store.commit('setActualUser', this.$store.state.userInfo.student)
     }
   },
 };
@@ -215,6 +213,8 @@ export default {
       flex-direction: column
     &_loadstatus
       height: 90%
+      max-width: 97%
+      min-width: 20%
       background-color: #355E66
       border-radius: 50px
       color: #ffffff

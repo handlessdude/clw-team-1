@@ -2,6 +2,7 @@ import Main from "../pages/Main"
 import TrackCatalogue from "../pages/TrackCataloguePage"
 import TrackPage from "../pages/TrackPage"
 import Catalogue from "../pages/CataloguePage"
+import Page404 from "@/pages/Page404"
 import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
@@ -20,6 +21,16 @@ const routes = [
     {
         path: '/tracks/:id',
         component: TrackPage
+    },
+    //Обязательно поместить пути /404 и " * " в конец списка роутов
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: Page404
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: { name: 'NotFound' }
     },
 ]
 
