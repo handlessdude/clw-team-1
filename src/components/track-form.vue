@@ -13,20 +13,27 @@
         placeholder="Введите описание..."
     ></my-textarea>
 
-    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
+<!--    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
     <input
         type="file"
         style="display: none"
         ref="fileInput"
         accept="image/*"
-        @change="onFilePicked"/>
+        @change="onFilePicked"/>-->
 
     <label>Дата начала</label>
-    <input type="date" v-model="dateTimeStart" placeholder="Введите дату" class="form-control" />
+    <datepicker v-model="start"
+                :locale="dateLocale"
+                inputFormat="dd.MM.yyyy"
+                placeholder="Выберите дату..."/>
     <label>Дата окончания</label>
-    <input type="date" v-model="dateTimeFinish" placeholder="Введите дату" class="form-control" />
+    <datepicker v-model="finish"
+                :locale="dateLocale"
+                :lowerLimit="start"
+                inputFormat="dd.MM.yyyy"
+                placeholder="Выберите дату..."/>
 
-    <label>Прохождение</label>
+<!--    <label>Прохождение</label>
     <input type="radio" value="free" v-model="mode">
     <label>Свободное</label>
     <br>
@@ -34,7 +41,7 @@
     <label>Последовательное</label>
 
     <input type="checkbox" id="checkbox" v-model="published">
-    <label for="checkbox">Доступен студентам</label>
+    <label for="checkbox">Доступен студентам</label>-->
 
     <!--        @click="createTrack"-->
     <my-button
@@ -48,10 +55,29 @@
 </template>
 
 <script>
+import Datepicker from 'vue3-datepicker'
+import { ref, watch } from 'vue'
+import { ru } from 'date-fns/locale'
+import timestampToDate from '@/helpers/timestampToDate'
+import dateToTimestamp from '@/helpers/dateToTimestamp'
 export default {
   name: "track-form",
   props: ['submitForm', 'trackData'],
+  components: {
+    Datepicker
+  },
   setup(props){
+    const start = ref(timestampToDate(props.trackData.dateTimeStart.value))
+    const finish = ref(timestampToDate(props.trackData.dateTimeFinish.value))
+
+    watch(start, newStart => {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.trackData.dateTimeStart.value = dateToTimestamp(newStart)
+    })
+    watch(finish, newFinish => {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.trackData.dateTimeFinish.value = dateToTimestamp(newFinish)
+    })
     return {
       name: props.trackData.name,
       previewText: props.trackData.previewText,
@@ -59,7 +85,10 @@ export default {
       published: props.trackData.published,
       dateTimeStart: props.trackData.dateTimeStart,
       dateTimeFinish: props.trackData.dateTimeFinish,
-      mode: props.trackData.mode
+      mode: props.trackData.mode,
+      start,
+      finish,
+      dateLocale: ru,
     }
   }
 }

@@ -35,10 +35,10 @@
 
         <div class="start-finish">
           <div class="start">
-            Дата открытия:{{hrTimeStart}}
+            Дата открытия: {{hrTimeStart}}
           </div>
           <div class="finish">
-            Дата закрытия:{{hrTimeFinish}}
+            Дата закрытия: {{hrTimeFinish}}
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@ import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 
 export default {
-  name: "трек",
+  name: "TrackPage",
   components: {
     TrackDetailList
   },

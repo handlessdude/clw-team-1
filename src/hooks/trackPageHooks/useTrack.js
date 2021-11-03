@@ -1,6 +1,6 @@
 import {/*onMounted,*/ ref, computed } from 'vue'
 import TrackApi from '@/api/Track'
-import timeConverter from '@/helpers/timeConverter'
+import timestampToDate from '@/helpers/timestampToDate'
 
 export async function useTrack(trackId) {
     /*these are reactive variables*/
@@ -27,8 +27,8 @@ export async function useTrack(trackId) {
     //onMounted(fetchTrack)
 
     //human-readable time of start/finish
-    const hrTimeStart = computed( () => timeConverter(TEST.value.data.dateTimeStart))
-    const hrTimeFinish = computed( () => timeConverter(TEST.value.data.dateTimeFinish))
+    const hrTimeStart = computed( () => timestampToDate(TEST.value.data.dateTimeStart).toLocaleString())
+    const hrTimeFinish = computed( () => timestampToDate(TEST.value.data.dateTimeFinish).toLocaleString())
 
     return {
         response,

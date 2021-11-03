@@ -6,7 +6,7 @@
 <!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
     <h1>Настройки трека</h1>
     <h2>{{TEST.data.name}}</h2>
-    <pre>{{TEST.data}}</pre>
+<!--    <pre>{{TEST.data}}</pre>-->
     <track-form
         :trackData="trackData"
         :submitForm="updateTrack"
