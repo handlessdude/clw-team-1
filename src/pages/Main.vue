@@ -3,7 +3,8 @@
     <div class="mainpage__header">
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
-          Добро пожаловать {{ userName }}
+          Добро пожаловать {{ user.userName }}
+
         </h3>
         <p class="mainpage__header_maintext">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et quam
@@ -15,18 +16,18 @@
         <div class="mainpage__header_userinfo">
           <img
             class="mainpage__header_useravatar"
-            src="../assets/useravatar.png"
+            src="@/components/Images/Avatar.png"
             alt="User Avatar"
           />
           <div class="mainpage__header_userparams">
-            <h3 class="mainpage__header_userparamsname">{{ userName }}</h3>
-            <p class="mainpage__header_userparamsstatus">Статус: {{ status }}</p>
+            <h3 class="mainpage__header_userparamsname">{{ user.userName }}</h3>
+            <p class="mainpage__header_userparamsstatus">Статус: {{ user.status }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
           <p class="mainpage__header_itemtext">Заданные треки</p>
           <div class="mainpage__header_loading">
-            <p class="mainpage__header_loadinfo">{{ setTracks }}</p>
+            <p class="mainpage__header_loadinfo">{{ user.setTracks }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -34,13 +35,13 @@
           <div class="mainpage__header_loading">
             <p
               class="mainpage__header_loadinfo"
-              v-bind:class="[{ lightText: percentProgress >= 40 }]"
+              v-bind:class="[{ lightText: user.percentProgress >= 40 }]"
             >
-              {{ percentProgress }}%
+              {{ user.percentProgress }}%
             </p>
             <div
               class="mainpage__header_loadstatus"
-              :style="{ width: percentProgress + '%' }"
+              :style="{ width: user.percentProgress + '%' }"
             ></div>
           </div>
         </div>
@@ -51,7 +52,7 @@
               class="mainpage__header_loadinfo"
               v-bind:class="[{ lightText: tracksPercent >= 45 }]"
             >
-              {{ finTracks }}/{{ allTracks }}
+              {{ user.finTracks }}/{{ user.allTracks }}
             </p>
             <div
               class="mainpage__header_loadstatus"
@@ -75,33 +76,50 @@
           <p class="mainpage__itemlist_text">Перейти</p>
           <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
         </div>
+        {{ user.avatar }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 
 export default {
   name: "Main",
   data() {
     return {
-      userName: "Зигмунд Фрейд",
-      status: "Студент",
-      percentProgress: 39,
-      allTracks: 30,
-      finTracks: 15,
-      setTracks: 5,
+      user: {},
+      change: true
     };
   },
   computed: {
+    ...mapGetters([
+      'getUserRole',
+    ]),
     tracksPercent() {
       return +(
         100 -
-        ((this.allTracks - this.finTracks) / this.allTracks) * 100
+        ((this.user.allTracks - this.user.finTracks) / this.user.allTracks) * 100
       ).toFixed(0);
     },
+    setUser: {
+      get: function () {
+        return this.getUserRole
+      },
+      set: function () {
+        this.change = !this.change
+      }
+    }
+  },
+  watch: {
+    change: function () {
+        if(this.getUserRole) {
+          this.user = this.$store.state.userInfo.teacher
+        } else {
+          this.user = this.$store.state.userInfo.student
+        }
+    }
   },
   methods: {
     toCatalog() {
@@ -111,12 +129,19 @@ export default {
       this.$router.push({path: "/tracks"})
     }
   },
+  created() {
+    if(this.getUserRole) {
+      this.user = this.$store.state.userInfo.teacher
+    } else {
+      this.user = this.$store.state.userInfo.student
+    }
+  },
 };
 </script>
 
 <style lang="sass" scoped>
 .mainpage
-  margin: 0 auto
+  margin: 0 auto 
   max-width: 1024px
   &__header
     display: flex
@@ -155,9 +180,9 @@ export default {
       margin-top: 12px
       margin-left: 12px
       display: flex
-      // background-color: #355e6621
     &_useravatar
-      width: 95px
+      width: 110px
+      height: 110px
     &_userparams
       margin-left: 16px
       display: flex
@@ -242,10 +267,10 @@ export default {
       font-size: 80px
       margin-top: 8px
     &_track
-      background-image: url(../assets/homeitem1.png)
+      background-image: url(../components/Images/homeitem1.png)
       background-size: cover
     &_catalog
-      background-image: url(../assets/homeitem2.png)
+      background-image: url(../components/Images/homeitem2.png)
       background-size: cover
 .lightText
   color: #ffffff

@@ -4,6 +4,7 @@ import { createStore } from 'vuex'
 import { trackCatalogueModule } from './modules/trackCatalogueModule'
 import { trackPageModule } from './modules/trackPageModule'
 import { sidebarModule } from './modules/sidebarModule'
+import { userinfoModule } from './modules/userinfoModule'
 import { configModule } from './modules/configModule'
 import axios from "axios";
 
@@ -19,7 +20,7 @@ export default createStore({
         userIdStudent: 743436,
 
         /*TODO: replace with normal auth with axios and some method*/
-        isTeacher: true,
+        isTeacher: false,
 
     }),
     getters: {
@@ -33,11 +34,19 @@ export default createStore({
                 "X-API-Key": state.xApiKeyTeacher
             }
         }),
+        getUserRole: state => state.isTeacher
+    },
+    mutations: {
+        setUserRole(state, role) {
+            state.isTeacher = role
+            console.log('change');
+        }
     },
     modules: {
         trackCatalogue: trackCatalogueModule,
         trackPage: trackPageModule,
         sidebar: sidebarModule,
         configs: configModule,
+        userInfo: userinfoModule,
     },
 });
