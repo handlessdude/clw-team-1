@@ -1,6 +1,5 @@
 <template>
   <div class="sidebar" :style="{ width: getSidebarWidth }">
-
     <div v-if="isCollapsed">
       <div class="logo"></div>
       <hr style="margin:15px 10px;">
@@ -34,7 +33,6 @@
 </template>
 
 <script>
-
 import { mapMutations, mapGetters, mapState } from "vuex";
 
 export default {
@@ -49,12 +47,11 @@ export default {
       isCollapsed: state => state.sidebar.isCollapsed,
     }),
     ...mapGetters({
-      getSidebarWidth: 'sidebar/getSidebarWidth',
-      getUserInfo: 'getUserInfo'
-    })
-    // ...mapGetters(['sidebar/getSidebarWidth'])
+      getSidebarWidth: "sidebar/getSidebarWidth",
+      getUserInfo: "getUserInfo",
+    }),
   },
-}
+};
 </script>
 
 <style>
@@ -68,7 +65,6 @@ export default {
 </style>
 
 <style scoped>
-
 .sidebar {
   box-sizing: content-box;
   color: var(--light-text-color);
@@ -89,7 +85,7 @@ export default {
 }
 .collapse-icon {
   position: absolute;
-  bottom:0;
+  bottom: 0;
   padding: 0.75em;
   color: rgba(255, 255, 255, 0.7);
   transition: 0.2s linear;
@@ -97,14 +93,14 @@ export default {
 .logo {
   background-image: url(Images/Logo.png);
   background-size: cover;
-  width:35px;
-  height:35px;
+  width: 35px;
+  height: 35px;
 }
 .logo-open {
   background-image: url(Images/Logo-open.png);
   background-size: cover;
-  width:170px;
-  height:40px;
+  width: 170px;
+  height: 40px;
 }
 .my-link {
   margin: 20px 0;
@@ -119,11 +115,11 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  background-image: url(Images/Avatar.png);
+  background-image: url(./Images/Avatar.png);
   margin: 10px auto;
 }
 .collapse-icon:hover {
-  cursor:pointer;
+  cursor: pointer;
   color: var(--light-text-color);
 }
 .rotate-180 {

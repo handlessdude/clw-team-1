@@ -6,8 +6,8 @@
             </div>
             <div class="navbar__circle"></div>
             <select class="navbar__auth" v-model="selected">
-                <option value="false">Иван Иванов : Студент</option>
-                <option value="true">Петр Петров : Педагог</option>
+                <option value="743436">Иван Иванов : Студент</option>
+                <option value="743441">Петр Петров : Педагог</option>
             </select>
         </div>
     </div>
@@ -19,18 +19,28 @@ import { mapMutations } from 'vuex';
 export default {
     data() {
         return {
-            selected: false,
+            selected:'743436',
         }
     },
     methods: {
         ...mapMutations([
-            'setUserRole'
-        ])
+            'setActualUser',
+        ]),
+        findActualUser() {
+            let actualUser = this.$store.state.userList.filter(el => {
+                return el.id === this.selected
+            })
+            this.$store.commit('setActualUser', actualUser[0])       
+        }
     },    
     watch: {
         selected: function () {
-            this.$store.commit('setUserRole', this.selected)        }
-    }
+            this.findActualUser()
+        }
+    },
+    created() {
+        this.findActualUser()   
+    },
     
 }
 </script>
