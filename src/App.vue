@@ -1,20 +1,21 @@
 <template>
   <sidebar></sidebar>
-  <div class="app"
-       :style="{ marginLeft: getMinSidebarWidth }"
-  >
-
+  <Navbar/>
+  <div class="app" :style="{ marginLeft: getSidebarWidth }">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Sidebar from "./components/sidebar";
+import Navbar from './components/navbar.vue';
+
 import { mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
     Sidebar,
+    Navbar,
   },
   computed: {
     ...mapGetters({

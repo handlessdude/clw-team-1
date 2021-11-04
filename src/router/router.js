@@ -2,9 +2,9 @@ import Main from "@/pages/Main"
 import TrackCatalogue from "@/pages/TrackCataloguePage"
 import TrackViewer from "@/pages/page-viewers/TrackViewer"
 import TrackCreatePage from "@/pages/TrackCreatePage"
-//import TrackUpdatePage from "@/pages/TrackUpdatePage"
 import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
 import Catalogue from "@/pages/CataloguePage"
+import Page404 from "@/pages/Page404"
 import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
@@ -31,6 +31,16 @@ const routes = [
     {
         path: '/tracks/:id/update',
         component: TrackUpdateViewer
+    },
+    //Обязательно поместить пути /404 и " * " в конец списка роутов
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: Page404
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: { name: 'NotFound' }
     },
 ]
 
