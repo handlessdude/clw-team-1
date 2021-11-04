@@ -1,7 +1,7 @@
 <template>
   <sidebar></sidebar>
   <Navbar/>
-  <div class="app" :style="{ marginLeft: getSidebarWidth }">
+  <div class="app" :style="{ marginLeft: getMinSidebarWidth }">
     <router-view></router-view>
   </div>
 </template>
