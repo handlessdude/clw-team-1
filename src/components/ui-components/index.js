@@ -1,8 +1,10 @@
-import MyButton from "./my-button"
-import MyInput from "./my-input"
-import MyDialog from "./my-dialog"
-import MySelect from "./my-select"
-import Preloader from "./preloader"
+import MyButton from "@/components/ui-components/my-button"
+import MyInput from "@/components/ui-components/my-input"
+import MyDialog from "@/components/ui-components/my-dialog"
+import MySelect from "@/components/ui-components/my-select"
+import MyLink from "@/components/ui-components/my-link"
+import Textarea from "@/components/ui-components/my-textarea"
+import Preloader from "@/components/ui-components/preloader"
 
 //global export of tiny frequently applicable elements
 export default [
@@ -10,5 +12,7 @@ export default [
     MyInput,
     MyDialog,
     MySelect,
+    MyLink,
+    Textarea,
     Preloader,
 ]

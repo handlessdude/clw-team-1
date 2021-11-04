@@ -1,10 +1,14 @@
 <template>
-  <div class="track-item" @click="$router.push(`/tracks/${track.id}`)">
+  <div class="track-item"
+       @click="$router.push(`/tracks/${track.id}`)"
+       :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'
+  >
+<!--    :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'-->
     <div class="track-info">
       <!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
       <!--      <div><strong>Название:</strong> {{ track.data.name}}</div>-->
       <!--      <div><strong>Описание:</strong> {{ track.data.previewText }}</div>-->
-      <h3>{{ track.data.name }}</h3>
+      <h2>{{ track.data.name }}</h2>
     </div>
     <div class="track-item__btns">
       <my-button
@@ -36,7 +40,10 @@ export default {
   align-items: center;
   justify-content: space-between;
   border-radius: 50px;
+  background-size: cover;
+
 }
+
 .track-item:hover {
   cursor: pointer;
 }

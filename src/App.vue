@@ -1,7 +1,7 @@
 <template>
   <sidebar></sidebar>
   <Navbar/>
-  <div class="app" :style="{ marginLeft: getSidebarWidth }">
+  <div class="app" :style="{ marginLeft: getMinSidebarWidth }">
     <router-view></router-view>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getSidebarWidth: "sidebar/getSidebarWidth",
+      getMinSidebarWidth: "sidebar/getMinSidebarWidth",
     }),
   },
 };
@@ -55,7 +55,7 @@ h4{
   /*color: #122523;
   color: #5daba4;*/
   color: #343434;
-  // height: 100vh;
+  height: 100vh;
   /*
   background: linear-gradient(220.16deg, #25414d -6%, #380c49  138%);*/
   background: #f2f2f2;

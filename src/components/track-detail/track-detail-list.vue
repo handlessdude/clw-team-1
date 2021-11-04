@@ -5,6 +5,7 @@
             v-for="trackDetail in trackDetails"
             :trackDetail="trackDetail"
             :key="trackDetail.id"
+            @remove="$emit('remove', trackDetail.id)"
         />
 <!--        @remove="$emit('remove', trackDetail)"-->
       </transition-group>

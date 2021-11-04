@@ -11,9 +11,9 @@
       <hr style="margin:15px 10px;">
     </div>
 
-    <sidebar-link to="/" icon="fas fa-home">Главная</sidebar-link>
-    <sidebar-link to="/tracks" icon="fas fa-truck-monster">Треки</sidebar-link>
-    <sidebar-link to="/catalogue" icon="fas fa-columns">Каталог</sidebar-link>
+    <my-link to="/" icon="fas fa-home">Главная</my-link>
+    <my-link to="/tracks" icon="fas fa-truck-monster">Треки</my-link>
+    <my-link to="/catalogue" icon="fas fa-columns">Каталог</my-link>
 
     <span v-if="isCollapsed"></span>
     <div v-else class="account">
@@ -36,13 +36,9 @@
 <script>
 
 import { mapMutations, mapGetters, mapState } from "vuex";
-import SidebarLink from './ui-components/sidebar-link'
 
 export default {
   name: "sidebar",
-  components: {
-    SidebarLink,
-  },
   methods: {
     ...mapMutations({
       toggleSidebar: 'sidebar/toggleSidebar',
@@ -110,7 +106,7 @@ export default {
   width:170px;
   height:40px;
 }
-.sidebar-link {
+.my-link {
   margin: 20px 0;
 }
 .account {

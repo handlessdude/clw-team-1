@@ -1,7 +1,9 @@
 import Main from "../pages/Main"
 import TrackCatalogue from "../pages/TrackCataloguePage"
-import TrackPage from "../pages/TrackPage"
 import Catalogue from "../pages/CataloguePage"
+import TrackCreatePage from "@/pages/TrackCreatePage"
+import TrackViewer from "@/pages/page-viewers/TrackViewer"
+import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
 import Page404 from "@/pages/Page404"
 import {createRouter, createWebHistory} from "vue-router"
 
@@ -15,12 +17,20 @@ const routes = [
         component: TrackCatalogue,
     },
     {
+        path: '/tracks/create',
+        component: TrackCreatePage
+    },
+    {
         path: '/catalogue',
         component: Catalogue,
     },
     {
         path: '/tracks/:id',
-        component: TrackPage
+        component: TrackViewer
+    },
+    {
+        path: '/tracks/:id/update',
+        component: TrackUpdateViewer
     },
     //Обязательно поместить пути /404 и " * " в конец списка роутов
     {
