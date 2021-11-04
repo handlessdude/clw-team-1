@@ -20,7 +20,6 @@ export default createStore({
         userIdStudent: 743436,
 
         /*TODO: replace with normal auth with axios and some method*/
-        isTeacher: false,
         actualUser: {},
 
     }),
@@ -35,16 +34,11 @@ export default createStore({
                 "X-API-Key": state.xApiKeyTeacher
             }
         }),
-        getUserRole: state => state.isTeacher,
         getUserInfo: state => state.actualUser,
     },
     mutations: {
-        setUserRole(state, role) {
-            state.isTeacher = role
-        },
         setActualUser(state, user) {
             state.actualUser = user
-            console.log(state.actualUser);
         }
 
     },
@@ -53,6 +47,6 @@ export default createStore({
         trackPage: trackPageModule,
         sidebar: sidebarModule,
         configs: configModule,
-        userInfo: userinfoModule,
+        userList: userinfoModule,
     },
 });

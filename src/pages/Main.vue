@@ -4,7 +4,6 @@
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
           Добро пожаловать {{ getUserInfo.userName }}
-
         </h3>
         <p class="mainpage__header_maintext">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et quam
@@ -19,9 +18,14 @@
             src="@/components/Images/AvatarTeacher.png"
             alt="User Avatar"
           />
+          <!-- <div class="mainpage__header_useravatar" :style='{ backgroundImage: `${getUserInfo.avatar}` }' ></div> -->
           <div class="mainpage__header_userparams">
-            <h3 class="mainpage__header_userparamsname">{{ getUserInfo.userName }}</h3>
-            <p class="mainpage__header_userparamsstatus">Статус: {{ getUserInfo.status }}</p>
+            <h3 class="mainpage__header_userparamsname">
+              {{ getUserInfo.userName }}
+            </h3>
+            <p class="mainpage__header_userparamsstatus">
+              Статус: {{ getUserInfo.status }}
+            </p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -63,18 +67,28 @@
       </div>
     </div>
     <div class="mainpage__itemlist">
-      <div class="mainpage__itemlist_linkblock mainpage__itemlist_track" @click="toMyTracks">
+      <div
+        class="mainpage__itemlist_linkblock mainpage__itemlist_track"
+        @click="toMyTracks"
+      >
         <h3 class="mainpage__itemlist_headtext">Мои Треки</h3>
         <div>
           <p class="mainpage__itemlist_text">Перейти</p>
-          <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
+          <p class="mainpage__itemlist_icon">
+            <i class="far fa-play-circle"></i>
+          </p>
         </div>
       </div>
-      <div class="mainpage__itemlist_linkblock mainpage__itemlist_catalog" @click="toCatalog">
+      <div
+        class="mainpage__itemlist_linkblock mainpage__itemlist_catalog"
+        @click="toCatalog"
+      >
         <h3 class="mainpage__itemlist_headtext">Каталог</h3>
         <div>
           <p class="mainpage__itemlist_text">Перейти</p>
-          <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
+          <p class="mainpage__itemlist_icon">
+            <i class="far fa-play-circle"></i>
+          </p>
         </div>
       </div>
     </div>
@@ -82,64 +96,40 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "Main",
   data() {
     return {
-      user: {},
-      change: true
+      change: true,
     };
   },
   computed: {
-    ...mapGetters([
-      'getUserRole',
-      'getUserInfo'
-    ]),
-    // ...mapState(['isTeacher']),
+    ...mapGetters(["getUserInfo"]),
     tracksPercent() {
       return +(
         100 -
-        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) / this.getUserInfo.allTracks) * 100
+        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) /
+          this.getUserInfo.allTracks) *
+          100
       ).toFixed(0);
     },
   },
-  watch: {
-    getUserRole: function () {
-        if(this.getUserRole === 'true') {
-          this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
-        } else {
-          this.$store.commit('setActualUser', this.$store.state.userInfo.student)
-        }
-    }
-  },
   methods: {
-    ...mapMutations([
-      'setActualUser',
-    ]),
-
     toCatalog() {
-      this.$router.push({path: "/catalogue"})
+      this.$router.push({ path: "/catalogue" });
     },
     toMyTracks() {
-      this.$router.push({path: "/tracks"})
-    }
-  },
-  created() {
-    if(this.getUserRole == 'true') {
-      this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
-    } else {
-      this.$store.commit('setActualUser', this.$store.state.userInfo.student)
-    }
+      this.$router.push({ path: "/tracks" });
+    },
   },
 };
 </script>
 
 <style lang="sass" scoped>
 .mainpage
-  margin: 0 auto 
+  margin: 0 auto
   max-width: 1024px
   &__header
     display: flex
@@ -255,7 +245,7 @@ export default {
         box-shadow: 0 0 8px -3px black
         transform: scale(1)
     &_headtext
-      position: absolute    
+      position: absolute
       left: 24px
       top: 34px
       font-size: 24px
@@ -275,6 +265,4 @@ export default {
 .lightText
   color: #ffffff
   text-shadow: 0 0 8px #000000
-
-
 </style>
