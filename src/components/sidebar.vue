@@ -18,8 +18,8 @@
     <div v-else class="account">
       <hr style="margin:15px 10px;">
       <div class="avatar"></div>
-      <h4>{{ getUserInfo.userName }}</h4>
-      <p>{{ getUserInfo.status }}</p>
+      <h4>{{  getUserInfo.user[0].fullName}}</h4>
+      <p>{{ getUserInfo.user[0].data[0].status  }}</p>
     </div>
 
     <span

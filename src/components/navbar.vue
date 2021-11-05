@@ -28,7 +28,8 @@ export default {
         ]),
         findActualUser() {
             let actualUser = this.$store.state.userList.filter(el => {
-                return el.id === this.selected
+                return el.user[0].id === this.selected
+                
             })
             this.$store.commit('setActualUser', actualUser[0])       
         }
