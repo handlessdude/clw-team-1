@@ -24,7 +24,7 @@ export default class TrackApi {
             console.log(response)
             return response
         } catch (e) {
-            alert('Error has spawned!')
+            alert('Ошибка загрузки файла на сервер!')
             console.log(e)
             return e
         }

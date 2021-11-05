@@ -32,17 +32,24 @@
                 inputFormat="dd.MM.yyyy"
                 placeholder="Выберите дату..."/>
 
-<!--    <label>Прохождение</label>
-    <input type="radio" value="free" v-model="mode">
-    <label>Свободное</label>
-    <br>
-    <input type="radio" value="consistent" v-model="mode">
-    <label>Последовательное</label>
+    <div>
+      <div>Прохождение: {{ mode }}</div>
 
-    <input type="checkbox" id="checkbox" v-model="published">
-    <label for="checkbox">Доступен студентам</label>-->
+      <span>
+        <input type="radio" id="consistent" value="consistent" v-model="mode">
+        <label for="consistent">Последовательное</label>
+      </span>
+      <span>
+        <input type="radio" id="free" value="free" v-model="mode">
+        <label for="free">Свободное</label>
+      </span>
+    </div>
 
-    <!--        @click="createTrack"-->
+    <div class="my-checkbox">
+      <input type="checkbox" id="checkbox" v-model="published">
+      <span>Опубликовать</span>
+    </div>
+
     <my-button
         type="submit"
         style="align-self: flex-end; margin-top: 15px"

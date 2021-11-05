@@ -44,20 +44,12 @@ export default {
     const dateTimeStart = ref(TEST.value.data.dateTimeStart)
     const dateTimeFinish = ref(TEST.value.data.dateTimeFinish)
     const mode = ref(TEST.value.data.mode)
-    /*if (isTrackLoading.value) {
-      await fetchTrack()
-      isTrackLoading.value = true
-    }*/
-/*
-    console.log('TEST in TrackUpdatePage = ', TEST)
-    console.log('TEST.value in TrackUpdatePage = ', TEST.value)
-    console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
-    /*console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
 
     const updateTrack = async () => {
       try {
+        //we better add some regexp to ensure prewPic contains piece alike "^data/track/images/preview/*"
+        //also we currently do not have error processing
+
         const responsePic = await TrackApi.postPreview(previewPicture.value)
         previewPicture.value = responsePic.data.data.file.url
 

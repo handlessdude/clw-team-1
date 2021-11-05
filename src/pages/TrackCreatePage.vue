@@ -34,6 +34,12 @@ export default {
 
     const createTrack = async () => {
       try {
+        /**
+         * вот этот кусок надо вернуть в отдельную функцию наверно тк он вызывается еще в трек апдейт пейдж
+         * если мы не залили никакой картинки, будет еррор
+         * короче валидация наличия файла при создании трека нужна
+         * */
+
         const responsePic = await TrackApi.postPreview(previewPicture.value)
         previewPicture.value = responsePic.data.data.file.url
 
