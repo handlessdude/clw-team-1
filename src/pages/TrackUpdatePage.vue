@@ -58,6 +58,9 @@ export default {
 
     const updateTrack = async () => {
       try {
+        const responsePic = await TrackApi.postPreview(previewPicture.value)
+        previewPicture.value = responsePic.data.data.file.url
+
         const response = await TrackApi.put(
             trackId,
             {

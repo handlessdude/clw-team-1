@@ -4,6 +4,7 @@ import MyDialog from "@/components/ui-components/my-dialog"
 import MySelect from "@/components/ui-components/my-select"
 import MyLink from "@/components/ui-components/my-link"
 import Textarea from "@/components/ui-components/my-textarea"
+import FileDragAndDrop from "@/components/ui-components/file-drag-and-drop"
 import Preloader from "@/components/ui-components/preloader"
 
 //global export of tiny frequently applicable elements
@@ -15,4 +16,5 @@ export default [
     MyLink,
     Textarea,
     Preloader,
+    FileDragAndDrop,
 ]

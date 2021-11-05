@@ -13,13 +13,12 @@
         placeholder="Введите описание..."
     ></my-textarea>
 
-<!--    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
-    <input
-        type="file"
-        style="display: none"
-        ref="fileInput"
-        accept="image/*"
-        @change="onFilePicked"/>-->
+
+    <file-input v-model="myFileInput" is-image
+                placeholder-input-text="Файл не выбран"
+                placeholder-button-text="Выбрать обложку..."
+
+    ></file-input>
 
     <label>Дата начала</label>
     <datepicker v-model="start"
@@ -60,16 +59,20 @@ import { ref, watch } from 'vue'
 import { ru } from 'date-fns/locale'
 import timestampToDate from '@/helpers/timestampToDate'
 import dateToTimestamp from '@/helpers/dateToTimestamp'
+import FileInput from 'vue3-simple-file-input'
+
 export default {
   name: "track-form",
   props: ['submitForm', 'trackData'],
   components: {
-    Datepicker
+    Datepicker,
+    FileInput
   },
   setup(props){
     const start = ref(timestampToDate(props.trackData.dateTimeStart.value))
     const finish = ref(timestampToDate(props.trackData.dateTimeFinish.value))
-
+    //const newPreviewPicture = ref(null)
+    const myFileInput = ref(null)
     watch(start, newStart => {
       // eslint-disable-next-line vue/no-mutating-props
       props.trackData.dateTimeStart.value = dateToTimestamp(newStart)
@@ -78,6 +81,18 @@ export default {
       // eslint-disable-next-line vue/no-mutating-props
       props.trackData.dateTimeFinish.value = dateToTimestamp(newFinish)
     })
+
+    watch(myFileInput, async newMyFileInput => {
+      console.log(newMyFileInput)
+      console.log(newMyFileInput.file)
+
+      const formData = new FormData()
+      formData.append('file', newMyFileInput.file)
+      // eslint-disable-next-line vue/no-mutating-props
+      props.trackData.previewPicture.value =  formData
+
+    })
+
     return {
       name: props.trackData.name,
       previewText: props.trackData.previewText,
@@ -89,6 +104,10 @@ export default {
       start,
       finish,
       dateLocale: ru,
+      myFileInput,
+      //loadFile,
+      /*onPickFile,
+      onFilePicked,*/
     }
   }
 }
