@@ -1,110 +1,113 @@
 <template>
-<div class="track-page" v-if="!isTrackLoading">
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
-<!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
+  <div class="track-page" v-if="!isTrackLoading">
+    <div
+      class="preview-pic"
+      :style="{
+        backgroundImage: `url(&quot;${this.$store.state.server}/${TEST.data.previewPicture}&quot;)`,
+      }"
+    >
+      <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
-<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-    <my-button @click="this.$router.back()">Назад</my-button>
-<!--    PRE - FOR DEBUG!-->
-<!--    <h2>{{trackData.name}}</h2>-->
-    <h2>{{TEST.data.name}}</h2>
-<!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
+      <!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
+      <my-button @click="this.$router.back()">Назад</my-button>
+      <!--    PRE - FOR DEBUG!-->
+      <!--    <h2>{{trackData.name}}</h2>-->
+      <h2>{{ TEST.data.name }}</h2>
+      <!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
     <pre>{{hrTimeStart}}</pre>-->
-<!--    <pre>{{assigned}}</pre>
+      <!--    <pre>{{assigned}}</pre>
     <pre>{{id }}</pre>
     <pre> {{status}}</pre>
     <pre>{{trackData}}</pre>-->
+    </div>
 
-  </div>
+    <div class="content">
+      <div class="about">
+        <div class="description">
+          <span
+            ><i class="fas fa-info-circle"></i>
+            <h2>О треке</h2></span
+          >
+          <p>{{ TEST.data.previewText }}</p>
+        </div>
 
-  <div class="content">
-    <div class="about">
-
-      <div class="description">
-        <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-        <p>{{TEST.data.previewText}}</p>
-      </div>
-
-      <div class="edit-and-time">
-
-        <my-button
+        <div class="edit-and-time">
+          <my-button
+            v-if="this.$store.state.actualUser.roles.includes('teacher')"
             @click="this.$router.push(`/tracks/${TEST.id}/update`)"
-        >
-          Редактировать
-        </my-button>
+          >
+            Редактировать
+          </my-button>
 
-        <div class="start-finish">
-          <div class="start">
-            Дата открытия: {{hrTimeStart}}
-          </div>
-          <div class="finish">
-            Дата закрытия: {{hrTimeFinish}}
+          <div class="start-finish">
+            <div class="start">Дата открытия: {{ hrTimeStart }}</div>
+            <div class="finish">Дата закрытия: {{ hrTimeFinish }}</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <span>
-<!--      TODO: add @click to all the buttons-->
+      <span>
+        <!--      TODO: add @click to all the buttons-->
         <my-button
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
         >
-           Добавить деталь трека
+          Добавить деталь трека
         </my-button>
         <my-button
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
         >
-           Записать студентов на трек
+          Записать студентов на трек
         </my-button>
         <my-button
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
         >
-            Входное тестирование
+          Входное тестирование
         </my-button>
       </span>
 
-    <track-detail-list
-        style="margin-top: 20px;"
+      <track-detail-list
+        style="margin-top: 20px"
         :trackDetails="trackDetails"
         v-if="!isTrackDetailsLoading"
         @remove="removeTrackDetail"
-    />
-    <div v-else>Загружаем список элементов...</div>
-  </div>
+      />
+      <div v-else>Загружаем список элементов...</div>
+    </div>
 
-<!--
+    <!--
 TODO: create track detail post form
 <my-dialog v-model:show="dialogVisible">
     <post-form
         @create="createTrackDetail"
     />
 </my-dialog>-->
-</div>
-<preloader v-else></preloader>
+  </div>
+  <preloader v-else></preloader>
 </template>
 
 <script>
-import TrackDetailList from '@/components/track-detail/track-detail-list'
-import {useRoute/*, useRouter*/} from 'vue-router'
-import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
-import { useTrack } from "@/hooks/trackPageHooks/useTrack"
+import TrackDetailList from "@/components/track-detail/track-detail-list";
+import { useRoute /*, useRouter*/ } from "vue-router";
+import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails";
+import { useTrack } from "@/hooks/trackPageHooks/useTrack";
 
 export default {
   name: "TrackPage",
   components: {
-    TrackDetailList
+    TrackDetailList,
   },
   data() {
     return {
       dialogVisible: false,
-    }
+    };
   },
   async setup() {
-    const route = useRoute()
-    const trackId = route.params.id
+    const route = useRoute();
+    const trackId = route.params.id;
 
-    console.log('ID of current track on the page: ' + trackId)
-    const { trackDetails,
-            isTrackDetailsLoading,
-            removeTrackDetail
-    } = await useTrackDetails(trackId)
+    console.log("ID of current track on the page: " + trackId);
+    const { trackDetails, isTrackDetailsLoading, removeTrackDetail } =
+      await useTrackDetails(trackId);
 
     const {
       response,
@@ -114,8 +117,8 @@ export default {
 
       hrTimeStart,
       hrTimeFinish,
-      TEST
-    } = await useTrack(trackId)
+      TEST,
+    } = await useTrack(trackId);
 
     return {
       response,
@@ -130,9 +133,9 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST,
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -150,7 +153,7 @@ export default {
 
   background: #ffffff no-repeat center center;
   background-size: cover;
-  color:black;
+  color: black;
 }
 .about {
   display: flex;
@@ -166,7 +169,7 @@ export default {
   background: white;
 }
 
-.content>span {
+.content > span {
   margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
@@ -178,12 +181,11 @@ export default {
   margin-left: 15px;
 }
 
-.start-finish{
-  margin-top:auto;
+.start-finish {
+  margin-top: auto;
   border-radius: 12px;
   color: teal;
   border: 1px solid teal;
   padding: 5px;
 }
-
 </style>

@@ -2,12 +2,12 @@
   <div class="sidebar" :style="{ width: getSidebarWidth }">
     <div v-if="isCollapsed">
       <div class="logo"></div>
-      <hr style="margin:15px 10px;">
+      <hr style="margin: 15px 10px" />
     </div>
 
     <div v-else>
       <div class="logo-open"></div>
-      <hr style="margin:15px 10px;">
+      <hr style="margin: 15px 10px" />
     </div>
 
     <my-link to="/" icon="fas fa-home">Главная</my-link>
@@ -16,20 +16,33 @@
 
     <span v-if="isCollapsed"></span>
     <div v-else class="account">
-      <hr style="margin:15px 10px;">
-      <div class="avatar"></div>
-      <h4>{{ getUserInfo.userName }}</h4>
-      <p>{{ getUserInfo.status }}</p>
+      <hr style="margin: 15px 10px" />
+      <!-- <div class="avatar"></div> -->
+      <!-- Разобраться с аватаркой!Сделать динамической -->
+      <img
+        v-if="this.$store.state.actualUser.roles.includes('teacher')"
+        class="avatar"
+        :src="require(`@/components/Images/AvatarTeacher.png`)"
+        alt="User Avatar"
+      />
+      <img
+        v-else
+        class="avatar"
+        :src="require(`@/components/Images/Avatar.png`)"
+        alt="User Avatar"
+      />
+      <h4>{{ getUserInfo.user[0].fullName }}</h4>
+      <p>{{ getUserInfo.user[0].data[0].status }}</p>
     </div>
 
     <span
       class="collapse-icon"
-      :class="{'rotate-180': isCollapsed }"
+      :class="{ 'rotate-180': isCollapsed }"
       @click="toggleSidebar"
     >
-    <i class="fas fa-angle-double-left"></i>
-</span>
-</div>
+      <i class="fas fa-angle-double-left"></i>
+    </span>
+  </div>
 </template>
 
 <script>
@@ -39,12 +52,12 @@ export default {
   name: "sidebar",
   methods: {
     ...mapMutations({
-      toggleSidebar: 'sidebar/toggleSidebar',
+      toggleSidebar: "sidebar/toggleSidebar",
     }),
   },
   computed: {
     ...mapState({
-      isCollapsed: state => state.sidebar.isCollapsed,
+      isCollapsed: (state) => state.sidebar.isCollapsed,
     }),
     ...mapGetters({
       getSidebarWidth: "sidebar/getSidebarWidth",
@@ -115,7 +128,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  background-image: url(./Images/Avatar.png);
+  /* background-image: url(./Images/Avatar.png); */
   margin: 10px auto;
 }
 .collapse-icon:hover {

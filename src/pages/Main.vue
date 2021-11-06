@@ -3,7 +3,7 @@
     <div class="mainpage__header">
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
-          Добро пожаловать {{ getUserInfo.userName }}
+          Добро пожаловать {{ getUserInfo.user[0].fullName }}
         </h3>
         <p class="mainpage__header_maintext">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et quam
@@ -13,25 +13,36 @@
       </div>
       <div class="mainpage__header_user">
         <div class="mainpage__header_userinfo">
-          <img
+          <!-- <img 
             class="mainpage__header_useravatar"
-            src="@/components/Images/AvatarTeacher.png"
+            :src="require(`${getUserInfo.user[0].data[0].avatarURL}`)"
+            alt="User Avatar"
+          /> -->
+                <!-- Разобраться с аватаркой!Сделать динамической -->
+
+          <img v-if="this.$store.state.actualUser.roles.includes('teacher')"
+            class="mainpage__header_useravatar"
+            :src="require(`@/components/Images/AvatarTeacher.png`)"
             alt="User Avatar"
           />
-          <!-- <div class="mainpage__header_useravatar" :style='{ backgroundImage: `${getUserInfo.avatar}` }' ></div> -->
+          <img v-else
+            class="mainpage__header_useravatar"
+            :src="require(`@/components/Images/Avatar.png`)"
+            alt="User Avatar"
+          />
           <div class="mainpage__header_userparams">
             <h3 class="mainpage__header_userparamsname">
-              {{ getUserInfo.userName }}
+              {{ getUserInfo.user[0].fullName }}
             </h3>
             <p class="mainpage__header_userparamsstatus">
-              Статус: {{ getUserInfo.status }}
+              Статус: {{ getUserInfo.user[0].data[0].status }}
             </p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
           <p class="mainpage__header_itemtext">Заданные треки</p>
           <div class="mainpage__header_loading">
-            <p class="mainpage__header_loadinfo">{{ getUserInfo.setTracks }}</p>
+            <p class="mainpage__header_loadinfo">{{ getUserInfo.user[0].data[0].setTracks }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -39,13 +50,13 @@
           <div class="mainpage__header_loading">
             <p
               class="mainpage__header_loadinfo"
-              v-bind:class="[{ lightText: getUserInfo.percentProgress >= 40 }]"
+              v-bind:class="[{ lightText: getUserInfo.user[0].data[0].percentProgress >= 40 }]"
             >
-              {{ getUserInfo.percentProgress }}%
+              {{ getUserInfo.user[0].data[0].percentProgress }}%
             </p>
             <div
               class="mainpage__header_loadstatus"
-              :style="{ width: getUserInfo.percentProgress + '%' }"
+              :style="{ width: getUserInfo.user[0].data[0].percentProgress + '%' }"
             ></div>
           </div>
         </div>
@@ -56,7 +67,7 @@
               class="mainpage__header_loadinfo"
               v-bind:class="[{ lightText: tracksPercent >= 45 }]"
             >
-              {{ getUserInfo.finTracks }}/{{ getUserInfo.allTracks }}
+              {{ getUserInfo.user[0].data[0].finTracks }}/{{ getUserInfo.user[0].data[0].allTracks }}
             </p>
             <div
               class="mainpage__header_loadstatus"
@@ -110,8 +121,8 @@ export default {
     tracksPercent() {
       return +(
         100 -
-        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) /
-          this.getUserInfo.allTracks) *
+        ((this.getUserInfo.user[0].data[0].allTracks - this.getUserInfo.user[0].data[0].finTracks) /
+          this.getUserInfo.user[0].data[0].allTracks) *
           100
       ).toFixed(0);
     },
