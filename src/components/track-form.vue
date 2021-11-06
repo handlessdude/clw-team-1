@@ -32,17 +32,19 @@
                 inputFormat="dd.MM.yyyy"
                 placeholder="Выберите дату..."/>
 
-    <div>
-      <div>Прохождение: {{ mode }}</div>
-
-      <span>
+    <div class="my-radios">
+      <div>Прохождение: </div>
+      <div>
+        <span>
         <input type="radio" id="consistent" value="consistent" v-model="mode">
         <label for="consistent">Последовательное</label>
       </span>
-      <span>
+        <span>
         <input type="radio" id="free" value="free" v-model="mode">
         <label for="free">Свободное</label>
       </span>
+      </div>
+
     </div>
 
     <div class="my-checkbox">
@@ -67,6 +69,7 @@ import { ru } from 'date-fns/locale'
 import timestampToDate from '@/helpers/timestampToDate'
 import dateToTimestamp from '@/helpers/dateToTimestamp'
 import FileInput from 'vue3-simple-file-input'
+import FileHandler from '@/api/FileHandler'
 
 export default {
   name: "track-form",
@@ -80,6 +83,7 @@ export default {
     const finish = ref(timestampToDate(props.trackData.dateTimeFinish.value))
     //const newPreviewPicture = ref(null)
     const myFileInput = ref(null)
+
     watch(start, newStart => {
       // eslint-disable-next-line vue/no-mutating-props
       props.trackData.dateTimeStart.value = dateToTimestamp(newStart)
@@ -90,13 +94,17 @@ export default {
     })
 
     watch(myFileInput, async newMyFileInput => {
-      console.log(newMyFileInput)
-      console.log(newMyFileInput.file)
-
-      const formData = new FormData()
-      formData.append('file', newMyFileInput.file)
-      // eslint-disable-next-line vue/no-mutating-props
-      props.trackData.previewPicture.value =  formData
+        try {
+         /* console.log(newMyFileInput)
+          console.log(newMyFileInput.file)*/
+          const formData = new FormData()
+          formData.append('file', newMyFileInput.file)
+          const responsePic = await FileHandler.postPreview(formData)
+          // eslint-disable-next-line vue/no-mutating-props
+          props.trackData.previewPicture.value = responsePic.data.data.file.url
+        } catch (e) {
+          console.log(e)
+        }
 
     })
 
@@ -112,9 +120,6 @@ export default {
       finish,
       dateLocale: ru,
       myFileInput,
-      //loadFile,
-      /*onPickFile,
-      onFilePicked,*/
     }
   }
 }

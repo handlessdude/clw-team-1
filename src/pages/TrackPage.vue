@@ -3,18 +3,8 @@
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
-<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-    <my-button @click="this.$router.push(`/tracks/${TEST.id}`)">Назад</my-button>
-<!--    PRE - FOR DEBUG!-->
-<!--    <h2>{{trackData.name}}</h2>-->
+    <my-button @click="this.$router.push('/tracks')">Назад</my-button>
     <h2>{{TEST.data.name}}</h2>
-<!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
-    <pre>{{hrTimeStart}}</pre>-->
-<!--    <pre>{{assigned}}</pre>
-    <pre>{{id }}</pre>
-    <pre> {{status}}</pre>
-    <pre>{{trackData}}</pre>-->
-
   </div>
 
   <div class="content">

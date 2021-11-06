@@ -1,12 +1,11 @@
 <template>
   <div v-if="!isTrackLoading">
+    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
+      <my-button @click="this.$router.back()">Назад</my-button>
+      <h1>Настройки трека</h1>
+      <h2>{{TEST.data.name}}</h2>
+    </div>
 
-<!--    <my-button @click="toTrack">Назад</my-button>-->
-    <my-button @click="this.$router.back()">Назад</my-button>
-<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-    <h1>Настройки трека</h1>
-    <h2>{{TEST.data.name}}</h2>
-<!--    <pre>{{TEST.data}}</pre>-->
     <track-form
         :trackData="trackData"
         :submitForm="updateTrack"
@@ -45,14 +44,11 @@ export default {
     const dateTimeFinish = ref(TEST.value.data.dateTimeFinish)
     const mode = ref(TEST.value.data.mode)
 
+    const IsDialogVisible = ref(false)
+    const error = ref(null)
+
     const updateTrack = async () => {
       try {
-        //we better add some regexp to ensure prewPic contains piece alike "^data/track/images/preview/*"
-        //also we currently do not have error processing
-
-        const responsePic = await TrackApi.postPreview(previewPicture.value)
-        previewPicture.value = responsePic.data.data.file.url
-
         const response = await TrackApi.put(
             trackId,
             {
@@ -69,6 +65,13 @@ export default {
         return response
       } catch (err) {
         console.log(err)
+        /**
+         * TODO custom error classes
+         * */
+        if(err instanceof TypeError) {
+          error.value = "Выберите обложку перед подтверждением!"
+        }
+        IsDialogVisible.value = true
         return err
       }
     }
@@ -89,12 +92,25 @@ export default {
       isTrackLoading,
       toTrack,
       TEST,
-      //TEST2
+      IsDialogVisible,
+      error,
     }
   }
 }
 </script>
 
 <style scoped>
+.preview-pic {
+  /*width: 100%;
+  height: 150px;*/
 
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  padding: 15px;
+
+  background: #ffffff no-repeat center center;
+  background-size: cover;
+  color:black;
+}
 </style>
