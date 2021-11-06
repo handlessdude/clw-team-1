@@ -55,7 +55,6 @@ import TrackApi from "@/api/Track";
 
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import { useRouter } from "vue-router";
-import MyButton from "../components/ui-components/my-button.vue";
 import MyTrackList from "../components/myTrack-list.vue";
 
 export default {
