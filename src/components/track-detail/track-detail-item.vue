@@ -20,7 +20,7 @@
 
 <!--  TODO реализовать @click.stop="$emit('remove', trackDetail)"-->
         <my-button
-
+            @click.stop="$emit('remove', trackDetail.id)"
         >
           Удалить
         </my-button>
@@ -48,6 +48,9 @@ export default {
       type: Object, //type of out prop 'track'
       required: true, //info about track is sufficient
     },
+    remove: {
+
+    },
   },
 }
 </script>
@@ -56,7 +59,14 @@ export default {
 .track-detail-item {
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-top:20px;
+}
+.track-detail-info{
+  width: 500px;
+  border: 1px solid teal;
+  border-radius: 50px;
+  margin: 0 20px;
 }
 
 .move__btns:hover * {
@@ -65,5 +75,24 @@ export default {
 .move__btns {
   display: flex;
   flex-direction: column;
+}
+@media (max-width: 820px) {
+  .track-detail-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top:20px;
+}
+  .move__btns {
+  display: flex;
+  flex-direction: row;
+}
+  .track-detail-info{
+  width: 100%;
+  border: 1px solid teal;
+  border-radius: 50px;
+  margin: 10px 0px;
+}
 }
 </style>

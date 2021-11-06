@@ -47,7 +47,8 @@ export default {
 
 <style scoped>
   .list-header{
-    height: 30vh;
+    height: auto;
+    min-height: 250px;
     margin: 20px 0 20px 0;
     color: white;
     border-radius: 50px;

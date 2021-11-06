@@ -1,7 +1,10 @@
-import Main from "../pages/Main"
-import TrackCatalogue from "../pages/TrackCataloguePage"
-import TrackPage from "../pages/TrackPage"
-import Catalogue from "../pages/CataloguePage"
+import Main from "@/pages/Main"
+import TrackCatalogue from "@/pages/TrackCataloguePage"
+import TrackViewer from "@/pages/page-viewers/TrackViewer"
+import TrackCreatePage from "@/pages/TrackCreatePage"
+import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
+import Catalogue from "@/pages/CataloguePage"
+import Page404 from "@/pages/Page404"
 import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
@@ -14,12 +17,30 @@ const routes = [
         component: TrackCatalogue,
     },
     {
+        path: '/tracks/create',
+        component: TrackCreatePage
+    },
+    {
         path: '/catalogue',
         component: Catalogue,
     },
     {
         path: '/tracks/:id',
-        component: TrackPage
+        component: TrackViewer
+    },
+    {
+        path: '/tracks/:id/update',
+        component: TrackUpdateViewer
+    },
+    //Обязательно поместить пути /404 и " * " в конец списка роутов
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: Page404
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: { name: 'NotFound' }
     },
 ]
 

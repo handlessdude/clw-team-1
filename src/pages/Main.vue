@@ -3,7 +3,8 @@
     <div class="mainpage__header">
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
-          Добро пожаловать {{ userName }}
+          Добро пожаловать {{ getUserInfo.userName }}
+
         </h3>
         <p class="mainpage__header_maintext">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et quam
@@ -15,18 +16,18 @@
         <div class="mainpage__header_userinfo">
           <img
             class="mainpage__header_useravatar"
-            src="../assets/useravatar.png"
+            src="@/components/Images/AvatarTeacher.png"
             alt="User Avatar"
           />
           <div class="mainpage__header_userparams">
-            <h3 class="mainpage__header_userparamsname">{{ userName }}</h3>
-            <p class="mainpage__header_userparamsstatus">Статус: {{ status }}</p>
+            <h3 class="mainpage__header_userparamsname">{{ getUserInfo.userName }}</h3>
+            <p class="mainpage__header_userparamsstatus">Статус: {{ getUserInfo.status }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
           <p class="mainpage__header_itemtext">Заданные треки</p>
           <div class="mainpage__header_loading">
-            <p class="mainpage__header_loadinfo">{{ setTracks }}</p>
+            <p class="mainpage__header_loadinfo">{{ getUserInfo.setTracks }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -34,13 +35,13 @@
           <div class="mainpage__header_loading">
             <p
               class="mainpage__header_loadinfo"
-              v-bind:class="[{ lightText: percentProgress >= 40 }]"
+              v-bind:class="[{ lightText: getUserInfo.percentProgress >= 40 }]"
             >
-              {{ percentProgress }}%
+              {{ getUserInfo.percentProgress }}%
             </p>
             <div
               class="mainpage__header_loadstatus"
-              :style="{ width: percentProgress + '%' }"
+              :style="{ width: getUserInfo.percentProgress + '%' }"
             ></div>
           </div>
         </div>
@@ -51,7 +52,7 @@
               class="mainpage__header_loadinfo"
               v-bind:class="[{ lightText: tracksPercent >= 45 }]"
             >
-              {{ finTracks }}/{{ allTracks }}
+              {{ getUserInfo.finTracks }}/{{ getUserInfo.allTracks }}
             </p>
             <div
               class="mainpage__header_loadstatus"
@@ -81,34 +82,56 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 
 
 export default {
   name: "Main",
   data() {
     return {
-      userName: "Зигмунд Фрейд",
-      status: "Студент",
-      percentProgress: 39,
-      allTracks: 30,
-      finTracks: 15,
-      setTracks: 5,
+      user: {},
+      change: true
     };
   },
   computed: {
+    ...mapGetters([
+      'getUserRole',
+      'getUserInfo'
+    ]),
+    // ...mapState(['isTeacher']),
     tracksPercent() {
       return +(
         100 -
-        ((this.allTracks - this.finTracks) / this.allTracks) * 100
+        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) / this.getUserInfo.allTracks) * 100
       ).toFixed(0);
     },
   },
+  watch: {
+    getUserRole: function () {
+        if(this.getUserRole === 'true') {
+          this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
+        } else {
+          this.$store.commit('setActualUser', this.$store.state.userInfo.student)
+        }
+    }
+  },
   methods: {
+    ...mapMutations([
+      'setActualUser',
+    ]),
+
     toCatalog() {
       this.$router.push({path: "/catalogue"})
     },
     toMyTracks() {
       this.$router.push({path: "/tracks"})
+    }
+  },
+  created() {
+    if(this.getUserRole == 'true') {
+      this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
+    } else {
+      this.$store.commit('setActualUser', this.$store.state.userInfo.student)
     }
   },
 };
@@ -117,6 +140,7 @@ export default {
 <style lang="sass" scoped>
 .mainpage
   margin: 0 auto
+  margin-bottom: 50px 
   max-width: 1024px
   &__header
     display: flex
@@ -137,7 +161,7 @@ export default {
       font-size: 16px
       text-align: left
     &_user
-      max-width: 540px
+      width: 450px
       display: grid
       grid-gap: 8px
       grid-template-columns: repeat(2, 1fr)
@@ -145,7 +169,6 @@ export default {
       border-radius: 20px
       box-sizing: border-box
     &_itemtext
-      align-self: flex-start
       font-weight: 100
       font-size: 15px
       color: #355E66
@@ -155,9 +178,9 @@ export default {
       margin-top: 12px
       margin-left: 12px
       display: flex
-      // background-color: #355e6621
     &_useravatar
-      width: 95px
+      width: 110px
+      height: 110px
     &_userparams
       margin-left: 16px
       display: flex
@@ -175,6 +198,8 @@ export default {
     &_userinfoitem
       display: flex
       flex-direction: column
+      align-items: center
+      justify-content: center
       margin: 12px
 
     &_loading
@@ -190,6 +215,8 @@ export default {
       flex-direction: column
     &_loadstatus
       height: 90%
+      max-width: 97%
+      min-width: 20%
       background-color: #355E66
       border-radius: 50px
       color: #ffffff
@@ -202,17 +229,14 @@ export default {
       color: #355E66
       text-shadow: 0 0 5px #ffffff
   &__itemlist
-    display: grid
-    grid-template-columns: repeat(auto-fit, minmax(280px, 480px))
-    grid-gap: 24px
-    margin-top: 72px
+    display: flex
+    margin-top: 30px
     justify-content: space-between
     box-sizing: border-box
-    overflow: scroll
-    height: 640px
     &_linkblock
       position: relative
       height: 280px
+      width: 500px
       border-radius: 50px
       margin-top: 20px
       margin-left: 20px
@@ -242,14 +266,104 @@ export default {
       font-size: 80px
       margin-top: 8px
     &_track
-      background-image: url(../assets/homeitem1.png)
+      background-image: url(../components/Images/homeitem1.png)
       background-size: cover
     &_catalog
-      background-image: url(../assets/homeitem2.png)
+      background-image: url(../components/Images/homeitem2.png)
       background-size: cover
 .lightText
   color: #ffffff
   text-shadow: 0 0 8px #000000
-
-
+@media screen and (max-width: 1000px)
+  .mainpage
+    margin: 0 auto
+    margin-bottom: 50px 
+    max-width: 1024px
+    &__header
+      display: flex
+      justify-content: space-between
+      padding-top: 24px
+      margin-left: 20px
+      margin-right: 20px
+      &_user
+        width: 450px
+        display: grid
+        grid-gap: 8px
+        grid-template-columns: repeat(1, 1fr)
+        background-color: #ffffff
+        border-radius: 20px
+        box-sizing: border-box
+    &__itemlist
+      display: flex
+      margin-top: 30px
+      justify-content: space-between
+      box-sizing: border-box
+@media screen and (max-width: 725px)
+  .mainpage
+    margin: 0 auto
+    margin-bottom: 50px 
+    width: auto
+    &__header
+      display: flex
+      flex-direction: column
+      align-items: center
+      padding-top: 24px
+      margin-left: 0px
+      margin-right: 0px
+      &_welcome
+        width: 90%
+        margin-right: 24px
+        margin-bottom: 24px
+        text-align: center
+      &_headtext
+        font-size: 46px
+        font-weight: 400
+        line-height: 62px
+        text-align: center
+      &_maintext
+        font-weight: 400
+        font-size: 16px
+        text-align: center
+      &_user
+        width: 70%
+        display: grid
+        grid-gap: 8px
+        grid-template-columns: repeat(1, 1fr)
+        background-color: #ffffff
+        border-radius: 20px
+        box-sizing: border-box
+      &_userinfo
+        border-radius: 25px
+        margin-top: 12px
+        margin-left: 12px
+        display: flex
+        flex-direction: column
+        align-items: center
+      &_userparams
+        margin-left: 0px
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+    &__itemlist
+      display: flex
+      flex-direction: column
+      align-items: center
+      margin-top: 30px
+      justify-content: space-between
+      box-sizing: border-box
+      &_linkblock
+        position: relative
+        height: 280px
+        width: 70%
+        border-radius: 50px
+        margin-top: 20px
+        margin-left: 20px
+        margin-right: 20px
+        color: #ffffff
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        transition: all 0.2s
 </style>

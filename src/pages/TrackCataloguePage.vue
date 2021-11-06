@@ -11,6 +11,13 @@
       >
         Создать трек
       </my-button>
+
+     <my-button
+         @click="toTrackCreate"
+     >
+       Создать трек
+     </my-button>
+
    </div>
    <div v-else>Здесь должен быть переключатель вкладок!</div>
    <!--
@@ -21,7 +28,6 @@
      <post-track @create="postTrack"/>
    <!--   goes into slot inside of my-dialog component-->
    </my-dialog>
-
 
    <track-list
        :tracks="getTracks"
@@ -41,6 +47,7 @@ import PostTrack from '@/components/post-track'
 import TrackApi from '@/api/Track'
 
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
+import { useRouter} from "vue-router";
 
 export default {
   name: "track-catalogue-page",
@@ -101,6 +108,17 @@ export default {
       getTracks: 'trackCatalogue/getTracks',
     })
   },
+
+  setup() {
+
+    const router = useRouter()
+    const  toTrackCreate =  () => {
+      router.push('/tracks/create')
+    }
+    return {
+      toTrackCreate
+    }
+  }
 }
 </script>
 

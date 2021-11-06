@@ -5,6 +5,7 @@
             v-for="trackDetail in trackDetails"
             :trackDetail="trackDetail"
             :key="trackDetail.id"
+            @remove="$emit('remove', trackDetail.id)"
         />
 <!--        @remove="$emit('remove', trackDetail)"-->
       </transition-group>
@@ -34,8 +35,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  align-items: flex-start;
 }
 .track-detail-list-item {
   display: inline-block;
