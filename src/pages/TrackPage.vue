@@ -171,11 +171,14 @@ export default {
   margin: 0 5px;
 }
 .about {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .content {
+  min-height: 312px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -193,8 +196,10 @@ export default {
 
 .content>span {
   margin-top: 20px;
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .edit-and-time {
