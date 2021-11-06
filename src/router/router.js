@@ -1,9 +1,9 @@
-import Main from "../pages/Main"
-import TrackCatalogue from "../pages/TrackCataloguePage"
-import Catalogue from "../pages/CataloguePage"
-import TrackCreatePage from "@/pages/TrackCreatePage"
+import Main from "@/pages/Main"
+import TrackCatalogue from "@/pages/TrackCataloguePage"
 import TrackViewer from "@/pages/page-viewers/TrackViewer"
+import TrackCreatePage from "@/pages/TrackCreatePage"
 import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
+import Catalogue from "@/pages/CataloguePage"
 import Page404 from "@/pages/Page404"
 import {createRouter, createWebHistory} from "vue-router"
 

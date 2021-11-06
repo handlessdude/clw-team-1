@@ -13,13 +13,12 @@
         placeholder="Введите описание..."
     ></my-textarea>
 
-<!--    <button class="btn btn-info" @click="onPickFile">Выберите обложку...</button>
-    <input
-        type="file"
-        style="display: none"
-        ref="fileInput"
-        accept="image/*"
-        @change="onFilePicked"/>-->
+
+    <file-input v-model="myFileInput" is-image
+                placeholder-input-text="Файл не выбран"
+                placeholder-button-text="Выбрать обложку..."
+
+    ></file-input>
 
     <label>Дата начала</label>
     <datepicker v-model="start"
@@ -33,17 +32,26 @@
                 inputFormat="dd.MM.yyyy"
                 placeholder="Выберите дату..."/>
 
-<!--    <label>Прохождение</label>
-    <input type="radio" value="free" v-model="mode">
-    <label>Свободное</label>
-    <br>
-    <input type="radio" value="consistent" v-model="mode">
-    <label>Последовательное</label>
+    <div class="my-radios">
+      <div>Прохождение: </div>
+      <div>
+        <span>
+        <input type="radio" id="consistent" value="consistent" v-model="mode">
+        <label for="consistent">Последовательное</label>
+      </span>
+        <span>
+        <input type="radio" id="free" value="free" v-model="mode">
+        <label for="free">Свободное</label>
+      </span>
+      </div>
 
-    <input type="checkbox" id="checkbox" v-model="published">
-    <label for="checkbox">Доступен студентам</label>-->
+    </div>
 
-    <!--        @click="createTrack"-->
+    <div class="my-checkbox">
+      <input type="checkbox" id="checkbox" v-model="published">
+      <span>Опубликовать</span>
+    </div>
+
     <my-button
         type="submit"
         style="align-self: flex-end; margin-top: 15px"
@@ -60,15 +68,21 @@ import { ref, watch } from 'vue'
 import { ru } from 'date-fns/locale'
 import timestampToDate from '@/helpers/timestampToDate'
 import dateToTimestamp from '@/helpers/dateToTimestamp'
+import FileInput from 'vue3-simple-file-input'
+import FileHandler from '@/api/FileHandler'
+
 export default {
   name: "track-form",
   props: ['submitForm', 'trackData'],
   components: {
-    Datepicker
+    Datepicker,
+    FileInput
   },
   setup(props){
     const start = ref(timestampToDate(props.trackData.dateTimeStart.value))
     const finish = ref(timestampToDate(props.trackData.dateTimeFinish.value))
+    //const newPreviewPicture = ref(null)
+    const myFileInput = ref(null)
 
     watch(start, newStart => {
       // eslint-disable-next-line vue/no-mutating-props
@@ -78,6 +92,22 @@ export default {
       // eslint-disable-next-line vue/no-mutating-props
       props.trackData.dateTimeFinish.value = dateToTimestamp(newFinish)
     })
+
+    watch(myFileInput, async newMyFileInput => {
+        try {
+         /* console.log(newMyFileInput)
+          console.log(newMyFileInput.file)*/
+          const formData = new FormData()
+          formData.append('file', newMyFileInput.file)
+          const responsePic = await FileHandler.postPreview(formData)
+          // eslint-disable-next-line vue/no-mutating-props
+          props.trackData.previewPicture.value = responsePic.data.data.file.url
+        } catch (e) {
+          console.log(e)
+        }
+
+    })
+
     return {
       name: props.trackData.name,
       previewText: props.trackData.previewText,
@@ -89,6 +119,7 @@ export default {
       start,
       finish,
       dateLocale: ru,
+      myFileInput,
     }
   }
 }

@@ -1,95 +1,64 @@
 <template>
-  <div class="track-page" v-if="!isTrackLoading">
-    <div
-      class="preview-pic"
-      :style="{
-        backgroundImage: `url(&quot;${this.$store.state.server}/${TEST.data.previewPicture}&quot;)`,
-      }"
-    >
-      <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
+<div class="track-page" v-if="!isTrackLoading">
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
+<!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
-      <!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-      <my-button @click="this.$router.back()">Назад</my-button>
-      <!--    PRE - FOR DEBUG!-->
-      <!--    <h2>{{trackData.name}}</h2>-->
-      <h2>{{ TEST.data.name }}</h2>
-      <!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
-    <pre>{{hrTimeStart}}</pre>-->
-      <!--    <pre>{{assigned}}</pre>
-    <pre>{{id }}</pre>
-    <pre> {{status}}</pre>
-    <pre>{{trackData}}</pre>-->
-    </div>
+    <my-button @click="this.$router.push('/tracks')">Назад</my-button>
+    <h2>{{TEST.data.name}}</h2>
+  </div>
 
-    <div class="content">
-      <div class="about">
-        <div class="description">
-          <span
-            ><i class="fas fa-info-circle"></i>
-            <h2>О треке</h2></span
-          >
-          <p>{{ TEST.data.previewText }}</p>
-        </div>
+  <div class="content">
+    <div class="about">
 
-        <div class="edit-and-time">
-          <my-button
-            v-if="this.$store.state.actualUser.roles.includes('teacher')"
-            @click="this.$router.push(`/tracks/${TEST.id}/update`)"
-          >
-            Редактировать
-          </my-button>
-
-          <div class="start-finish">
-            <div class="start">Дата открытия: {{ hrTimeStart }}</div>
-            <div class="finish">Дата закрытия: {{ hrTimeFinish }}</div>
-          </div>
-        </div>
+      <div class="description">
+        <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
+        <p>{{TEST.data.previewText}}</p>
       </div>
 
-      <span>
-        <!--      TODO: add @click to all the buttons-->
-        <my-button
-          v-if="this.$store.state.actualUser.roles.includes('teacher')"
-        >
+      <div class="edit-and-time">
+
+        <my-button @click="this.$router.push(`/tracks/${TEST.id}/update`)">
+          Редактировать
+        </my-button>
+
+        <div class="start-finish">
+          <div class="start">Дата открытия: {{hrTimeStart}}</div>
+          <div class="finish">Дата закрытия: {{hrTimeFinish}}</div>
+        </div>
+      </div>
+    </div>
+
+    <span>
+        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
           Добавить деталь трека
         </my-button>
-        <my-button
-          v-if="this.$store.state.actualUser.roles.includes('teacher')"
-        >
+        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
           Записать студентов на трек
         </my-button>
-        <my-button
-          v-if="this.$store.state.actualUser.roles.includes('teacher')"
-        >
+        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
           Входное тестирование
         </my-button>
-      </span>
+    </span>
 
-      <track-detail-list
+    <track-detail-list
         style="margin-top: 20px"
         :trackDetails="trackDetails"
         v-if="!isTrackDetailsLoading"
         @remove="removeTrackDetail"
-      />
+    />
       <div v-else>Загружаем список элементов...</div>
     </div>
 
-    <!--
-TODO: create track detail post form
-<my-dialog v-model:show="dialogVisible">
-    <post-form
-        @create="createTrackDetail"
-    />
-</my-dialog>-->
+
   </div>
   <preloader v-else></preloader>
 </template>
 
 <script>
-import TrackDetailList from "@/components/track-detail/track-detail-list";
-import { useRoute /*, useRouter*/ } from "vue-router";
-import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails";
-import { useTrack } from "@/hooks/trackPageHooks/useTrack";
+import TrackDetailList from '@/components/track-detail/track-detail-list'
+import {useRoute/*, useRouter*/} from 'vue-router'
+import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
+import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 
 export default {
   name: "TrackPage",
@@ -99,15 +68,17 @@ export default {
   data() {
     return {
       dialogVisible: false,
-    };
+    }
   },
   async setup() {
-    const route = useRoute();
-    const trackId = route.params.id;
+    const route = useRoute()
+    const trackId = route.params.id
 
-    console.log("ID of current track on the page: " + trackId);
-    const { trackDetails, isTrackDetailsLoading, removeTrackDetail } =
-      await useTrackDetails(trackId);
+    console.log('ID of current track on the page: ' + trackId)
+    const { trackDetails,
+            isTrackDetailsLoading,
+            removeTrackDetail
+    } = await useTrackDetails(trackId)
 
     const {
       response,
@@ -117,8 +88,8 @@ export default {
 
       hrTimeStart,
       hrTimeFinish,
-      TEST,
-    } = await useTrack(trackId);
+      TEST
+    } = await useTrack(trackId)
 
     return {
       response,
@@ -133,9 +104,10 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST,
-    };
-  },
-};
+      trackId
+    }
+  }
+}
 </script>
 
 <style scoped>
