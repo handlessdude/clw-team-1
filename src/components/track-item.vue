@@ -12,6 +12,7 @@
     </div>
     <div class="track-item__btns">
       <my-button
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
           @click.stop="$emit('remove', track.id)"
       >
         Удалить</my-button>

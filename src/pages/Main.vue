@@ -13,12 +13,19 @@
       </div>
       <div class="mainpage__header_user">
         <div class="mainpage__header_userinfo">
-          <!-- <img
+          <!-- <img 
             class="mainpage__header_useravatar"
             :src="require(`${getUserInfo.user[0].data[0].avatarURL}`)"
             alt="User Avatar"
           /> -->
-          <img
+                <!-- Разобраться с аватаркой!Сделать динамической -->
+
+          <img v-if="this.$store.state.actualUser.roles.includes('teacher')"
+            class="mainpage__header_useravatar"
+            :src="require(`@/components/Images/AvatarTeacher.png`)"
+            alt="User Avatar"
+          />
+          <img v-else
             class="mainpage__header_useravatar"
             :src="require(`@/components/Images/Avatar.png`)"
             alt="User Avatar"

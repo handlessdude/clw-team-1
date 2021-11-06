@@ -1,10 +1,10 @@
 <template>
   <div class="track-detail-item" >
     <div class="move__btns">
-      <my-button>
+      <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
         <i class="fas fa-arrow-up"></i>
       </my-button>
-      <my-button>
+      <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
         <i class="fas fa-arrow-down"></i>
       </my-button>
     </div>
@@ -20,13 +20,14 @@
 
 <!--  TODO реализовать @click.stop="$emit('remove', trackDetail)"-->
         <my-button
+            v-if="this.$store.state.actualUser.roles.includes('teacher')"
             @click.stop="$emit('remove', trackDetail.id)"
         >
           Удалить
         </my-button>
 <!--  TODO   @click.stop="$emit('lock', trackDetail)"-->
         <my-button
-
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
         >
          Заблокировать
         </my-button>
