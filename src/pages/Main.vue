@@ -13,7 +13,7 @@
       </div>
       <div class="mainpage__header_user">
         <div class="mainpage__header_userinfo">
-          <!-- <img 
+          <!-- <img
             class="mainpage__header_useravatar"
             :src="require(`${getUserInfo.user[0].data[0].avatarURL}`)"
             alt="User Avatar"
@@ -141,6 +141,7 @@ export default {
 <style lang="sass" scoped>
 .mainpage
   margin: 0 auto
+  margin-bottom: 50px
   max-width: 1024px
   &__header
     display: flex
@@ -161,7 +162,7 @@ export default {
       font-size: 16px
       text-align: left
     &_user
-      max-width: 540px
+      width: 450px
       display: grid
       grid-gap: 8px
       grid-template-columns: repeat(2, 1fr)
@@ -169,7 +170,6 @@ export default {
       border-radius: 20px
       box-sizing: border-box
     &_itemtext
-      align-self: flex-start
       font-weight: 100
       font-size: 15px
       color: #355E66
@@ -199,6 +199,8 @@ export default {
     &_userinfoitem
       display: flex
       flex-direction: column
+      align-items: center
+      justify-content: center
       margin: 12px
 
     &_loading
@@ -228,17 +230,14 @@ export default {
       color: #355E66
       text-shadow: 0 0 5px #ffffff
   &__itemlist
-    display: grid
-    grid-template-columns: repeat(auto-fit, minmax(280px, 480px))
-    grid-gap: 24px
-    margin-top: 72px
+    display: flex
+    margin-top: 30px
     justify-content: space-between
     box-sizing: border-box
-    overflow: scroll
-    height: 640px
     &_linkblock
       position: relative
       height: 280px
+      width: 500px
       border-radius: 50px
       margin-top: 20px
       margin-left: 20px
@@ -276,4 +275,96 @@ export default {
 .lightText
   color: #ffffff
   text-shadow: 0 0 8px #000000
+@media screen and (max-width: 1000px)
+  .mainpage
+    margin: 0 auto
+    margin-bottom: 50px
+    max-width: 1024px
+    &__header
+      display: flex
+      justify-content: space-between
+      padding-top: 24px
+      margin-left: 20px
+      margin-right: 20px
+      &_user
+        width: 450px
+        display: grid
+        grid-gap: 8px
+        grid-template-columns: repeat(1, 1fr)
+        background-color: #ffffff
+        border-radius: 20px
+        box-sizing: border-box
+    &__itemlist
+      display: flex
+      margin-top: 30px
+      justify-content: space-between
+      box-sizing: border-box
+@media screen and (max-width: 725px)
+  .mainpage
+    margin: 0 auto
+    margin-bottom: 50px
+    width: auto
+    &__header
+      display: flex
+      flex-direction: column
+      align-items: center
+      padding-top: 24px
+      margin-left: 0px
+      margin-right: 0px
+      &_welcome
+        width: 90%
+        margin-right: 24px
+        margin-bottom: 24px
+        text-align: center
+      &_headtext
+        font-size: 46px
+        font-weight: 400
+        line-height: 62px
+        text-align: center
+      &_maintext
+        font-weight: 400
+        font-size: 16px
+        text-align: center
+      &_user
+        width: 70%
+        display: grid
+        grid-gap: 8px
+        grid-template-columns: repeat(1, 1fr)
+        background-color: #ffffff
+        border-radius: 20px
+        box-sizing: border-box
+      &_userinfo
+        border-radius: 25px
+        margin-top: 12px
+        margin-left: 12px
+        display: flex
+        flex-direction: column
+        align-items: center
+      &_userparams
+        margin-left: 0px
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+    &__itemlist
+      display: flex
+      flex-direction: column
+      align-items: center
+      margin-top: 30px
+      justify-content: space-between
+      box-sizing: border-box
+      &_linkblock
+        position: relative
+        height: 280px
+        width: 70%
+        border-radius: 50px
+        margin-top: 20px
+        margin-left: 20px
+        margin-right: 20px
+        color: #ffffff
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        transition: all 0.2s
 </style>

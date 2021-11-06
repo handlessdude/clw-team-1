@@ -119,32 +119,61 @@ export default {
   height: 150px;*/
 
   width: 100%;
-  height: 600px;
-  border-radius: 12px;
-  padding: 15px;
+  min-height: 300px;
+  border-radius: 50px;
 
   background: #ffffff no-repeat center center;
   background-size: cover;
-  color: black;
+  color:rgb(255, 255, 255);
+}
+.preview-pic-bl {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color:rgba(0,0,0,.4);
+  width: 100%;
+  min-height: 300px;
+  border-radius: 50px;
+  padding: 25px;
+}
+.preview-pic-bl .btn {
+  margin-bottom: 70px;
+  color: white;
+  border: 1px solid white;
+}
+.content .btn {
+  margin: 0 5px;
 }
 .about {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .content {
+  min-height: 312px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
-  padding: 15px;
+  align-items: flex-start;
+  border-radius: 50px;
+  padding: 25px;
   background: white;
+}
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .content > span {
   margin-top: 20px;
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .edit-and-time {
@@ -154,10 +183,32 @@ export default {
 }
 
 .start-finish {
-  margin-top: auto;
-  border-radius: 12px;
+  margin-top:10px;
+  border-radius: 25px;
   color: teal;
   border: 1px solid teal;
-  padding: 5px;
+  padding: 15px;
+}
+@media (max-width: 820px) {
+  .about{
+    flex-direction: column;
+  }
+  .edit-and-time {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+}
+@media (max-width: 565px) {
+  .content>span {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+  .content>span .btn{
+    margin: 10px 0;
+  }
 }
 </style>

@@ -71,9 +71,8 @@ export default {
         /**
          * TODO custom error classes
          * */
-        if(e instanceof TypeError) {
-          error.value = e.message
-        }
+        error.value = e.message
+
         IsDialogVisible.value = true
         return e
       }

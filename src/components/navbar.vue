@@ -2,7 +2,7 @@
     <div class="navbar">
         <div class="navbar__real">
             <div class="navbar__openarrow">
-                <i class="fas fa-angle-down"></i>              
+                <i class="fas fa-angle-down"></i>
             </div>
             <div class="navbar__circle"></div>
             <select class="navbar__auth" v-model="selected">
@@ -29,20 +29,20 @@ export default {
         findActualUser() {
             let actualUser = this.$store.state.userList.filter(el => {
                 return el.user[0].id === this.selected
-                
+
             })
-            this.$store.commit('setActualUser', actualUser[0])       
+            this.$store.commit('setActualUser', actualUser[0])
         }
-    },    
+    },
     watch: {
         selected: function () {
             this.findActualUser()
         }
     },
     created() {
-        this.findActualUser()   
+        this.findActualUser()
     },
-    
+
 }
 </script>
 
@@ -57,7 +57,7 @@ export default {
     &__real
         width: 100%
         height: 4px
-        background-color: #768285 
+        background-color: #768285
         transition: all 0.5s
         position: relative
         display: flex
@@ -67,7 +67,7 @@ export default {
     &__circle
         position: absolute
         width: 40px
-        height: 40px    
+        height: 40px
         background-color: #768285
         bottom: -13px
         border-radius: 50px
@@ -80,14 +80,14 @@ export default {
     &__auth
         transition: all 0.2s
         opacity: 0
-        align-self: flex-end   
+        align-self: flex-end
         margin-right: 36px
         outline: none
         height: 30px
         border: 3px solid #355E66
         border-radius: 50px
         padding-left: 12px
-        padding-right: 12px 
-        
-        
+        padding-right: 12px
+
+
 </style>

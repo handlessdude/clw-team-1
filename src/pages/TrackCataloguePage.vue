@@ -62,8 +62,6 @@ export default {
   name: "track-catalogue-page",
   components: {
     TrackList,
-    // PostTrack,
-    MyButton,
     MyTrackList,
   },
   data() {
@@ -84,24 +82,25 @@ export default {
     }),
     async postTrack(track) {
       try {
-        const response = await TrackApi.post(track.data);
-        track.id = response.data.data.id;
-        this.tracks.push(track);
-        this.IsDialogVisible = false;
+        const response = await TrackApi.post(track.data)
+        track.id = response.data.data.id
+        this.tracks.push(track)
+        this.IsDialogVisible = false
       } catch (err) {
-        console.log(err);
-        return err;
+        console.log(err)
+        return err
       }
     },
 
     async deleteTrack(trackId) {
       try {
-        await TrackApi.delete(trackId);
+        await TrackApi.delete(trackId)
         // we do not make another request to server in order to rerender the track list
-        this.setTracks(this.tracks.filter((t) => t.id !== trackId));
+        this.setTracks(this.tracks.filter(t => t.id !== trackId))
+
       } catch (e) {
-        console.log(e);
-        return e;
+        console.log(e)
+        return e
       }
     },
 
@@ -114,24 +113,23 @@ export default {
   },
   computed: {
     ...mapState({
-      tracks: (state) => state.trackCatalogue.tracks,
-      isTrackListLoading: (state) => state.trackCatalogue.isTrackListLoading,
+      tracks: state => state.trackCatalogue.tracks,
+      isTrackListLoading: state => state.trackCatalogue.isTrackListLoading,
     }),
     ...mapGetters({
       getTracks: "trackCatalogue/getTracks",
     }),
   },
-
   setup() {
-    const router = useRouter();
+    const router = useRouter()
     const toTrackCreate = () => {
-      router.push("/tracks/create");
+      router.push("/tracks/create")
     };
     return {
       toTrackCreate,
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

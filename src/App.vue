@@ -52,10 +52,10 @@ h4{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  height: 100%;
   /*color: #122523;
   color: #5daba4;*/
   color: #343434;
-  height: 100vh;
   /*
   background: linear-gradient(220.16deg, #25414d -6%, #380c49  138%);*/
   background: #f2f2f2;

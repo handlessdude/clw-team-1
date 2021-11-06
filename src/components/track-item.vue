@@ -36,6 +36,7 @@ export default {
 <style scoped>
 .track-item {
   padding: 15px;
+  font-size: 12px;
   border: 2px solid teal;
   display: flex;
   align-items: center;

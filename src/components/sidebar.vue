@@ -128,7 +128,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  /* background-image: url(./Images/Avatar.png); */
+  background-image: url(Images/Avatar.png);
   margin: 10px auto;
 }
 .collapse-icon:hover {
