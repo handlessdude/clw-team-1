@@ -18,9 +18,8 @@ export default createStore({
         userIdTeacher: 743441,
         xApiKeyStudent: "s8oogko8cckkwcs4ksws088wsccggok0k08s4oog",
         userIdStudent: 743436,
-
-        /*TODO: replace with normal auth with axios and some method*/
         actualUser: {},
+        actualList: '',
 
     }),
     getters: {
@@ -35,10 +34,14 @@ export default createStore({
             }
         }),
         getUserInfo: state => state.actualUser,
+        getActualList: state => state.actualList,
     },
     mutations: {
         setActualUser(state, user) {
             state.actualUser = user
+        },
+        setActualList(state, list) {
+            state.actualList = list
         }
 
     },

@@ -81,6 +81,7 @@
       <div
         class="mainpage__itemlist_linkblock mainpage__itemlist_track"
         @click="toMyTracks"
+        v-if="this.$store.state.actualUser.roles.includes('student')"
       >
         <h3 class="mainpage__itemlist_headtext">Мои Треки</h3>
         <div>
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Main",
@@ -128,11 +129,14 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setActualList"]),
     toCatalog() {
-      this.$router.push({ path: "/catalogue" });
+      this.$store.commit('setActualList', 'catalog')
+      this.$router.push({ path: "/tracks/catalogue" });
     },
     toMyTracks() {
-      this.$router.push({ path: "/tracks" });
+      this.$store.commit('setActualList', 'mycatalog')
+      this.$router.push({ path: "/tracks/my-catalogue" });
     },
   },
 };
