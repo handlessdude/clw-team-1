@@ -29,7 +29,10 @@
     </div>
 
     <span>
-        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+        <my-button
+            v-if="this.$store.state.actualUser.roles.includes('teacher')"
+            @click="showDialog"
+        >
           Добавить деталь трека
         </my-button>
         <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
@@ -46,9 +49,15 @@
         v-if="!isTrackDetailsLoading"
         @remove="removeTrackDetail"
     />
-      <div v-else>Загружаем список элементов...</div>
+    <div v-else>Загружаем список элементов...</div>
     </div>
 
+  <my-dialog v-model:show="IsDialogVisible">
+<!--    <track-detail-form
+        :trackDetail="trackDetail"
+        :submitForm="createTrackDetail"/>-->
+    <track-detail-form @create="createTrackDetail"/>
+  </my-dialog>
 
   </div>
   <preloader v-else></preloader>
@@ -56,29 +65,24 @@
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
+import TrackDetailForm from '@/components/track-detail/track-detail-form'
 import {useRoute/*, useRouter*/} from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
+import {ref} from "vue";
+import TrackDetailApi from '@/api/TrackDetail'
 
 export default {
   name: "TrackPage",
   components: {
     TrackDetailList,
-  },
-  data() {
-    return {
-      dialogVisible: false,
-    }
+    TrackDetailForm,
   },
   async setup() {
     const route = useRoute()
     const trackId = route.params.id
 
     console.log('ID of current track on the page: ' + trackId)
-    const { trackDetails,
-            isTrackDetailsLoading,
-            removeTrackDetail
-    } = await useTrackDetails(trackId)
 
     const {
       response,
@@ -91,6 +95,36 @@ export default {
       TEST
     } = await useTrack(trackId)
 
+    const {
+      trackDetails,
+      isTrackDetailsLoading,
+      removeTrackDetail
+    } = await useTrackDetails(trackId)
+
+    const IsDialogVisible = ref(false)
+    const showDialog = () => {
+      IsDialogVisible.value = true
+    }
+
+    const createTrackDetail = async (trackDetailData) => {
+      try {
+        const response = await TrackDetailApi.post(trackId, trackDetailData)
+        const trackDetail = {
+          id: response.data.data.id,
+          data: trackDetailData,
+        }
+        //trackDetail.id = response.data.data.id
+        //??
+        trackDetails.value.push(trackDetail)
+        IsDialogVisible.value = false
+      } catch (err) {
+        console.log(err)
+        return err
+      }
+    }
+
+
+
     return {
       response,
 
@@ -99,12 +133,17 @@ export default {
 
       trackDetails,
       isTrackDetailsLoading,
+      createTrackDetail,
       removeTrackDetail,
 
       hrTimeStart,
       hrTimeFinish,
       TEST,
-      trackId
+      trackId,
+
+
+      IsDialogVisible,
+      showDialog,
     }
   }
 }
