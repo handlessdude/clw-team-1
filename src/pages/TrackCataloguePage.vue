@@ -1,13 +1,9 @@
 <template>
   <div class="track-catalogue-page" v-if="!isTrackListLoading">
-    <!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
-        and <createTrack>(teacher)-->
-
     <div
       v-if="this.$store.state.actualUser.roles.includes('teacher')"
       class="main-wrapper__btns"
     >
-      <!-- <my-button style="align-self: flex-start" @click="showDialog">Создать трек</my-button> -->
       <my-button @click="toTrackCreate"> Создать трек </my-button>
     </div>
 
@@ -15,13 +11,6 @@
       <my-button :class="{activeList: activeButton === 'catalog' }" @click="changeCat('catalog')"> Каталог треков </my-button>
       <my-button :class="{activeList: activeButton === 'mycatalog' }" @click="changeCat('mycatalog')"> Мои треки </my-button>
     </div>
-    <!--
-       'create' comes from child
-       'createPost' works after emitting the event in child
-   -->
-    <!-- <my-dialog v-model:show="IsDialogVisible">
-      <post-track @create="postTrack" />
-    </my-dialog> -->
 
     <div v-if="this.$store.state.actualUser.roles.includes('teacher')">
       <div v-if="!isTrackListLoading">
@@ -50,11 +39,7 @@
 
 <script>
 import TrackList from "@/components/track-list";
-// import PostTrack from "@/components/post-track";
-import TrackApi from "@/api/Track";
-
-import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-import { useRouter } from "vue-router";
+import { mapState, mapGetters, mapActions } from "vuex";
 import MyTrackList from "../components/myTrack-list.vue";
 
 export default {
@@ -75,33 +60,8 @@ export default {
   methods: {
     ...mapActions({
       loadAndSetTracks: "trackCatalogue/loadAndSetTracks",
+      deleteTrack: "trackCatalogue/deleteTrack",
     }),
-    ...mapMutations({
-      setTracks: "trackCatalogue/setTracks",
-    }),
-    async postTrack(track) {
-      try {
-        const response = await TrackApi.post(track.data)
-        track.id = response.data.data.id
-        this.tracks.push(track)
-        this.IsDialogVisible = false
-      } catch (err) {
-        console.log(err)
-        return err
-      }
-    },
-
-    async deleteTrack(trackId) {
-      try {
-        await TrackApi.delete(trackId)
-        // we do not make another request to server in order to rerender the track list
-        this.setTracks(this.tracks.filter(t => t.id !== trackId))
-
-      } catch (e) {
-        console.log(e)
-        return e
-      }
-    },
 
     showDialog() {
       this.IsDialogVisible = true;
@@ -109,25 +69,19 @@ export default {
     changeCat(cat) {
       this.activeButton = cat;
     },
+
+    toTrackCreate() {
+      this.$router.push("/tracks/create")
+    },
   },
   computed: {
     ...mapState({
-      tracks: state => state.trackCatalogue.tracks,
       isTrackListLoading: state => state.trackCatalogue.isTrackListLoading,
     }),
     ...mapGetters({
       getTracks: "trackCatalogue/getTracks",
     }),
   },
-  setup() {
-    const router = useRouter()
-    const toTrackCreate = () => {
-      router.push("/tracks/create")
-    };
-    return {
-      toTrackCreate,
-    }
-  }
 }
 </script>
 

@@ -1,4 +1,5 @@
-import getTracks from "../../api/Tracks";
+import getTrackList from "../../api/Tracks";
+import TrackApi from "@/api/Track";
 
 export const trackCatalogueModule = {
     state: () => ({
@@ -42,15 +43,23 @@ export const trackCatalogueModule = {
         async loadAndSetTracks({ commit }) {
             try {
                 commit("setIsTrackListLoading", true);
-                const response = await getTracks()
+                const response = await getTrackList()
                 commit("setTracks", response.data.data);
                 return response
             } catch (e) {
-                alert("Error has spawned!");
                 console.log(e);
                 return e
             } finally {
                 commit("setIsTrackListLoading", false);
+            }
+        },
+        async deleteTrack({ commit, state }, trackId) {
+            try {
+                await TrackApi.delete(trackId)
+                commit("setTracks", state.tracks.filter(t => t.id !== trackId));
+            } catch (e) {
+                console.log(e)
+                return e
             }
         },
     },
