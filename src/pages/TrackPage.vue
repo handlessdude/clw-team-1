@@ -32,7 +32,7 @@
         <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
           Добавить деталь трека
         </my-button>
-        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')" @click="toAddStudent">
           Записать студентов на трек
         </my-button>
         <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
@@ -68,6 +68,11 @@ export default {
   data() {
     return {
       dialogVisible: false,
+    }
+  },
+  methods: {
+    toAddStudent() {
+      this.$router.push({path: `/tracks/${this.TEST.id}/add-student`})
     }
   },
   async setup() {

@@ -7,6 +7,7 @@ import TrackList from "@/components/track-list"
 import myTrackList from "@/components/myTrack-list"
 import Catalogue from "@/pages/CataloguePage"
 import Page404 from "@/pages/Page404"
+import AddStudent from "@/pages/addStudentPage"
 import {createRouter, createWebHistory} from "vue-router"
 import store from "@/store/store.js"
 
@@ -27,6 +28,13 @@ const routes = [
             component: myTrackList,
         },
     ]
+    },
+    {
+        path: '/tracks/:id/add-student',
+        component: AddStudent,
+        meta: {
+            requiresAuth: true,
+          },
     },
     {
         path: '/tracks/create',
