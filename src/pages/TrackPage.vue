@@ -4,17 +4,8 @@
     <div class="preview-pic-bl">
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
-<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-    <my-button @click="this.$router.back()">Назад</my-button>
-<!--    PRE - FOR DEBUG!-->
-<!--    <h2>{{trackData.name}}</h2>-->
+    <my-button @click="this.$router.push('/tracks')">Назад</my-button>
     <h2>{{TEST.data.name}}</h2>
-<!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
-    <pre>{{hrTimeStart}}</pre>-->
-<!--    <pre>{{assigned}}</pre>
-    <pre>{{id }}</pre>
-    <pre> {{status}}</pre>
-    <pre>{{trackData}}</pre>-->
     </div>
   </div>
 
@@ -28,57 +19,41 @@
 
       <div class="edit-and-time">
 
-        <my-button
-            @click="this.$router.push(`/tracks/${TEST.id}/update`)"
-        >
+        <my-button-re @click="this.$router.push(`/tracks/${TEST.id}/update`)">
           Редактировать
-        </my-button>
+        </my-button-re>
 
         <div class="start-finish">
-          <div class="start">
-            Дата открытия: {{hrTimeStart}}
-          </div>
-          <div class="finish">
-            Дата закрытия: {{hrTimeFinish}}
-          </div>
+          <div class="start">Дата открытия: {{hrTimeStart}}</div>
+          <div class="finish">Дата закрытия: {{hrTimeFinish}}</div>
         </div>
       </div>
     </div>
 
     <span>
-<!--      TODO: add @click to all the buttons-->
-        <my-button
-        >
-           Добавить деталь трека
-        </my-button>
-        <my-button
-        >
-           Записать студентов на трек
-        </my-button>
-        <my-button
-        >
-            Входное тестирование
-        </my-button>
-      </span>
+        <my-button-re v-if="this.$store.state.actualUser.roles.includes('teacher')">
+          Добавить деталь трека
+        </my-button-re>
+        <my-button-re v-if="this.$store.state.actualUser.roles.includes('teacher')">
+          Записать студентов на трек
+        </my-button-re>
+        <my-button-re v-if="this.$store.state.actualUser.roles.includes('teacher')">
+          Входное тестирование
+        </my-button-re>
+    </span>
 
     <track-detail-list
-        style="margin-top: 20px;"
+        style="margin-top: 20px"
         :trackDetails="trackDetails"
         v-if="!isTrackDetailsLoading"
         @remove="removeTrackDetail"
     />
-    <div v-else>Загружаем список элементов...</div>
-  </div>
+      <div v-else>Загружаем список элементов...</div>
+    </div>
 
-<!--
-TODO: create track detail post form
-<my-dialog v-model:show="dialogVisible">
-    <post-form
-        @create="createTrackDetail"
-    />
-</my-dialog>-->
-</div>
-<preloader v-else></preloader>
+
+  </div>
+  <preloader v-else></preloader>
 </template>
 
 <script>
@@ -90,7 +65,7 @@ import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 export default {
   name: "TrackPage",
   components: {
-    TrackDetailList
+    TrackDetailList,
   },
   data() {
     return {
@@ -131,6 +106,7 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST,
+      trackId
     }
   }
 }
@@ -155,14 +131,14 @@ export default {
 .preview-pic-bl {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   background-color:rgba(0,0,0,.4);
   width: 100%;
   min-height: 300px;
   border-radius: 50px;
-  padding: 25px;
+  padding: 30px;
 }
 .preview-pic-bl .btn {
+  width: 70px;
   margin-bottom: 70px;
   color: white;
   border: 1px solid white;
@@ -194,7 +170,7 @@ export default {
   text-align: left;
 }
 
-.content>span {
+.content > span {
   margin-top: 20px;
   width: 100%;
   display: flex;
@@ -212,7 +188,7 @@ export default {
   margin-top:10px;
   border-radius: 25px;
   color: teal;
-  border: 1px solid teal;
+  border: 3px solid teal;
   padding: 15px;
 }
 @media (max-width: 820px) {
@@ -237,5 +213,4 @@ export default {
     margin: 10px 0;
   }
 }
-
 </style>

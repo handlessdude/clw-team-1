@@ -1,12 +1,13 @@
 <template>
   <div v-if="!isTrackLoading">
+    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
+      <div class="preview-pic-bl">
+      <my-button @click="this.$router.back()">Назад</my-button>
+      <h1>Настройки трека</h1>
+      <h2>{{TEST.data.name}}</h2>
+      </div>
+    </div>
 
-<!--    <my-button @click="toTrack">Назад</my-button>-->
-    <my-button @click="this.$router.back()">Назад</my-button>
-<!--    <my-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></my-link>-->
-    <h1>Настройки трека</h1>
-    <h2>{{TEST.data.name}}</h2>
-<!--    <pre>{{TEST.data}}</pre>-->
     <track-form
         :trackData="trackData"
         :submitForm="updateTrack"
@@ -44,17 +45,9 @@ export default {
     const dateTimeStart = ref(TEST.value.data.dateTimeStart)
     const dateTimeFinish = ref(TEST.value.data.dateTimeFinish)
     const mode = ref(TEST.value.data.mode)
-    /*if (isTrackLoading.value) {
-      await fetchTrack()
-      isTrackLoading.value = true
-    }*/
-/*
-    console.log('TEST in TrackUpdatePage = ', TEST)
-    console.log('TEST.value in TrackUpdatePage = ', TEST.value)
-    console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
-    /*console.log('trackData in TrackUpdatePage = ', trackData)
-    console.log('trackData.value in TrackUpdatePage = ', trackData.value)*/
+
+    const IsDialogVisible = ref(false)
+    const error = ref(null)
 
     const updateTrack = async () => {
       try {
@@ -74,6 +67,13 @@ export default {
         return response
       } catch (err) {
         console.log(err)
+        /**
+         * TODO custom error classes
+         * */
+        if(err instanceof TypeError) {
+          error.value = "Выберите обложку перед подтверждением!"
+        }
+        IsDialogVisible.value = true
         return err
       }
     }
@@ -94,12 +94,39 @@ export default {
       isTrackLoading,
       toTrack,
       TEST,
-      //TEST2
+      IsDialogVisible,
+      error,
     }
   }
 }
 </script>
 
 <style scoped>
+.preview-pic {
+  /*width: 100%;
+  height: 150px;*/
 
+  width: 100%;
+  height: 300px;
+  border-radius: 50px;
+
+  background: #ffffff no-repeat center center;
+  background-size: cover;
+  color:white;
+}
+.preview-pic-bl {
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(0,0,0,.4);
+  width: 100%;
+  min-height: 300px;
+  border-radius: 50px;
+  padding: 30px;
+}
+.preview-pic-bl .btn {
+  width: 70px;
+  margin-bottom: 70px;
+  color: white;
+  border: 1px solid white;
+}
 </style>

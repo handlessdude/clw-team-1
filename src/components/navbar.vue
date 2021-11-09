@@ -2,12 +2,12 @@
     <div class="navbar">
         <div class="navbar__real">
             <div class="navbar__openarrow">
-                <i class="fas fa-angle-down"></i>              
+                <i class="fas fa-angle-down"></i>
             </div>
             <div class="navbar__circle"></div>
             <select class="navbar__auth" v-model="selected">
-                <option value="false">Иван Иванов : Студент</option>
-                <option value="true">Петр Петров : Педагог</option>
+                <option value="743436">Иван Иванов : Студент</option>
+                <option value="743441">Петр Петров : Педагог</option>
             </select>
         </div>
     </div>
@@ -19,19 +19,30 @@ import { mapMutations } from 'vuex';
 export default {
     data() {
         return {
-            selected: false,
+            selected:'743436',
         }
     },
     methods: {
         ...mapMutations([
-            'setUserRole'
-        ])
-    },    
+            'setActualUser',
+        ]),
+        findActualUser() {
+            let actualUser = this.$store.state.userList.filter(el => {
+                return el.user[0].id === this.selected
+
+            })
+            this.$store.commit('setActualUser', actualUser[0])
+        }
+    },
     watch: {
         selected: function () {
-            this.$store.commit('setUserRole', this.selected)        }
-    }
-    
+            this.findActualUser()
+        }
+    },
+    created() {
+        this.findActualUser()
+    },
+
 }
 </script>
 
@@ -46,7 +57,7 @@ export default {
     &__real
         width: 100%
         height: 4px
-        background-color: #768285 
+        background-color: #768285
         transition: all 0.5s
         position: relative
         display: flex
@@ -56,7 +67,7 @@ export default {
     &__circle
         position: absolute
         width: 40px
-        height: 40px    
+        height: 40px
         background-color: #768285
         bottom: -13px
         border-radius: 50px
@@ -69,14 +80,14 @@ export default {
     &__auth
         transition: all 0.2s
         opacity: 0
-        align-self: flex-end   
-        margin-right: 10px
+        align-self: flex-end
+        margin-right: 36px
         outline: none
         height: 30px
         border: 3px solid #355E66
         border-radius: 50px
         padding-left: 12px
-        padding-right: 12px 
-        
-        
+        padding-right: 12px
+
+
 </style>

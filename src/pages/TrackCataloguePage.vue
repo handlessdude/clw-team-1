@@ -1,75 +1,83 @@
 <template>
- <div class="track-catalogue-page"  v-if="!isTrackListLoading" >
-<!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
+  <div class="track-catalogue-page" v-if="!isTrackListLoading">
+    <!--   TODO auth-conditional switcher for <all tracks/my tracks>(student)
         and <createTrack>(teacher)-->
 
-   <div v-if="this.$store.state.isTeacher"
-        class="main-wrapper__btns">
-      <my-button
-          style="align-self:flex-start;"
-          @click="showDialog"
-      >
-        Создать трек
-      </my-button>
+    <div
+      v-if="this.$store.state.actualUser.roles.includes('teacher')"
+      class="main-wrapper__btns"
+    >
+      <!-- <my-button style="align-self: flex-start" @click="showDialog">Создать трек</my-button> -->
+      <my-button @click="toTrackCreate"> Создать трек </my-button>
+    </div>
 
-     <my-button
-         @click="toTrackCreate"
-     >
-       Создать трек
-     </my-button>
-
-   </div>
-   <div v-else>Здесь должен быть переключатель вкладок!</div>
-   <!--
+    <div class="main-wrapper__btns" v-else>
+      <my-button :class="{activeList: activeButton === 'catalog' }" @click="changeCat('catalog')"> Каталог треков </my-button>
+      <my-button :class="{activeList: activeButton === 'mycatalog' }" @click="changeCat('mycatalog')"> Мои треки </my-button>
+    </div>
+    <!--
        'create' comes from child
        'createPost' works after emitting the event in child
    -->
-   <my-dialog v-model:show="IsDialogVisible">
-     <post-track @create="postTrack"/>
-   <!--   goes into slot inside of my-dialog component-->
-   </my-dialog>
+    <!-- <my-dialog v-model:show="IsDialogVisible">
+      <post-track @create="postTrack" />
+    </my-dialog> -->
 
-   <track-list
-       :tracks="getTracks"
-       v-if="!isTrackListLoading"
-       @remove="deleteTrack"
-   />
-   <preloader v-else></preloader>
-
- </div>
+    <div v-if="this.$store.state.actualUser.roles.includes('teacher')">
+      <div v-if="!isTrackListLoading">
+        <track-list :tracks="getTracks" @remove="deleteTrack" />
+      </div>
+      <preloader v-else></preloader>
+    </div>
+    <div v-else>
+      <div v-if="!isTrackListLoading">
+        <track-list
+          :tracks="getTracks"
+          v-if="activeButton === 'catalog'"
+          @remove="deleteTrack"
+        />
+        <my-track-list
+          :tracks="getTracks"
+          v-if="activeButton === 'mycatalog'"
+          @remove="deleteTrack"
+        />
+      </div>
+      <preloader v-else></preloader>
+    </div>
+  </div>
   <preloader v-else></preloader>
 </template>
 
 <script>
+import TrackList from "@/components/track-list";
+// import PostTrack from "@/components/post-track";
+import TrackApi from "@/api/Track";
 
-import TrackList from '@/components/track-list'
-import PostTrack from '@/components/post-track'
-import TrackApi from '@/api/Track'
-
-import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
-import { useRouter} from "vue-router";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import { useRouter } from "vue-router";
+import MyTrackList from "../components/myTrack-list.vue";
 
 export default {
   name: "track-catalogue-page",
   components: {
     TrackList,
-    PostTrack,
+    MyTrackList,
   },
   data() {
     return {
       IsDialogVisible: false,
-    }
+      activeButton: "catalog",
+    };
   },
   mounted() {
     this.loadAndSetTracks();
   },
   methods: {
     ...mapActions({
-      loadAndSetTracks: 'trackCatalogue/loadAndSetTracks'
-
+      loadAndSetTracks: "trackCatalogue/loadAndSetTracks",
     }),
     ...mapMutations({
-      setTracks: 'trackCatalogue/setTracks'
+      setTracks: "trackCatalogue/setTracks",
     }),
     async postTrack(track) {
       try {
@@ -98,6 +106,9 @@ export default {
     showDialog() {
       this.IsDialogVisible = true;
     },
+    changeCat(cat) {
+      this.activeButton = cat;
+    },
   },
   computed: {
     ...mapState({
@@ -105,25 +116,23 @@ export default {
       isTrackListLoading: state => state.trackCatalogue.isTrackListLoading,
     }),
     ...mapGetters({
-      getTracks: 'trackCatalogue/getTracks',
-    })
+      getTracks: "trackCatalogue/getTracks",
+    }),
   },
-
   setup() {
-
     const router = useRouter()
-    const  toTrackCreate =  () => {
-      router.push('/tracks/create')
-    }
+    const toTrackCreate = () => {
+      router.push("/tracks/create")
+    };
     return {
-      toTrackCreate
+      toTrackCreate,
     }
   }
 }
 </script>
 
 <style scoped>
-.track-catalogue-page{
+.track-catalogue-page {
   margin-left: 15px;
 }
 
@@ -131,5 +140,10 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+}
+.activeList {
+  background-color: #008080a6;
+  color: white;
 }
 </style>

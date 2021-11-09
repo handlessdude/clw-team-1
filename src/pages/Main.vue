@@ -3,8 +3,7 @@
     <div class="mainpage__header">
       <div class="mainpage__header_welcome">
         <h3 class="mainpage__header_headtext">
-          Добро пожаловать {{ getUserInfo.userName }}
-
+          Добро пожаловать {{ getUserInfo.user[0].fullName }}
         </h3>
         <p class="mainpage__header_maintext">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et quam
@@ -14,20 +13,36 @@
       </div>
       <div class="mainpage__header_user">
         <div class="mainpage__header_userinfo">
-          <img
+          <!-- <img
             class="mainpage__header_useravatar"
-            src="@/components/Images/AvatarTeacher.png"
+            :src="require(`${getUserInfo.user[0].data[0].avatarURL}`)"
+            alt="User Avatar"
+          /> -->
+                <!-- Разобраться с аватаркой!Сделать динамической -->
+
+          <img v-if="this.$store.state.actualUser.roles.includes('teacher')"
+            class="mainpage__header_useravatar"
+            :src="require(`@/components/Images/AvatarTeacher.png`)"
+            alt="User Avatar"
+          />
+          <img v-else
+            class="mainpage__header_useravatar"
+            :src="require(`@/components/Images/Avatar.png`)"
             alt="User Avatar"
           />
           <div class="mainpage__header_userparams">
-            <h3 class="mainpage__header_userparamsname">{{ getUserInfo.userName }}</h3>
-            <p class="mainpage__header_userparamsstatus">Статус: {{ getUserInfo.status }}</p>
+            <h3 class="mainpage__header_userparamsname">
+              {{ getUserInfo.user[0].fullName }}
+            </h3>
+            <p class="mainpage__header_userparamsstatus">
+              Статус: {{ getUserInfo.user[0].data[0].status }}
+            </p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
           <p class="mainpage__header_itemtext">Заданные треки</p>
           <div class="mainpage__header_loading">
-            <p class="mainpage__header_loadinfo">{{ getUserInfo.setTracks }}</p>
+            <p class="mainpage__header_loadinfo">{{ getUserInfo.user[0].data[0].setTracks }}</p>
           </div>
         </div>
         <div class="mainpage__header_userinfoitem">
@@ -35,13 +50,13 @@
           <div class="mainpage__header_loading">
             <p
               class="mainpage__header_loadinfo"
-              v-bind:class="[{ lightText: getUserInfo.percentProgress >= 40 }]"
+              v-bind:class="[{ lightText: getUserInfo.user[0].data[0].percentProgress >= 40 }]"
             >
-              {{ getUserInfo.percentProgress }}%
+              {{ getUserInfo.user[0].data[0].percentProgress }}%
             </p>
             <div
               class="mainpage__header_loadstatus"
-              :style="{ width: getUserInfo.percentProgress + '%' }"
+              :style="{ width: getUserInfo.user[0].data[0].percentProgress + '%' }"
             ></div>
           </div>
         </div>
@@ -52,7 +67,7 @@
               class="mainpage__header_loadinfo"
               v-bind:class="[{ lightText: tracksPercent >= 45 }]"
             >
-              {{ getUserInfo.finTracks }}/{{ getUserInfo.allTracks }}
+              {{ getUserInfo.user[0].data[0].finTracks }}/{{ getUserInfo.user[0].data[0].allTracks }}
             </p>
             <div
               class="mainpage__header_loadstatus"
@@ -63,18 +78,28 @@
       </div>
     </div>
     <div class="mainpage__itemlist">
-      <div class="mainpage__itemlist_linkblock mainpage__itemlist_track" @click="toMyTracks">
+      <div
+        class="mainpage__itemlist_linkblock mainpage__itemlist_track"
+        @click="toMyTracks"
+      >
         <h3 class="mainpage__itemlist_headtext">Мои Треки</h3>
         <div>
           <p class="mainpage__itemlist_text">Перейти</p>
-          <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
+          <p class="mainpage__itemlist_icon">
+            <i class="far fa-play-circle"></i>
+          </p>
         </div>
       </div>
-      <div class="mainpage__itemlist_linkblock mainpage__itemlist_catalog" @click="toCatalog">
+      <div
+        class="mainpage__itemlist_linkblock mainpage__itemlist_catalog"
+        @click="toCatalog"
+      >
         <h3 class="mainpage__itemlist_headtext">Каталог</h3>
         <div>
           <p class="mainpage__itemlist_text">Перейти</p>
-          <p class="mainpage__itemlist_icon"><i class="far fa-play-circle"></i></p>
+          <p class="mainpage__itemlist_icon">
+            <i class="far fa-play-circle"></i>
+          </p>
         </div>
       </div>
     </div>
@@ -82,57 +107,33 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "Main",
   data() {
     return {
-      user: {},
-      change: true
+      change: true,
     };
   },
   computed: {
-    ...mapGetters([
-      'getUserRole',
-      'getUserInfo'
-    ]),
-    // ...mapState(['isTeacher']),
+    ...mapGetters(["getUserInfo"]),
     tracksPercent() {
       return +(
         100 -
-        ((this.getUserInfo.allTracks - this.getUserInfo.finTracks) / this.getUserInfo.allTracks) * 100
+        ((this.getUserInfo.user[0].data[0].allTracks - this.getUserInfo.user[0].data[0].finTracks) /
+          this.getUserInfo.user[0].data[0].allTracks) *
+          100
       ).toFixed(0);
     },
   },
-  watch: {
-    getUserRole: function () {
-        if(this.getUserRole === 'true') {
-          this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
-        } else {
-          this.$store.commit('setActualUser', this.$store.state.userInfo.student)
-        }
-    }
-  },
   methods: {
-    ...mapMutations([
-      'setActualUser',
-    ]),
-
     toCatalog() {
-      this.$router.push({path: "/catalogue"})
+      this.$router.push({ path: "/catalogue" });
     },
     toMyTracks() {
-      this.$router.push({path: "/tracks"})
-    }
-  },
-  created() {
-    if(this.getUserRole == 'true') {
-      this.$store.commit('setActualUser', this.$store.state.userInfo.teacher)
-    } else {
-      this.$store.commit('setActualUser', this.$store.state.userInfo.student)
-    }
+      this.$router.push({ path: "/tracks" });
+    },
   },
 };
 </script>
@@ -140,7 +141,7 @@ export default {
 <style lang="sass" scoped>
 .mainpage
   margin: 0 auto
-  margin-bottom: 50px 
+  margin-bottom: 50px
   max-width: 1024px
   &__header
     display: flex
@@ -254,7 +255,7 @@ export default {
         box-shadow: 0 0 8px -3px black
         transform: scale(1)
     &_headtext
-      position: absolute    
+      position: absolute
       left: 24px
       top: 34px
       font-size: 24px
@@ -277,7 +278,7 @@ export default {
 @media screen and (max-width: 1000px)
   .mainpage
     margin: 0 auto
-    margin-bottom: 50px 
+    margin-bottom: 50px
     max-width: 1024px
     &__header
       display: flex
@@ -301,7 +302,7 @@ export default {
 @media screen and (max-width: 725px)
   .mainpage
     margin: 0 auto
-    margin-bottom: 50px 
+    margin-bottom: 50px
     width: auto
     &__header
       display: flex

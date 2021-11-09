@@ -3,6 +3,7 @@
        @click="$router.push(`/tracks/${track.id}`)"
        :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'
   >
+  <div class="track-list-item-bl">
 <!--    :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'-->
     <div class="track-info">
       <!--      <div><strong>ID трека:</strong> {{ track.id }}</div>-->
@@ -11,10 +12,12 @@
       <h2>{{ track.data.name }}</h2>
     </div>
     <div class="track-item__btns">
-      <my-button
+      <my-button-re
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
           @click.stop="$emit('remove', track.id)"
       >
-        Удалить</my-button>
+        Удалить</my-button-re>
+        </div>
     </div>
   </div>
 </template>
@@ -34,15 +37,21 @@ export default {
 
 <style scoped>
 .track-item {
-  padding: 15px;
   font-size: 12px;
-  border: 2px solid teal;
+  border: 3px solid teal;
+  border-radius: 50px;
+  background-size: cover;
+  color: white;
+}
+.track-list-item-bl {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 50px;
-  background-size: cover;
-
+  background-color:rgba(0,0,0,.4);
 }
 
 .track-item:hover {
