@@ -2,9 +2,8 @@
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
-
-    <my-button @click="this.$router.push('/tracks')">Назад</my-button>
-    <h2>{{TEST.data.name}}</h2>
+    <h2 class="track__preview_info">{{TEST.data.name}}</h2>    
+    <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
   </div>
 
   <div class="content">
@@ -17,7 +16,7 @@
 
       <div class="edit-and-time">
 
-        <my-button @click="this.$router.push(`/tracks/${TEST.id}/update`)">
+        <my-button @click="this.$router.push(`/tracks/${TEST.id}/update`)" v-if="actualRole">
           Редактировать
         </my-button>
 
@@ -29,13 +28,13 @@
     </div>
 
     <span>
-        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+        <my-button v-if="actualRole">
           Добавить деталь трека
         </my-button>
-        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+        <my-button v-if="actualRole" @click="toAddStudent">
           Записать студентов на трек
         </my-button>
-        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+        <my-button v-if="actualRole">
           Входное тестирование
         </my-button>
     </span>
@@ -68,6 +67,16 @@ export default {
   data() {
     return {
       dialogVisible: false,
+    }
+  },
+  methods: {
+    toAddStudent() {
+      this.$router.push({path: `/tracks/${this.TEST.id}/add-student`})
+    }
+  },
+  computed: {
+    actualRole() {
+      return this.$store.state.actualUser.roles.includes('teacher')
     }
   },
   async setup() {
@@ -114,6 +123,7 @@ export default {
 .track-page {
   margin-left: 15px;
 }
+
 .preview-pic {
   /*width: 100%;
   height: 150px;*/
@@ -121,6 +131,10 @@ export default {
   width: 100%;
   min-height: 300px;
   border-radius: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   background: #ffffff no-repeat center center;
   background-size: cover;
@@ -189,6 +203,24 @@ export default {
   border: 1px solid teal;
   padding: 15px;
 }
+.track__preview_btn {
+  background-color: #ffffffa6 !important;
+  border-radius: 50px;
+  align-self: center;
+  margin-bottom: 24px;
+
+}
+.track__preview_info {
+  width: 100%;
+  height: 160px;
+  color: #000;
+  display: flex;
+  font-size: 36px;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffffa6;
+}
+
 @media (max-width: 820px) {
   .about{
     flex-direction: column;
@@ -211,4 +243,5 @@ export default {
     margin: 10px 0;
   }
 }
+
 </style>

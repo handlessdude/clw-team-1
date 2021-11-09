@@ -3,9 +3,13 @@ import TrackCatalogue from "@/pages/TrackCataloguePage"
 import TrackViewer from "@/pages/page-viewers/TrackViewer"
 import TrackCreatePage from "@/pages/TrackCreatePage"
 import TrackUpdateViewer from "@/pages/page-viewers/TrackUpdateViewer"
+import TrackList from "@/components/track-list"
+import myTrackList from "@/components/myTrack-list"
 import Catalogue from "@/pages/CataloguePage"
 import Page404 from "@/pages/Page404"
+import AddStudent from "@/pages/addStudentPage"
 import {createRouter, createWebHistory} from "vue-router"
+import store from "@/store/store.js"
 
 const routes = [
     {
@@ -15,10 +19,29 @@ const routes = [
     {
         path: '/tracks',
         component: TrackCatalogue,
+        children: [{
+            path: '/tracks/catalogue',
+            component: TrackList,
+        },
+        {
+            path: '/tracks/my-catalogue',
+            component: myTrackList,
+        },
+    ]
+    },
+    {
+        path: '/tracks/:id/add-student',
+        component: AddStudent,
+        meta: {
+            requiresAuth: true,
+          },
     },
     {
         path: '/tracks/create',
-        component: TrackCreatePage
+        component: TrackCreatePage,
+        meta: {
+            requiresAuth: true,
+          },
     },
     {
         path: '/catalogue',
@@ -30,7 +53,10 @@ const routes = [
     },
     {
         path: '/tracks/:id/update',
-        component: TrackUpdateViewer
+        component: TrackUpdateViewer,
+        meta: {
+            requiresAuth: true,
+          },
     },
     //Обязательно поместить пути /404 и " * " в конец списка роутов
     {
@@ -48,5 +74,18 @@ const router = createRouter({
     routes,
     history: createWebHistory(process.env.BASE_URL)
 })
+
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some((route) => route.meta?.requiresAuth)) {
+      if (store.state.actualUser.roles.includes('teacher')) {
+        next();
+      } else {
+        next("/404");
+      }
+    } else {
+      next();
+    }
+  });
 
 export default router;

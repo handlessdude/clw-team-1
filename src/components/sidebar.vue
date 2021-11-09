@@ -11,7 +11,7 @@
     </div>
 
     <my-link to="/" icon="fas fa-home">Главная</my-link>
-    <my-link to="/tracks" icon="fas fa-truck-monster">Треки</my-link>
+    <my-link to="/tracks/catalogue" icon="fas fa-truck-monster">Треки</my-link>
     <my-link to="/catalogue" icon="fas fa-columns">Каталог</my-link>
 
     <span v-if="isCollapsed"></span>
@@ -128,7 +128,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  background-image: url(Images/Avatar.png);
+  /* background-image: url(Images/Avatar.png); */
   margin: 10px auto;
 }
 .collapse-icon:hover {

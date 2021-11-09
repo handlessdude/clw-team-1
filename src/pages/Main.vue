@@ -81,6 +81,7 @@
       <div
         class="mainpage__itemlist_linkblock mainpage__itemlist_track"
         @click="toMyTracks"
+        v-if="this.$store.state.actualUser.roles.includes('student')"
       >
         <h3 class="mainpage__itemlist_headtext">Мои Треки</h3>
         <div>
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Main",
@@ -128,11 +129,14 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setActualList"]),
     toCatalog() {
-      this.$router.push({ path: "/catalogue" });
+      this.$store.commit('setActualList', 'catalog')
+      this.$router.push({ path: "/tracks/catalogue" });
     },
     toMyTracks() {
-      this.$router.push({ path: "/tracks" });
+      this.$store.commit('setActualList', 'mycatalog')
+      this.$router.push({ path: "/tracks/my-catalogue" });
     },
   },
 };
@@ -175,13 +179,12 @@ export default {
       color: #355E66
 
     &_userinfo
-      border-radius: 25px
       margin-top: 12px
       margin-left: 12px
       display: flex
     &_useravatar
-      width: 110px
-      height: 110px
+      width: 100px
+      height: 100px
     &_userparams
       margin-left: 16px
       display: flex
@@ -189,11 +192,11 @@ export default {
       align-items: flex-start
       justify-content: center
     &_userparamsname
-      font-size: 24px
+      font-size: 16px
       font-weight: 400
       margin-bottom: 16px
     &_userparamsstatus
-      font-size: 16px
+      font-size: 12px
       font-weight: 200
 
     &_userinfoitem

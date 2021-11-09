@@ -1,49 +1,50 @@
 <template>
-    <div class="navbar">
-        <div class="navbar__real">
-            <div class="navbar__openarrow">
-                <i class="fas fa-angle-down"></i>
-            </div>
-            <div class="navbar__circle"></div>
-            <select class="navbar__auth" v-model="selected">
-                <option value="743436">Иван Иванов : Студент</option>
-                <option value="743441">Петр Петров : Педагог</option>
-            </select>
-        </div>
+  <div class="navbar">
+    <div class="navbar__real">
+      <div class="navbar__openarrow">
+        <i class="fas fa-angle-down"></i>
+      </div>
+      <div class="navbar__circle"></div>
+      <select class="navbar__auth" v-model="selected" @change="setUserList">
+        <option value="743436">Иван Иванов : Студент</option>
+        <option value="743441">Петр Петров : Педагог</option>
+      </select>
     </div>
+  </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
-    data() {
-        return {
-            selected:'743436',
-        }
+  data() {
+    return {
+      selected: "743436",
+    };
+  },
+  methods: {
+    ...mapMutations(["setActualUser", "setActualList"]),
+    findActualUser() {
+      let actualUser = this.$store.state.userList.filter((el) => {
+        return el.user[0].id === this.selected;
+      });
+      this.$store.commit("setActualUser", actualUser[0]);
     },
-    methods: {
-        ...mapMutations([
-            'setActualUser',
-        ]),
-        findActualUser() {
-            let actualUser = this.$store.state.userList.filter(el => {
-                return el.user[0].id === this.selected
-
-            })
-            this.$store.commit('setActualUser', actualUser[0])
-        }
+    setUserList() {
+      if (this.selected === "743441") {
+        this.$store.commit("setActualList", "catalog");
+      } 
     },
-    watch: {
-        selected: function () {
-            this.findActualUser()
-        }
+  },
+  watch: {
+    selected: function () {
+      this.findActualUser();
     },
-    created() {
-        this.findActualUser()
-    },
-
-}
+  },
+  created() {
+    this.findActualUser();
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -88,6 +89,4 @@ export default {
         border-radius: 50px
         padding-left: 12px
         padding-right: 12px
-
-
 </style>
