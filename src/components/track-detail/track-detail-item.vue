@@ -1,5 +1,6 @@
 <template>
   <div class="track-detail-item" >
+
     <div class="move__btns">
       <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
         <i class="fas fa-arrow-up"></i>
@@ -9,27 +10,24 @@
       </my-button>
     </div>
 
+    <h4>{{ trackDetail.data.type }}</h4>
+
     <div class="track-detail-info">
-      <h4>{{ trackDetail.data.type }}</h4>
-      <h3>{{ trackDetail.entityName }}</h3>
-      <h4>{{ trackDetail.entityDuration }}</h4>
+        <i class="fas fa-unlock"></i>
+        <h3>{{ trackDetail.entityName }}</h3>
+        <h4>{{ trackDetail.entityDuration }}</h4>
     </div>
 
     <div class="track-detail-item__btns">
       <span>
-
-<!--  TODO реализовать @click.stop="$emit('remove', trackDetail)"-->
         <my-button
             v-if="this.$store.state.actualUser.roles.includes('teacher')"
             @click.stop="$emit('remove', trackDetail.id)"
         >
           Удалить
         </my-button>
-<!--  TODO   @click.stop="$emit('lock', trackDetail)"-->
-        <my-button
-          v-if="this.$store.state.actualUser.roles.includes('teacher')"
-        >
-         Заблокировать
+        <my-button v-if="this.$store.state.actualUser.roles.includes('teacher')">
+          Заблокировать
         </my-button>
       </span>
       <!--      <my-select
@@ -93,7 +91,7 @@ export default {
   width: 100%;
   border: 1px solid teal;
   border-radius: 50px;
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 }
 </style>

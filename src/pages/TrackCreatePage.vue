@@ -8,7 +8,7 @@
   <track-form
       :trackData="trackData"
       :submitForm="createTrack"
-  ></track-form>
+  />
 
   <my-dialog v-model:show="IsDialogVisible">
     <h3 style="margin: 10px">{{error}}</h3>

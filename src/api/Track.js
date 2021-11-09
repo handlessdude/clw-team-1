@@ -1,4 +1,4 @@
-import store from '../store/store'
+import store from '@/store/store'
 import BasicRequester from '@/api/BasicRequester'
 
 class TrackOperationError extends Error {
@@ -12,13 +12,13 @@ export default class TrackApi {
 
     static #ensureTrackData(trackData) {
         return {
-            name: trackData.name,
+            name: trackData.name ?? "",
             previewText: trackData.previewText ?? "",
             previewPicture: trackData.previewPicture ?? "",
-            published: trackData.published,
+            published: trackData.published ?? false,
             dateTimeStart: trackData.dateTimeStart ?? 0,
             dateTimeFinish: trackData.dateTimeFinish ?? 0,
-            mode: trackData.mode
+            mode: trackData.mode ?? ""
         }
     }
 
@@ -54,4 +54,11 @@ export default class TrackApi {
             })
     }
 
+    static async getTracks() {
+        const url = store.state.tracksUrl
+        return await BasicRequester.basicRequest(BasicRequester.GET_METHOD, url)
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track list get error: ${message}`)
+            })
+    }
 }

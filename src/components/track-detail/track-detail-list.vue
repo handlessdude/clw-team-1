@@ -7,7 +7,6 @@
             :key="trackDetail.id"
             @remove="$emit('remove', trackDetail.id)"
         />
-<!--        @remove="$emit('remove', trackDetail)"-->
       </transition-group>
     </div>
     <p v-else>Курс не содержит элементов.</p>

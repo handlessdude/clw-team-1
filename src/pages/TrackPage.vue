@@ -2,7 +2,7 @@
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
-    <h2 class="track__preview_info">{{TEST.data.name}}</h2>    
+    <h2 class="track__preview_info">{{TEST.data.name}}</h2>
     <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
   </div>
 
@@ -28,7 +28,8 @@
     </div>
 
     <span>
-        <my-button v-if="actualRole">
+        <my-button v-if="actualRole"
+                   @click="showDialog">
           Добавить деталь трека
         </my-button>
         <my-button v-if="actualRole" @click="toAddStudent">
@@ -45,9 +46,15 @@
         v-if="!isTrackDetailsLoading"
         @remove="removeTrackDetail"
     />
-      <div v-else>Загружаем список элементов...</div>
+    <div v-else>Загружаем список элементов...</div>
     </div>
 
+  <my-dialog v-model:show="IsDialogVisible">
+    <track-detail-form
+        v-model="form"
+        v-model:canSubmit="isFormValid"
+        :onSubmit="submitTrackDetailForm"/>
+  </my-dialog>
 
   </div>
   <preloader v-else></preloader>
@@ -55,19 +62,18 @@
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
-import {useRoute/*, useRouter*/} from 'vue-router'
+import TrackDetailForm from '@/components/track-detail/track-detail-form'
+import { useRoute } from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
+import {ref} from "vue"
+import { useTrackDetailForm } from "@/hooks/trackDetailsHooks/useTrackDetailForm"
 
 export default {
   name: "TrackPage",
   components: {
     TrackDetailList,
-  },
-  data() {
-    return {
-      dialogVisible: false,
-    }
+    TrackDetailForm,
   },
   methods: {
     toAddStudent() {
@@ -82,12 +88,15 @@ export default {
   async setup() {
     const route = useRoute()
     const trackId = route.params.id
+    const IsDialogVisible = ref(false)
 
     console.log('ID of current track on the page: ' + trackId)
-    const { trackDetails,
-            isTrackDetailsLoading,
-            removeTrackDetail
-    } = await useTrackDetails(trackId)
+    const showDialog = () => {
+      IsDialogVisible.value = true
+    }
+    const hideDialog = () => {
+      IsDialogVisible.value = false
+    }
 
     const {
       response,
@@ -99,6 +108,26 @@ export default {
       hrTimeFinish,
       TEST
     } = await useTrack(trackId)
+
+    const {
+      trackDetails,
+      isTrackDetailsLoading,
+      removeTrackDetail
+    } = await useTrackDetails(trackId)
+
+    const {
+      form, isFormValid,  resetForm,
+      isSubmitted, error,
+      submit, sendTrackDetailForm
+    } = useTrackDetailForm()
+
+    const submitTrackDetailForm = async () => {
+      const newTrackDetail = await sendTrackDetailForm(trackId)
+      console.log(newTrackDetail)
+      trackDetails.value.push(newTrackDetail)
+      hideDialog()
+      resetForm()
+    }
 
     return {
       response,
@@ -113,7 +142,17 @@ export default {
       hrTimeStart,
       hrTimeFinish,
       TEST,
-      trackId
+      trackId,
+
+      IsDialogVisible,
+      showDialog,
+
+      form,
+      isFormValid,
+      isSubmitted,
+      error,
+      submit,
+      submitTrackDetailForm,
     }
   }
 }
