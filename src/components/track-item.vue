@@ -37,6 +37,7 @@ export default {
 
 <style scoped>
 .track-item {
+  min-height: 120px;
   font-size: 12px;
   border: 3px solid teal;
   border-radius: 50px;
@@ -56,6 +57,9 @@ export default {
 
 .track-item:hover {
   cursor: pointer;
+  box-shadow: 0 0 15px -5px black;
+  transform: scale(1.01);
+  animation-duration: 1s;
 }
 .track-info {
   display: flex;

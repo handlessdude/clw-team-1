@@ -82,6 +82,12 @@ export default {
   border-radius: 25px;
   background-color: #F2F2F2;
 }
+.track-detail-info:hover {
+  cursor: pointer;
+  box-shadow: 0 0 15px -5px black;
+  transform: scale(1.01);
+  animation-duration: 1s;
+}
 .detail-content {
   height: 130px;
   margin-bottom: 10px;
