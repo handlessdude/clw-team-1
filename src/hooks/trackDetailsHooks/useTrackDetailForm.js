@@ -1,12 +1,15 @@
-import {ref, onErrorCaptured } from 'vue'
+import {ref, /*onErrorCaptured*/ } from 'vue'
+//import TrackDetailApi from '@/api/TrackDetail'
+import TrackDetailApi from '@/api/TrackDetail'
+
 import { useForm } from '@/hooks/useForm'
 import { isRequired } from '@/helpers/Validators'
 
 export function useTrackDetailForm() {
-    const tdSubmitted = ref(false)
-    const tdError = ref(null)
+    const isSubmitted = ref(false)
+    const error = ref(null)
 
-    const tdForm = useForm({
+    const { form, isFormValid } = useForm({
         type: {
             value: '',
             validators: { isRequired }
@@ -15,7 +18,6 @@ export function useTrackDetailForm() {
             value: '',
             validators: { isRequired }
         },
-        //here goes nice validator of format "XX hours YY minutes but not yet"
         entityDuration: {
             value: '',
             validators: { isRequired }
@@ -26,16 +28,39 @@ export function useTrackDetailForm() {
         }
     })
 
-    function tdSubmit() {
-        console.log('Form = ', tdForm)
-        tdSubmitted.value = true
+    const submit = () => {
+        console.log('Form = ', form)
+        isSubmitted.value = true
     }
 
-    onErrorCaptured(e => {
-        tdError.value = e.message
-    })
+    /*onErrorCaptured(e => {
+        error.value = e.message
+    })*/
 
-    return { tdForm, tdSubmit, tdSubmitted, tdError }
+    const sendTrackDetailForm = async (/*method,*/
+                                       trackId,
+                                       /*trackDetails*/) => {
+        try {
+            const trackDetailData = {}
+            for (const [key, val] of Object.entries(form.value)) {
+                trackDetailData[key] = val.value
+            }
+
+            //console.log('method = ',method)
+            const response = await TrackDetailApi.post(trackId, trackDetailData)
+            const trackDetail = {
+                id: response.data.data.id,
+                data: trackDetailData,
+            }
+            return trackDetail
+
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+
+    return { form, isFormValid, isSubmitted, error, submit, sendTrackDetailForm }
 
 }
 

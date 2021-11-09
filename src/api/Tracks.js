@@ -1,4 +1,4 @@
-import store from '../store/store'
+import store from '@/store/store'
 
 export default async () => {
     const tracksAxios = store.getters.serverAccess
@@ -12,4 +12,5 @@ export default async () => {
         console.log(e)
         return e
     }
+
 }

@@ -1,6 +1,6 @@
 <template>
-  <form @submit.prevent="createTrackDetail" class="flex-form">
-
+  <form @submit.prevent="onSubmit" class="flex-form">
+    <pre>{{canSubmit}}</pre>
     <pre class="my-pre">{{tdForm}}</pre>
 
     <div>
@@ -59,7 +59,7 @@
     <my-button
         type="submit"
         style="align-self: flex-end; margin-top: 15px"
-        :disabled="!(tdForm.isValid)"
+        :disabled="!(canSubmit)"
     >
       Подтвердить
     </my-button>
@@ -68,15 +68,17 @@
 </template>
 
 <script>
-import {useTrackDetailForm} from "../../hooks/trackDetailsHooks/useTrackDetailForm";
+import { useVModel } from "@/hooks/useVModel"
 
 export default {
   name: "track-detail-form",
-  props: ['trackDetail'],
+  props: ['modelValue',
+          'canSubmit',
+          'onSubmit'],
 
-  setup ( props, { emit }) {
+  setup (props) {
 
-    const {
+    /*const {
       tdForm,
       tdSubmit,
       tdSubmitted,
@@ -103,13 +105,20 @@ export default {
       tdSubmitted,
       tdError,
       createTrackDetail
+    }*/
+
+    return {
+      tdForm: useVModel(props, 'modelValue'),
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .my-pre {
   min-width: 400px;
+}
+.disabled {
+  color: black;
 }
 </style>

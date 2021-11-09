@@ -40,7 +40,7 @@
 <script>
 import TrackList from "@/components/track-list";
 import { mapState, mapGetters, mapActions } from "vuex";
-import MyTrackList from "../components/myTrack-list.vue";
+import MyTrackList from "@/components/myTrack-list.vue";
 
 export default {
   name: "track-catalogue-page",

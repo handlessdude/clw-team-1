@@ -13,9 +13,6 @@ export async function useTrack(trackId) {
             const result = await TrackApi.get(trackId)
             response.value = result
             TEST.value = result.data.data //ok
-
-            /*console.log('TEST in fetching: TEST = ', TEST)
-            console.log('TEST in fetching: TEST.value = ', TEST.value)*/
         } catch (e) {
             alert(e)
         } finally {
@@ -39,6 +36,5 @@ export async function useTrack(trackId) {
         hrTimeFinish,
 
         TEST,
-        //TEST2
     }
 }

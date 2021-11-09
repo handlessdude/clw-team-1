@@ -1,7 +1,6 @@
 <template>
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
-<!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
 
     <my-button @click="this.$router.push('/tracks')">Назад</my-button>
     <h2>{{TEST.data.name}}</h2>
@@ -53,10 +52,10 @@
     </div>
 
   <my-dialog v-model:show="IsDialogVisible">
-<!--    <track-detail-form
-        :trackDetail="trackDetail"
-        :submitForm="createTrackDetail"/>-->
-    <track-detail-form @create="createTrackDetail"/>
+    <track-detail-form
+        v-model="form"
+        v-model:canSubmit="isFormValid"
+        :onSubmit="submitTrackDetailForm"/>
   </my-dialog>
 
   </div>
@@ -66,11 +65,12 @@
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
 import TrackDetailForm from '@/components/track-detail/track-detail-form'
-import {useRoute/*, useRouter*/} from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
 import {ref} from "vue";
-import TrackDetailApi from '@/api/TrackDetail'
+//import TrackDetailApi from '@/api/TrackDetail'
+import { useTrackDetailForm } from "@/hooks/trackDetailsHooks/useTrackDetailForm"
 
 export default {
   name: "TrackPage",
@@ -81,8 +81,15 @@ export default {
   async setup() {
     const route = useRoute()
     const trackId = route.params.id
+    const IsDialogVisible = ref(false)
 
     console.log('ID of current track on the page: ' + trackId)
+    const showDialog = () => {
+      IsDialogVisible.value = true
+    }
+    const hideDialog = () => {
+      IsDialogVisible.value = false
+    }
 
     const {
       response,
@@ -101,29 +108,19 @@ export default {
       removeTrackDetail
     } = await useTrackDetails(trackId)
 
-    const IsDialogVisible = ref(false)
-    const showDialog = () => {
-      IsDialogVisible.value = true
+    const {
+      form,
+      isFormValid,
+      isSubmitted,
+      error,
+      submit,
+      sendTrackDetailForm } = useTrackDetailForm()
+
+    const submitTrackDetailForm = async () => {
+      const newTrackDetail = await sendTrackDetailForm(trackId)
+      trackDetails.value.push(newTrackDetail)
+      hideDialog()
     }
-
-    const createTrackDetail = async (trackDetailData) => {
-      try {
-        const response = await TrackDetailApi.post(trackId, trackDetailData)
-        const trackDetail = {
-          id: response.data.data.id,
-          data: trackDetailData,
-        }
-        //trackDetail.id = response.data.data.id
-        //??
-        trackDetails.value.push(trackDetail)
-        IsDialogVisible.value = false
-      } catch (err) {
-        console.log(err)
-        return err
-      }
-    }
-
-
 
     return {
       response,
@@ -133,7 +130,6 @@ export default {
 
       trackDetails,
       isTrackDetailsLoading,
-      createTrackDetail,
       removeTrackDetail,
 
       hrTimeStart,
@@ -144,6 +140,14 @@ export default {
 
       IsDialogVisible,
       showDialog,
+
+      form,
+      isFormValid,
+      isSubmitted,
+      error,
+      submit,
+      //sendTrackDetailForm,
+      submitTrackDetailForm
     }
   }
 }

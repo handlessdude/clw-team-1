@@ -1,5 +1,4 @@
-import getTrackList from "../../api/Tracks";
-import TrackApi from "@/api/Track";
+import TrackApi from "@/api/Track"
 
 export const trackCatalogueModule = {
     state: () => ({
@@ -15,7 +14,7 @@ export const trackCatalogueModule = {
     }),
     getters: {
         getTracks(state) {
-            return state.tracks;
+            return state.tracks
         },
         /*sortedTracks(state) {
                 return [...state.tracks].sort((track1, track2) =>
@@ -30,7 +29,7 @@ export const trackCatalogueModule = {
             state.tracks = tracks;
         },
         setIsTrackListLoading(state, bool) {
-            state.isTrackListLoading = bool;
+            state.isTrackListLoading = bool
         },
         /*setSelectedSort(state, selectedSort) {
                 state.selectedSort = selectedSort
@@ -42,21 +41,21 @@ export const trackCatalogueModule = {
     actions: {
         async loadAndSetTracks({ commit }) {
             try {
-                commit("setIsTrackListLoading", true);
-                const response = await getTrackList()
-                commit("setTracks", response.data.data);
+                commit("setIsTrackListLoading", true)
+                const response = await TrackApi.getTracks()
+                commit("setTracks", response.data.data)
                 return response
             } catch (e) {
-                console.log(e);
+                console.log(e)
                 return e
             } finally {
-                commit("setIsTrackListLoading", false);
+                commit("setIsTrackListLoading", false)
             }
         },
         async deleteTrack({ commit, state }, trackId) {
             try {
                 await TrackApi.delete(trackId)
-                commit("setTracks", state.tracks.filter(t => t.id !== trackId));
+                commit("setTracks", state.tracks.filter(t => t.id !== trackId))
             } catch (e) {
                 console.log(e)
                 return e

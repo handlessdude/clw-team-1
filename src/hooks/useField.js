@@ -4,8 +4,8 @@ const not = val => !val
 
 export function useField(field) {
 
-    const isValid = ref(true)
     const value = ref(field.value)
+    const isValid = ref(true)
     const isTouched = ref(false)
     const errors = ref({})
 
@@ -20,9 +20,7 @@ export function useField(field) {
         })
     }
 
-    //if it works than reassign() is not required
     watch(value, reassign, {immediate: true})
-    //reassign(field.value)
 
-    return {value, isValid, errors, isTouched, blur: () => isTouched.value = true}
+    return {value, isValid, isTouched, errors, blur: () => isTouched.value = true}
 }
