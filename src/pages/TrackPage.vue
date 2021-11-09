@@ -68,8 +68,7 @@ import TrackDetailForm from '@/components/track-detail/track-detail-form'
 import { useRoute } from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
-import {ref} from "vue";
-//import TrackDetailApi from '@/api/TrackDetail'
+import {ref} from "vue"
 import { useTrackDetailForm } from "@/hooks/trackDetailsHooks/useTrackDetailForm"
 
 export default {
@@ -109,17 +108,17 @@ export default {
     } = await useTrackDetails(trackId)
 
     const {
-      form,
-      isFormValid,
-      isSubmitted,
-      error,
-      submit,
-      sendTrackDetailForm } = useTrackDetailForm()
+      form, isFormValid,  resetForm,
+      isSubmitted, error,
+      submit, sendTrackDetailForm
+    } = useTrackDetailForm()
 
     const submitTrackDetailForm = async () => {
       const newTrackDetail = await sendTrackDetailForm(trackId)
+      console.log(newTrackDetail)
       trackDetails.value.push(newTrackDetail)
       hideDialog()
+      resetForm()
     }
 
     return {
@@ -137,7 +136,6 @@ export default {
       TEST,
       trackId,
 
-
       IsDialogVisible,
       showDialog,
 
@@ -146,8 +144,7 @@ export default {
       isSubmitted,
       error,
       submit,
-      //sendTrackDetailForm,
-      submitTrackDetailForm
+      submitTrackDetailForm,
     }
   }
 }

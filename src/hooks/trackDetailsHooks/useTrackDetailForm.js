@@ -1,29 +1,34 @@
-import {ref, /*onErrorCaptured*/ } from 'vue'
+import { ref } from 'vue'
 //import TrackDetailApi from '@/api/TrackDetail'
 import TrackDetailApi from '@/api/TrackDetail'
-
 import { useForm } from '@/hooks/useForm'
 import { isRequired } from '@/helpers/Validators'
 
-export function useTrackDetailForm() {
+export function useTrackDetailForm(initValues = {
+    type: '',
+    entityName: '',
+    entityDuration: '',
+    required: false,
+}) {
     const isSubmitted = ref(false)
     const error = ref(null)
 
-    const { form, isFormValid } = useForm({
+    const { form, isFormValid, resetForm } = useForm({
         type: {
-            value: '',
+            value: initValues.type,
+            //'validators' could contain any other custom validation funcs
             validators: { isRequired }
         },
         entityName: {
-            value: '',
+            value: initValues.entityName,
             validators: { isRequired }
         },
         entityDuration: {
-            value: '',
+            value: initValues.entityDuration,
             validators: { isRequired }
         },
         required: {
-            value: false,
+            value: initValues.required,
             validators: {  }
         }
     })
@@ -33,20 +38,14 @@ export function useTrackDetailForm() {
         isSubmitted.value = true
     }
 
-    /*onErrorCaptured(e => {
-        error.value = e.message
-    })*/
-
-    const sendTrackDetailForm = async (/*method,*/
-                                       trackId,
-                                       /*trackDetails*/) => {
+    const sendTrackDetailForm = async (trackId) => {
         try {
             const trackDetailData = {}
             for (const [key, val] of Object.entries(form.value)) {
                 trackDetailData[key] = val.value
             }
+            //trackDetailData.entityId = 85
 
-            //console.log('method = ',method)
             const response = await TrackDetailApi.post(trackId, trackDetailData)
             const trackDetail = {
                 id: response.data.data.id,
@@ -56,11 +55,16 @@ export function useTrackDetailForm() {
 
         } catch (err) {
             console.log(err)
+            error.value = err.message
             return err
         }
     }
 
-    return { form, isFormValid, isSubmitted, error, submit, sendTrackDetailForm }
+    return {
+        form, isFormValid,  resetForm,
+        isSubmitted, error,
+        submit, sendTrackDetailForm
+    }
 
 }
 

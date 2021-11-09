@@ -107,6 +107,7 @@ export default {
       createTrackDetail
     }*/
 
+    //console.log(props.submitMethod)
     return {
       tdForm: useVModel(props, 'modelValue'),
     }

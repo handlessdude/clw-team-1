@@ -9,11 +9,16 @@ export function useForm(init = {}) {
 
     const validKey = 'isValid'
     const withoutValid = k => k !== validKey
-    /*form.value[validKey] = computed(() =>
-        Object.keys(form.value).filter(withoutValid).every(k => form.value[k].isValid)
-    )*/
+
     const isFormValid = computed(() =>
         Object.keys(form.value).filter(withoutValid).every(k => form.value[k].isValid)
     )
-    return { form, isFormValid }
+
+    const resetForm = () => {
+        for (const [key, val] of Object.entries(init)) {
+            form.value[key].value = val.value
+        }
+    }
+
+    return { form, isFormValid, resetForm }
 }
