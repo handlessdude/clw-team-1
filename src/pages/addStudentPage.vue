@@ -1,76 +1,71 @@
 <template>
+  <my-modal
+    class="modalWindow"
+    :class="{ activeModal: activeModalWindow }"
+    :mainText="'Succeful!'"
+    :infoText="modalMes"
+  />
   <div class="addstudent">
-    {{ this.$route.params.id }}
-    <select v-model="depart" @change="getReqCompany">
-      <option value="">Выберите департамент</option>
-      <option v-for="(item, index) in departments" :key="index">
-        {{ item }}
-      </option>
-    </select>
-    <select v-model="company">
-      <option value="">Выберите компанию</option>
-      <option v-for="(item, index) in companies" :key="index">
-        {{ item }}
-      </option>
-    </select>
-    <input type="text" v-model="stuName" />
-    <button @click="searchUser">ПОИСК</button>
-    <button @click="cleanFilter">Сбросить Фильтр</button>
-
-    <div class="searchstudent__table">
-      <h3>Результаты Поиска</h3>
-      <div class="searchstudent__table_item">
-        <div class="searchstudent__table_rawitem">ФИО</div>
-        <div class="searchstudent__table_rawitem">Департамент</div>
-        <div class="searchstudent__table_rawitem">Предприятие</div>
-        <div class="searchstudent__table_rawitem">Выбрать</div>
+    <div class="addstudent__searchform">
+      <div class="addstudent__searchform_filter">
+        <select
+          class="addstudent__searchform_input"
+          v-model="depart"
+          @change="getReqCompany"
+        >
+          <option value="">Выберите департамент</option>
+          <option v-for="(item, index) in departments" :key="index">
+            {{ item }}
+          </option>
+        </select>
+        <select class="addstudent__searchform_input" v-model="company">
+          <option value="">Выберите компанию</option>
+          <option v-for="(item, index) in companies" :key="index">
+            {{ item }}
+          </option>
+        </select>
+        <my-button @click="cleanFilter">Сбросить Фильтр</my-button>
       </div>
-      <div
-        class="searchstudent__table_item"
-        v-for="(item, index) in filteredList"
-        :key="index"
-      >
-        <div class="searchstudent__table_rawitem">{{ item.fullName }}</div>
-        <div class="searchstudent__table_rawitem">
-          {{ item.data.department }}
-        </div>
-        <div class="searchstudent__table_rawitem">{{ item.data.company }}</div>
-        <div class="searchstudent__table_rawitem">
-          <input type="checkbox" :value="item" v-model="checkedStudents" />
-        </div>
+      <div class="addstudent__searchform_search">
+        <input
+          class="addstudent__searchform_input"
+          type="text"
+          v-model="stuName"
+        />
+        <my-button @click="searchUser">ПОИСК</my-button>
       </div>
     </div>
+    <my-table
+      @updChecked="updChecked"
+      :actualArray="filteredList"
+      :tableName="'Результаты Поиска'"
+    />
+    <my-table
+      :actualArray="checkedStudents"
+      :tableName="'Будут Записаны / Удалены'"
+    />
+    <div>
+      <my-button @click="addStudentOnTrack">Записать на трек</my-button>
+      <my-button @click="delStudentOnTrack">Удалить с трека</my-button>
+      <!-- Не успел доделать логику обновления второй таблицы, Если забыть снять галочку 
+      и заного вызвать поиск, То элемент с неснятой галочкой остается во 2 таблице навсегда))
+      ,до перезагрузки -->
 
-    <div class="searchstudent__table">
-      <h3>Будут Записаны</h3>
-      <div class="searchstudent__table_item">
-        <div class="searchstudent__table_rawitem">ФИО</div>
-        <div class="searchstudent__table_rawitem">Департамент</div>
-        <div class="searchstudent__table_rawitem">Предприятие</div>
-        <div class="searchstudent__table_rawitem">Выбрать</div>
-      </div>
-      <div
-        class="searchstudent__table_item"
-        v-for="(item, index) in checkedStudents"
-        :key="index"
+      <my-button
+        class="backbtn"
+        @click="this.$router.push({ path: `/tracks/${$route.params.id}` })"
+        >Назад</my-button
       >
-        <div class="searchstudent__table_rawitem">{{ item.fullName }}</div>
-        <div class="searchstudent__table_rawitem">
-          {{ item.data.department }}
-        </div>
-        <div class="searchstudent__table_rawitem">{{ item.data.company }}</div>
-        <div class="searchstudent__table_rawitem">
-          <input type="checkbox" :value="item" v-model="checkedStudents" />
-        </div>
-      </div>
-      <button @click="addStudentOnTrack"> Записать на курс </button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import searchApi from "@/api/SearchUser";
-import { mapState } from "vuex";
+import MyButton from "../components/ui-components/my-button.vue";
+import MyTable from "../components/ui-components/my-table.vue";
+import MyModal from "../components/ui-components/my-modal.vue";
 
 export default {
   data() {
@@ -82,18 +77,35 @@ export default {
       companies: [],
       filteredList: [],
       checkedStudents: [],
+      modalMes: "",
+      assigned: [],
     };
+  },
+  components: {
+    MyButton,
+    MyTable,
+    MyModal,
   },
   created() {
     searchApi.getReq(`${this.$store.state.getDep}`).then((data) => {
       this.departments = data.data.data;
     });
+    this.getAssign();
   },
+
   computed: {
-    ...mapState(["getDep"]),
+    ...mapState(["activeModalWindow"]),
   },
   methods: {
+    ...mapMutations(["setModalWindow"]),
+    updChecked(upd) {
+      this.checkedStudents = upd;
+    },
     searchUser() {
+      this.filteredList = [];
+      this.checkedStudents = [];
+
+      this.getAssign();
       let req = "";
       if (this.stuName) {
         req += `q=${this.stuName}`;
@@ -116,7 +128,15 @@ export default {
         searchApi
           .getReq(`${this.$store.state.searchUser}?${req}`)
           .then((data) => {
-            this.filteredList = data.data;
+            data.data.forEach((el) => {
+              this.assigned.forEach((elem) => {
+                if (el.id == elem.data.userId) {
+                  el.assign = true;
+                  el.itemId = elem.id;
+                }
+              });
+              this.filteredList.push(el);
+            });
           });
       }
     },
@@ -133,34 +153,76 @@ export default {
           this.companies = data.data;
         });
     },
+
+    // Отрефакторить Эти 2 метода(Сделать 1)
+    addStudentOnTrack() {
+      let data = [];
+      let currentUrl = `${this.$store.state.trackUrl}/${this.$route.params.id}/trackAssigns`;
+      this.checkedStudents.forEach((el) => {
+        data.push({ userId: el.id });
+      });
+      if (data.length > 0) {
+        searchApi.postReq(currentUrl, data).then((data) => {
+          this.modalMes = data.data.message;
+        });
+      }
+      if (this.checkedStudents.length > 0) {
+        this.$store.commit("setModalWindow", true);
+      }
+      this.checkedStudents = [];
+    },
+    delStudentOnTrack() {
+      let data = [];
+      let currentUrl = `${this.$store.state.trackUrl}/${this.$route.params.id}/trackAssigns`;
+      this.checkedStudents.forEach((el) => {
+        data.push(el.itemId);
+      });
+      if (data.length > 0) {
+        searchApi.delete(currentUrl, data).then((data) => {
+          this.modalMes = data.data.message;
+        });
+      }
+      if (this.checkedStudents.length > 0) {
+        this.$store.commit("setModalWindow", true);
+      }
+      this.checkedStudents = [];
+    },
+    getAssign() {
+      searchApi
+        .getReq(
+          `${this.$store.state.trackUrl}/${this.$route.params.id}/trackAssigns`
+        )
+        .then((data) => {
+          this.assigned = data.data.data;
+        });
+    },
   },
 };
 </script>
 
 <style lang="sass" scoped>
+.backbtn
+    margin: 8px
 .addstudent
     display: flex
     flex-direction: column
-    align-items: flex-start
-
-.searchstudent__table
-        align-self: center
-        margin: 24px
-        border: 1px solid #000
+    align-items: center
+    &__searchform
         width: 1024px
-        min-height: 100px
-        &_item
-            display: grid
-            grid-template-columns: 2fr 2fr 3fr 1fr
-            min-height: 40px
-            max-height: 60px
-            margin: 6px
-            box-sizing: border-box
-            overflow: scroll
-        &_rawitem
-            display: flex
-            justify-content: center
-            align-items: center
-            border: 1px solid green
-            // margin: 2px
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        &_input
+            width: 400px
+            height: 40px
+            padding-left: 12px
+            padding-right: 12px
+            border-radius: 50px
+            outline: none
+            border: 1px solid #000
+            margin: 16px 8px
+.modalWindow
+    display: none
+.activeModal
+  display: block
 </style>

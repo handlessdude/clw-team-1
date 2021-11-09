@@ -17,5 +17,18 @@ export default class searchApi {
             })
     }
 
+    static async postReq(url, data) {
+        return await BasicRequester.basicRequest(BasicRequester.POST_METHOD, url, data)
+                    .catch(({message}) => {
+                        throw new TrackOperationError(`Track post error: ${message}`)
+                    })
+    }
+    static async delete(url, data) {
+        return await BasicRequester.basicRequest(BasicRequester.DELETE_METHOD, url, data)
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track delete error: ${message}`)
+            })
+    }
+
 
 }

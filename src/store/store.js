@@ -24,6 +24,7 @@ export default createStore({
         userIdStudent: 743436,
         actualUser: {},
         actualList: 'catalog',
+        activeModalWindow: false
 
     }),
     getters: {
@@ -46,6 +47,9 @@ export default createStore({
         },
         setActualList(state, list) {
             state.actualList = list
+        },
+        setModalWindow(state, set) {
+            state.activeModalWindow = set
         }
 
     },

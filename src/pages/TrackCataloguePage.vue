@@ -4,7 +4,6 @@
       v-if="this.$store.state.actualUser.roles.includes('teacher')"
       class="main-wrapper__btns"
     >
-      <!-- <my-button style="align-self: flex-start" @click="showDialog">Создать трек</my-button> -->
       <my-button @click="toTrackCreate"> Создать трек </my-button>
     </div>
 
@@ -145,7 +144,7 @@ export default {
 .main-wrapper__btns {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  margin: 21px;
 }
 .activeBtn {
   background-color: #008080a6 !important;
