@@ -7,7 +7,6 @@
     }"
   >
   <div class="track-list-item-bl">
-<!--    :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'-->
     <div class="track-info">
       <h2>{{ track.data.name }}</h2>
     </div>
@@ -17,7 +16,7 @@
           @click.stop="$emit('remove', track.id)"
       >
         Удалить</my-button-re>
-        </div>
+    </div>
     </div>
   </div>
 </template>
@@ -41,7 +40,7 @@ export default {
   border: 3px solid teal;
   border-radius: 50px;
   background-size: cover;
-  color: white;
+  color: #ffffff;
 }
 .track-list-item-bl {
   width: 100%;
@@ -73,10 +72,10 @@ export default {
   height: 54%;
   padding-left: 16px;
   padding-right: 16px;
-  background-color: #ffffffa6;
+ /* background-color: rgba(58, 58, 58, 0.65);*/
 }
-.track-item__btns {
+/*.track-item__btns {
   background-color: #ffffffa6;
   border-radius: 50px;
-}
+}*/
 </style>

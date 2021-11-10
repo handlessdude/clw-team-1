@@ -101,20 +101,9 @@ export default {
 .preview-pic {
   /*width: 100%;
   height: 150px;*/
-
-  width: 100%;
-  height: 600px;
-  border-radius: 12px;
-  padding: 15px;
-
-  background: #ffffff no-repeat center center;
-  background-size: cover;
-  color:black;
-}
   width: 100%;
   height: 300px;
   border-radius: 50px;
-
   background: #ffffff no-repeat center center;
   background-size: cover;
   color:rgb(255, 255, 255);

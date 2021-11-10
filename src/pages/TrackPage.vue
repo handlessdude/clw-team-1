@@ -17,7 +17,9 @@
 
       <div class="edit-and-time">
 
-        <my-button-re @click="this.$router.push(`/tracks/${TEST.id}/update`)">
+        <my-button-re
+            v-if="actualRole"
+            @click="this.$router.push(`/tracks/${TEST.id}/update`)">
           Редактировать
         </my-button-re>
 
@@ -29,8 +31,7 @@
     </div>
 
     <span>
-        <my-button v-if="actualRole"
-                   @click="showDialog">
+        <my-button v-if="actualRole" @click="showDialog">
           Добавить деталь трека
         </my-button>
         <my-button v-if="actualRole" @click="toAddStudent">
@@ -196,8 +197,8 @@ export default {
 .preview-pic-bl .btn {
   width: 70px;
   margin-bottom: 70px;
-  color: white;
-  border: 1px solid white;
+/*  color: white;
+  border: 1px solid white;*/
 }
 .content .btn {
   margin: 0 5px;
@@ -257,12 +258,12 @@ export default {
 .track__preview_info {
   width: 100%;
   height: 160px;
-  color: #000;
+  color: #ffffff;
   display: flex;
   font-size: 36px;
   justify-content: center;
   align-items: center;
-  background-color: #ffffffa6;
+  /*background-color: #ffffffa6;*/
 }
 
 @media (max-width: 820px) {
