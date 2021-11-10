@@ -28,10 +28,9 @@ _Дизайн создавался по принципам UX/UI, т.е. при�
 [Ссылка на дизайн](https://www.figma.com/file/ph54rMWyMQQ7P0PLgQphs0/CLW_T1_Design?node-id=4%3A70)
 ***
 ### ER-диаграмма
+
 ![ER](er.jpg)
 ***
 ### Use Case
+
 ![Use_Case](Use_case.jpg)
-***
-### Test Case
-![Test_Case](https://github.com/handlessdude/clw-team-1/blob/main/TestCase_T1_CLW.docx)
