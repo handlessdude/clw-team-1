@@ -1,9 +1,11 @@
 <template>
   <div v-if="!isTrackLoading">
     <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
+      <div class="preview-pic-bl">
       <my-button @click="this.$router.back()">Назад</my-button>
       <h1>Настройки трека</h1>
       <h2>{{TEST.data.name}}</h2>
+      </div>
     </div>
 
     <track-form
@@ -105,12 +107,26 @@ export default {
   height: 150px;*/
 
   width: 100%;
-  height: 600px;
-  border-radius: 12px;
-  padding: 15px;
+  height: 300px;
+  border-radius: 50px;
 
   background: #ffffff no-repeat center center;
   background-size: cover;
-  color:black;
+  color:white;
+}
+.preview-pic-bl {
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(0,0,0,.4);
+  width: 100%;
+  min-height: 300px;
+  border-radius: 50px;
+  padding: 30px;
+}
+.preview-pic-bl .btn {
+  width: 70px;
+  margin-bottom: 70px;
+  color: white;
+  border: 1px solid white;
 }
 </style>

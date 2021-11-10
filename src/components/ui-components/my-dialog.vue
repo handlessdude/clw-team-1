@@ -5,7 +5,7 @@
       <my-button
           style="margin-left:auto;margin-bottom: 15px;"
           @click="hideDialog"
-      >
+      >Закрыть
         <i class="fas fa-times"></i>
       </my-button>
       <slot></slot>

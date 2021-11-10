@@ -6,16 +6,18 @@
       backgroundImage: `url(&quot;${this.$store.state.server}/${track.data.previewPicture}&quot;)`,
     }"
   >
+  <div class="track-list-item-bl">
+<!--    :style='{ backgroundImage: `url("${this.$store.state.server}/${track.data.previewPicture}")` }'-->
     <div class="track-info">
       <h2>{{ track.data.name }}</h2>
     </div>
     <div class="track-item__btns">
-      <my-button
-        v-if="this.$store.state.actualUser.roles.includes('teacher')"
-        @click.stop="$emit('remove', track.id)"
+      <my-button-re
+          v-if="this.$store.state.actualUser.roles.includes('teacher')"
+          @click.stop="$emit('remove', track.id)"
       >
-        Удалить</my-button
-      >
+        Удалить</my-button-re>
+        </div>
     </div>
   </div>
 </template>
@@ -29,19 +31,28 @@ export default {
       required: true, //info about track is sufficient
     },
   },
-};
+}
 </script>
 
 <style scoped>
 .track-item {
-  padding: 15px;
+  min-height: 120px;
   font-size: 12px;
-  border: 2px solid teal;
+  border: 3px solid teal;
+  border-radius: 50px;
+  background-size: cover;
+  color: white;
+}
+.track-list-item-bl {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border-radius: 50px;
+  background-color:rgba(0,0,0,.4);
   background-size: cover;
   min-height: 160px;
   box-sizing: border-box;
@@ -50,11 +61,9 @@ export default {
 
 .track-item:hover {
   cursor: pointer;
-  box-shadow: 0 0 15px -5px #000;
-}
-.track-item:active {
-  cursor: pointer;
-  box-shadow: 0 0 10px -5px #000;
+  box-shadow: 0 0 15px -5px black;
+  transform: scale(1.01);
+  animation-duration: 1s;
 }
 .track-info {
   display: flex;

@@ -13,24 +13,30 @@
         placeholder="Введите описание..."
     ></my-textarea>
 
-
+  <div class="place-image">
     <file-input v-model="myFileInput" is-image
                 placeholder-input-text="Файл не выбран"
                 placeholder-button-text="Выбрать обложку..."
 
     ></file-input>
-
+  </div>
+  <div class="my-data">
+    <div class="data-name">
     <label>Дата начала</label>
     <datepicker v-model="start"
                 :locale="dateLocale"
                 inputFormat="dd.MM.yyyy"
                 placeholder="Выберите дату..."/>
+    </div>
+    <div class="data-name">
     <label>Дата окончания</label>
     <datepicker v-model="finish"
                 :locale="dateLocale"
                 :lowerLimit="start"
                 inputFormat="dd.MM.yyyy"
                 placeholder="Выберите дату..."/>
+    </div>
+    </div>
 
     <div class="my-radios">
       <div>Прохождение: </div>
@@ -129,13 +135,36 @@ export default {
 .flex-form {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-
+  align-items: flex-start;
+  padding-top: 20px;
 }
 .flex-form * {
   margin-bottom: 15px;
 }
 .flex-form label {
   align-self:flex-start;
+}
+.my-data {
+  display: flex;
+  flex-direction: row;
+}
+.data-name {
+  margin-right: 10px;
+}
+.my-radios {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.my-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.my-buttons span {
+  margin-right: 10px;
+}
+.place-image {
+  width: 100%;
 }
 </style>

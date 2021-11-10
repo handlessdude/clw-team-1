@@ -1,21 +1,23 @@
 <template>
-<div>
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
-    <my-button @click="this.$router.back()">Назад</my-button>
-    <h1>Создание трека</h1>
+  <div>
+    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
+      <div class="preview-pic-bl">
+        <my-button @click="this.$router.back()">Назад</my-button>
+        <h1>Создание трека</h1>
+      </div>
+    </div>
+
+    <track-form
+        :trackData="trackData"
+        :submitForm="createTrack"
+    />
+
+    <my-dialog v-model:show="IsDialogVisible">
+      <h3 style="margin: 10px">{{error}}</h3>
+      <!--   goes into slot inside of my-dialog component-->
+    </my-dialog>
+
   </div>
-
-  <track-form
-      :trackData="trackData"
-      :submitForm="createTrack"
-  />
-
-  <my-dialog v-model:show="IsDialogVisible">
-    <h3 style="margin: 10px">{{error}}</h3>
-    <!--   goes into slot inside of my-dialog component-->
-  </my-dialog>
-
-</div>
 </template>
 
 <script>
@@ -108,5 +110,28 @@ export default {
   background: #ffffff no-repeat center center;
   background-size: cover;
   color:black;
+}
+  width: 100%;
+  height: 300px;
+  border-radius: 50px;
+
+  background: #ffffff no-repeat center center;
+  background-size: cover;
+  color:rgb(255, 255, 255);
+}
+.preview-pic-bl {
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(0,0,0,.4);
+  width: 100%;
+  min-height: 300px;
+  border-radius: 50px;
+  padding: 30px;
+}
+.preview-pic-bl .btn {
+  width: 70px;
+  margin-bottom: 70px;
+  color: white;
+  border: 1px solid white;
 }
 </style>

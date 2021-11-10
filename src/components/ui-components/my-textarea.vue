@@ -23,9 +23,14 @@ export default {
 .textarea {
   box-sizing: border-box;
   width: 100%;
+  min-height: 150px;
+  resize: none;
   border: 1px solid teal;
+  border-radius: 25px;
   padding: 10px 15px;
   margin-top: 15px;
+  font-family: inherit;
+  font-size: 15px;
 }
 
 </style>

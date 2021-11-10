@@ -13,13 +13,6 @@
       </div>
       <div class="mainpage__header_user">
         <div class="mainpage__header_userinfo">
-          <!-- <img
-            class="mainpage__header_useravatar"
-            :src="require(`${getUserInfo.user[0].data[0].avatarURL}`)"
-            alt="User Avatar"
-          /> -->
-                <!-- Разобраться с аватаркой!Сделать динамической -->
-
           <img v-if="this.$store.state.actualUser.roles.includes('teacher')"
             class="mainpage__header_useravatar"
             :src="require(`@/components/Images/AvatarTeacher.png`)"
@@ -179,6 +172,7 @@ export default {
       color: #355E66
 
     &_userinfo
+      border-radius: 25px
       margin-top: 12px
       margin-left: 12px
       display: flex

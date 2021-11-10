@@ -1,10 +1,10 @@
 <template>
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
-<!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
-    <h2 class="track__preview_info">{{TEST.data.name}}</h2>
-
-    <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
+    <div class="preview-pic-bl">
+      <h2 class="track__preview_info">{{TEST.data.name}}</h2>
+      <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
+    </div>
   </div>
 
   <div class="content">
@@ -17,9 +17,9 @@
 
       <div class="edit-and-time">
 
-        <my-button @click="this.$router.push(`/tracks/${TEST.id}/update`)" v-if="actualRole">
+        <my-button-re @click="this.$router.push(`/tracks/${TEST.id}/update`)">
           Редактировать
-        </my-button>
+        </my-button-re>
 
         <div class="start-finish">
           <div class="start">Дата открытия: {{hrTimeStart}}</div>
@@ -187,14 +187,14 @@ export default {
 .preview-pic-bl {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   background-color:rgba(0,0,0,.4);
   width: 100%;
   min-height: 300px;
   border-radius: 50px;
-  padding: 25px;
+  padding: 30px;
 }
 .preview-pic-bl .btn {
+  width: 70px;
   margin-bottom: 70px;
   color: white;
   border: 1px solid white;
@@ -244,7 +244,7 @@ export default {
   margin-top:10px;
   border-radius: 25px;
   color: teal;
-  border: 1px solid teal;
+  border: 3px solid teal;
   padding: 15px;
 }
 .track__preview_btn {
@@ -287,5 +287,4 @@ export default {
     margin: 10px 0;
   }
 }
-
 </style>

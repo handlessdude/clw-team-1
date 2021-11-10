@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -33,7 +33,7 @@ export default {
     setUserList() {
       if (this.selected === "743441") {
         this.$store.commit("setActualList", "catalog");
-      } 
+      }
     },
   },
   watch: {

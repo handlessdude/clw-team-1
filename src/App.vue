@@ -1,7 +1,7 @@
 <template>
   <sidebar></sidebar>
   <Navbar/>
-  <div class="app" :style="{ marginLeft: getMinSidebarWidth }">
+  <div class="app">
     <router-view></router-view>
   </div>
 </template>
@@ -36,6 +36,7 @@ export default {
 }
 .app{
   padding:20px;
+  margin-left: 55px;
 }
 h3{
   font-family: 'Montserrat', sans-serif;

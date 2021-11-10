@@ -105,10 +105,15 @@ export default {
 .main-wrapper__btns {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   margin: 21px;
 }
 .activeBtn {
   background-color: #008080a6 !important;
   color: white !important;
+}
+.activeList {
+  background-color: #008080a6;
+  color: white;
 }
 </style>

@@ -20,9 +20,13 @@ export default {
 .input {
   box-sizing: border-box;
   width: 100%;
+  min-height: 50px;
   border: 1px solid teal;
+  border-radius: 25px;
   padding: 10px 15px;
   margin-top: 15px;
+  font-family: inherit;
+  font-size: 15px;
 }
 
 </style>
