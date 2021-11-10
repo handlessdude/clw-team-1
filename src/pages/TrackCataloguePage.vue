@@ -22,6 +22,21 @@
       </my-button>
     </div>
 
+
+<!--    <Suspense>
+      <template #default>
+        <autocomplete
+            :entityType="entityType"
+            @selectItem="onSelect"
+        ></autocomplete>
+      </template>
+    </Suspense>-->
+
+    <autocomplete
+        :entityType="entityType"
+        @selectItem="onSelect"
+    ></autocomplete>
+
     <div v-if="this.$store.state.actualUser.roles.includes('teacher')">
       <div v-if="!isTrackListLoading">
         <router-view :tracks="getTracks" @remove="deleteTrack" />
@@ -46,6 +61,7 @@ export default {
     return {
       IsDialogVisible: false,
       activeButton: "catalog",
+      entityType: "courses",
     };
   },
   mounted() {
@@ -66,6 +82,10 @@ export default {
       setTracks: "trackCatalogue/setTracks",
       setActualList: "setActualList",
     }),
+
+    onSelect(item){
+      console.log('selected item = ', item)
+    },
 
     showDialog() {
       this.IsDialogVisible = true;

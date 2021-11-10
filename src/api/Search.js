@@ -31,21 +31,16 @@ export default class searchApi {
             })
     }
 
-    static async getCourses(searchQueryString) {
-        const url = `${store.state.searchUrl}/courses?q=${searchQueryString}`
+    /**
+     * entity = searched resource'
+     * */
+    static async search(entityType, searchQueryString) {
+        const url = `${store.state.searchUrl}/${entityType}?q=${searchQueryString}`
         const encodedUrl = encodeURI(url)
         return await BasicRequester.basicRequest(BasicRequester.GET_METHOD, encodedUrl)
             .catch(({message}) => {
-                throw new SearchError(`Courses search error: ${message}`)
+                throw new SearchError(`${entityType} search error: ${message}`)
             })
     }
 
-    static async getEvents(searchQueryString) {
-        const url = `${store.state.searchUrl}/events?q=${searchQueryString}`
-        const encodedUrl = encodeURI(url)
-        return await BasicRequester.basicRequest(BasicRequester.GET_METHOD, encodedUrl)
-            .catch(({message}) => {
-                throw new SearchError(`Events search error: ${message}`)
-            })
-    }
 }

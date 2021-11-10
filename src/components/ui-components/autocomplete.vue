@@ -1,57 +1,61 @@
 <template>
 
-  <input
-      type="text"
+  <my-input
+      v-focus
       v-model.trim="searchQueryString"
+      type="text"
       placeholder="Поиск..."
-  >
-
-  <div>{{searchQueryString}}</div>
-
-  <ul v-if="!isCoursesLoading&&courses.length">
+  />
+  <div>searchQueryString: {{searchQueryString}}</div>
+  <div>isItemsLoading: {{isItemsLoading}}</div>
+  <ul v-if="items&&(items.length > 0)">
     <li
-        v-for="course in courses"
-        :key="course.id"
-        @click="selectCourse(course)"
+        v-for="item in items"
+        :key="item.id"
+        @click="selectItem(item)"
     >
-      {{course.name }}
+      {{item}}
     </li>
   </ul>
 
-  <p v-if="courseData.name">
-    You have selected: {{ courseData.name }}
-  </p>
+  <pre>You have selected: {{ selectedItem }}</pre>
 </template>
 
 <script>
 import {ref} from 'vue'
 //import { useVModel } from "@/hooks/useVModel"
-import { useCourses } from "@/hooks/searchHooks/useCourses"
+import { useSearch } from "@/hooks/searchHooks/useSearch"
 export default {
   name: "autocomplete",
-  props: ['modelValue'],
-  setup () {
-    //const courseData = useVModel(props, 'modelValue')
-    const courseData = ref({})
+  props: ['entityType'],
+  emits: ['selectItem'],
+ setup (props, { emit }) {
+    //const selectedItem = useVModel(props, 'modelValue')
+    const selectedItem = ref({})
     const {
-      courses,
-      isCoursesLoading,
+      items,
+      isItemsLoading,
       searchQueryString,
-      fetchCourses,
-    } = useCourses()
-//console.log(courses.value.length)
-    const selectCourse = (course) => {
-      courseData.value = course
-      searchQueryString.value = ''
+      fetchItems,
+      debouncedFetchItems,
+    } = useSearch(props.entityType)
+
+    const selectItem = (item) => {
+      selectedItem.value = item
+      //searchQueryString.value = ''
+      items.value = []
+      emit('selectItem', item)
     }
 
     return {
-      courseData,
-      courses,
-      isCoursesLoading,
+      selectedItem,
+
+      items,
+      isItemsLoading,
       searchQueryString,
-      fetchCourses,
-      selectCourse
+      fetchItems,
+      debouncedFetchItems,
+      selectItem
     }
   }
 }
