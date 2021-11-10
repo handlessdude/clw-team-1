@@ -15,6 +15,7 @@
       </my-button>
       <my-button
         :class="{ activeBtn: this.getActualList === 'mycatalog' }"
+        style="margin-right: 40px"
         @click="changeCat('mycatalog')"
       >
         Мои треки

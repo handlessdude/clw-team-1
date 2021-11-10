@@ -37,7 +37,7 @@ export default {
 .track-item {
   min-height: 120px;
   font-size: 12px;
-  border: 3px solid teal;
+  /*border: 3px solid teal;*/
   border-radius: 50px;
   background-size: cover;
   color: #ffffff;
