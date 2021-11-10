@@ -1,4 +1,5 @@
 import TrackApi from "@/api/Track"
+//import SearchApi from "@/api/Search"
 
 export const trackCatalogueModule = {
     state: () => ({
@@ -43,6 +44,8 @@ export const trackCatalogueModule = {
             try {
                 commit("setIsTrackListLoading", true)
                 const response = await TrackApi.getTracks()
+                /*const courses = await SearchApi.getCourses('эконо')
+                console.log(courses)*/
                 commit("setTracks", response.data.data)
                 return response
             } catch (e) {

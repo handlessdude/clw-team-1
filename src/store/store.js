@@ -15,6 +15,7 @@ export default createStore({
         serverApi: "https://tml6.rosatom.ru/api/",
         tracksUrl: "https://tml6.rosatom.ru/api/tracks",
         trackUrl: "https://tml6.rosatom.ru/api/track",
+        searchUrl: "https://tml6.rosatom.ru/api/search",
         searchUser: "https://tml6.rosatom.ru/api/search/users",
         getDep: "https://tml6.rosatom.ru/api/corporation/departments",
         getComp: "https://tml6.rosatom.ru/api/corporation/companies",

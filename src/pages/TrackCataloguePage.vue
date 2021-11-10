@@ -6,7 +6,6 @@
     >
       <my-button @click="toTrackCreate"> Создать трек </my-button>
     </div>
-
     <div class="main-wrapper__btns" v-else>
       <my-button
         :class="{ activeBtn: this.getActualList === 'catalog' }"
@@ -40,7 +39,6 @@
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-
 export default {
   name: "track-catalogue-page",
   data() {

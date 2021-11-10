@@ -78,36 +78,6 @@ export default {
 
   setup (props) {
 
-    /*const {
-      tdForm,
-      tdSubmit,
-      tdSubmitted,
-      tdError
-    } = useTrackDetailForm()
-
-    const createTrackDetail = () => {
-      emit('create', {
-        "type": tdForm.value.type.value,
-        "entityId": 0,
-        "sortIndex": 0,
-        "required": tdForm.value.required.value
-      })
-
-      tdForm.value.type.value = ""
-      tdForm.value.entityName.value = ""
-      tdForm.value.entityDuration.value = ""
-      tdForm.value.required.value = false
-    }
-
-    return {
-      tdForm,
-      tdSubmit,
-      tdSubmitted,
-      tdError,
-      createTrackDetail
-    }*/
-
-    //console.log(props.submitMethod)
     return {
       tdForm: useVModel(props, 'modelValue'),
     }

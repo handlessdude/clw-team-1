@@ -3,6 +3,7 @@
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
 <!--    <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >-->
     <h2 class="track__preview_info">{{TEST.data.name}}</h2>
+
     <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
   </div>
 
@@ -90,6 +91,8 @@ export default {
     const trackId = route.params.id
     const IsDialogVisible = ref(false)
 
+    const SELECTED = ref({})
+
     console.log('ID of current track on the page: ' + trackId)
     const showDialog = () => {
       IsDialogVisible.value = true
@@ -130,6 +133,8 @@ export default {
     }
 
     return {
+
+      SELECTED,
       response,
 
       fetchTrack,

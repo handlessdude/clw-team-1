@@ -47,7 +47,7 @@
     <div>
       <my-button @click="addStudentOnTrack">Записать на трек</my-button>
       <my-button @click="delStudentOnTrack">Удалить с трека</my-button>
-      <!-- Не успел доделать логику обновления второй таблицы, Если забыть снять галочку 
+      <!-- Не успел доделать логику обновления второй таблицы, Если забыть снять галочку
       и заного вызвать поиск, То элемент с неснятой галочкой остается во 2 таблице навсегда))
       ,до перезагрузки -->
 
@@ -62,7 +62,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import searchApi from "@/api/SearchUser";
+import SearchApi from "@/api/Search";
 import MyButton from "../components/ui-components/my-button.vue";
 import MyTable from "../components/ui-components/my-table.vue";
 import MyModal from "../components/ui-components/my-modal.vue";
@@ -87,7 +87,7 @@ export default {
     MyModal,
   },
   created() {
-    searchApi.getReq(`${this.$store.state.getDep}`).then((data) => {
+    SearchApi.getReq(`${this.$store.state.getDep}`).then((data) => {
       this.departments = data.data.data;
     });
     this.getAssign();
@@ -125,12 +125,12 @@ export default {
         }
       }
       if (req) {
-        searchApi
+        SearchApi
           .getReq(`${this.$store.state.searchUser}?${req}`)
           .then((data) => {
             data.data.forEach((el) => {
               this.assigned.forEach((elem) => {
-                if (el.id == elem.data.userId) {
+                if (el.id === elem.data.userId) {
                   el.assign = true;
                   el.itemId = elem.id;
                 }
@@ -147,7 +147,7 @@ export default {
       this.filteredList = [];
     },
     getReqCompany() {
-      searchApi
+      SearchApi
         .getReq(`${this.$store.state.getComp}?department=${this.depart}`)
         .then((data) => {
           this.companies = data.data;
@@ -162,7 +162,7 @@ export default {
         data.push({ userId: el.id });
       });
       if (data.length > 0) {
-        searchApi.postReq(currentUrl, data).then((data) => {
+        SearchApi.postReq(currentUrl, data).then((data) => {
           this.modalMes = data.data.message;
         });
       }
@@ -178,7 +178,7 @@ export default {
         data.push(el.itemId);
       });
       if (data.length > 0) {
-        searchApi.delete(currentUrl, data).then((data) => {
+        SearchApi.delete(currentUrl, data).then((data) => {
           this.modalMes = data.data.message;
         });
       }
@@ -188,7 +188,7 @@ export default {
       this.checkedStudents = [];
     },
     getAssign() {
-      searchApi
+      SearchApi
         .getReq(
           `${this.$store.state.trackUrl}/${this.$route.params.id}/trackAssigns`
         )
