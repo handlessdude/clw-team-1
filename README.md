@@ -34,4 +34,4 @@ _Дизайн создавался по принципам UX/UI, т.е. при�
 ![Use_Case](Use_case.jpg)
 ***
 ### Test Case
-![Test_Case](clw-team-1/TestCase_T1_CLW.docx)
+![Test_Case](https://github.com/handlessdude/clw-team-1/blob/main/TestCase_T1_CLW.docx)
