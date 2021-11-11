@@ -1,4 +1,8 @@
 <template>
+<!--  that is track info page,
+      tried to implement it in composition API paradigm,
+      all logic of child elements are plugged in via 'useResourcename' hooks
+      -->
 <div class="track-page" v-if="!isTrackLoading">
   <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
     <div class="preview-pic-bl">
@@ -92,8 +96,6 @@ export default {
     const trackId = route.params.id
     const IsDialogVisible = ref(false)
 
-    const SELECTED = ref({})
-
     console.log('ID of current track on the page: ' + trackId)
     const showDialog = () => {
       IsDialogVisible.value = true
@@ -135,7 +137,6 @@ export default {
 
     return {
 
-      SELECTED,
       response,
 
       fetchTrack,

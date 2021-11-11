@@ -1,4 +1,7 @@
 <template>
+  <!--  poor validation system,
+        planned to plug in useForm to use cool custom validators
+      -->
   <div v-if="!isTrackLoading">
     <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture.value}")` }' >
       <div class="preview-pic-bl">

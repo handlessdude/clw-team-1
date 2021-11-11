@@ -1,4 +1,6 @@
 <template>
+<!--  track catalogue page implemented in classic options api paradigm.
+  the store module containing necessary logic - trackCatalogueModule (wow so unexpected)-->
   <div class="track-catalogue-page" v-if="!isTrackListLoading">
     <div
       v-if="this.$store.state.actualUser.roles.includes('teacher')"
@@ -22,20 +24,13 @@
       </my-button>
     </div>
 
-
-<!--    <Suspense>
-      <template #default>
-        <autocomplete
-            :entityType="entityType"
-            @selectItem="onSelect"
-        ></autocomplete>
-      </template>
-    </Suspense>-->
-
+<!--    working autocomplete courses/events search,
+    but i have not inserted it into track detail form yet-->
+<!--
     <autocomplete
         :entityType="entityType"
         @selectItem="onSelect"
-    ></autocomplete>
+    ></autocomplete>-->
 
     <div v-if="this.$store.state.actualUser.roles.includes('teacher')">
       <div v-if="!isTrackListLoading">

@@ -1,3 +1,4 @@
+/*now this file is redundant since we refactored api access classes*/
 export const configModule = {
     state: () => ({
         postPutConfig: {
