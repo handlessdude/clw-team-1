@@ -1,17 +1,10 @@
 <template>
 <div class="track-page" v-if="!isTrackLoading">
-  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${trackData.previewPicture}")` }' >
-
-    <sidebar-link style="width: 40px;" to="/tracks" icon="fas fa-door-open"></sidebar-link>
-
-    <h2>{{trackData.name}}</h2>
-<!--    <pre>{{typeof(trackData.dateTimeStart)}}</pre>
-    <pre>{{hrTimeStart}}</pre>-->
-<!--    <pre>{{assigned}}</pre>
-    <pre>{{id }}</pre>
-    <pre> {{status}}</pre>
-    <pre>{{trackData}}</pre>-->
-
+  <div class="preview-pic"  :style='{ backgroundImage: `url("${this.$store.state.server}/${TEST.data.previewPicture}")` }' >
+    <div class="preview-pic-bl">
+      <h2 class="track__preview_info">{{TEST.data.name}}</h2>
+      <my-button class="track__preview_btn" @click="this.$router.push('/tracks')">Назад</my-button>
+    </div>
   </div>
 
   <div class="content">
@@ -19,120 +12,153 @@
 
       <div class="description">
         <span><i class="fas fa-info-circle"></i><h2>О треке</h2></span>
-       <p>{{trackData.previewText}}</p>
+        <p>{{TEST.data.previewText}}</p>
       </div>
 
       <div class="edit-and-time">
-        <my-button>
+
+        <my-button-re
+            v-if="actualRole"
+            @click="this.$router.push(`/tracks/${TEST.id}/update`)">
           Редактировать
-        </my-button>
+        </my-button-re>
+
         <div class="start-finish">
-          <div class="start">
-            Дата открытия:{{hrTimeStart}}
-          </div>
-          <div class="finish">
-            Дата закрытия:{{hrTimeFinish}}
-          </div>
+          <div class="start">Дата открытия: {{hrTimeStart}}</div>
+          <div class="finish">Дата закрытия: {{hrTimeFinish}}</div>
         </div>
       </div>
     </div>
 
     <span>
-<!--      TODO: add @click to all the buttons-->
-        <my-button
-        >
-           Добавить деталь трека
+        <my-button v-if="actualRole" @click="showDialog">
+          Добавить деталь трека
         </my-button>
-        <my-button
-        >
-           Записать студентов на трек
+        <my-button v-if="actualRole" @click="toAddStudent">
+          Записать студентов на трек
         </my-button>
-        <my-button
-        >
-            Входное тестирование
+        <my-button v-if="actualRole">
+          Входное тестирование
         </my-button>
-      </span>
+    </span>
 
     <track-detail-list
-        style="margin-top: 20px;"
+        style="margin-top: 20px"
         :trackDetails="trackDetails"
         v-if="!isTrackDetailsLoading"
+        @remove="removeTrackDetail"
     />
-<!--    @remove="deleteTrackDetail"-->
     <div v-else>Загружаем список элементов...</div>
-  </div>
+    </div>
 
-<!--
-TODO: create track detail post form
-<my-dialog v-model:show="dialogVisible">
-    <post-form
-        @create="createTrackDetail"
-    />
-</my-dialog>-->
-</div>
-<preloader v-else></preloader>
+  <my-dialog v-model:show="IsDialogVisible">
+    <track-detail-form
+        v-model="form"
+        v-model:canSubmit="isFormValid"
+        :onSubmit="submitTrackDetailForm"/>
+  </my-dialog>
+
+  </div>
+  <preloader v-else></preloader>
 </template>
 
 <script>
 import TrackDetailList from '@/components/track-detail/track-detail-list'
-import SidebarLink from '@/components/ui-components/sidebar-link'
+import TrackDetailForm from '@/components/track-detail/track-detail-form'
 import { useRoute } from 'vue-router'
 import { useTrackDetails } from "@/hooks/trackPageHooks/useTrackDetails"
 import { useTrack } from "@/hooks/trackPageHooks/useTrack"
+import {ref} from "vue"
+import { useTrackDetailForm } from "@/hooks/trackDetailsHooks/useTrackDetailForm"
 
 export default {
-  name: "трек",
+  name: "TrackPage",
   components: {
-    SidebarLink,
-    TrackDetailList
+    TrackDetailList,
+    TrackDetailForm,
   },
-  data() {
-    return {
-      dialogVisible: false,
+  methods: {
+    toAddStudent() {
+      this.$router.push({path: `/tracks/${this.TEST.id}/add-student`})
     }
   },
-  setup() {
+  computed: {
+    actualRole() {
+      return this.$store.state.actualUser.roles.includes('teacher')
+    }
+  },
+  async setup() {
     const route = useRoute()
     const trackId = route.params.id
+    const IsDialogVisible = ref(false)
 
-    console.log('ID of current track on the page: '+trackId)
-    const { trackDetails, isTrackDetailsLoading } = useTrackDetails(trackId)
+    const SELECTED = ref({})
+
+    console.log('ID of current track on the page: ' + trackId)
+    const showDialog = () => {
+      IsDialogVisible.value = true
+    }
+    const hideDialog = () => {
+      IsDialogVisible.value = false
+    }
+
     const {
       response,
-
-      assigned ,
-      id,
-      status,
-      trackData,
 
       fetchTrack,
       isTrackLoading,
 
       hrTimeStart,
       hrTimeFinish,
+      TEST
+    } = await useTrack(trackId)
 
-    } = useTrack(trackId)
+    const {
+      trackDetails,
+      isTrackDetailsLoading,
+      removeTrackDetail
+    } = await useTrackDetails(trackId)
 
-    console.log('trackData = ', trackData)
-    console.log('hrTimeStart = ', hrTimeStart)
+    const {
+      form, isFormValid,  resetForm,
+      isSubmitted, error,
+      submit, sendTrackDetailForm
+    } = useTrackDetailForm()
+
+    const submitTrackDetailForm = async () => {
+      const newTrackDetail = await sendTrackDetailForm(trackId)
+      console.log(newTrackDetail)
+      trackDetails.value.push(newTrackDetail)
+      hideDialog()
+      resetForm()
+    }
 
     return {
-      response,
 
-      assigned ,
-      id,
-      status,
-      trackData,
+      SELECTED,
+      response,
 
       fetchTrack,
       isTrackLoading,
 
       trackDetails,
       isTrackDetailsLoading,
+      removeTrackDetail,
 
       hrTimeStart,
       hrTimeFinish,
+      TEST,
+      trackId,
 
+      IsDialogVisible,
+      showDialog,
+
+      form,
+      isFormValid,
+      isSubmitted,
+      error,
+      submit,
+      submitTrackDetailForm,
     }
   }
 }
@@ -142,37 +168,71 @@ export default {
 .track-page {
   margin-left: 15px;
 }
+
 .preview-pic {
   /*width: 100%;
   height: 150px;*/
 
   width: 100%;
-  height: 600px;
-  border-radius: 12px;
-  padding: 15px;
+  min-height: 300px;
+  border-radius: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   background: #ffffff no-repeat center center;
   background-size: cover;
-  color:black;
+  color:rgb(255, 255, 255);
+}
+.preview-pic-bl {
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(0,0,0,.4);
+  width: 100%;
+  min-height: 300px;
+  border-radius: 50px;
+  padding: 30px;
+}
+.preview-pic-bl .btn {
+  width: 70px;
+  margin-bottom: 70px;
+/*  color: white;
+  border: 1px solid white;*/
+}
+.content .btn {
+  margin: 0 5px;
 }
 .about {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .content {
+  min-height: 312px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
-  padding: 15px;
+  align-items: flex-start;
+  border-radius: 50px;
+  padding: 25px;
   background: white;
 }
-
-.content>span {
-  margin-top: 20px;
+.description {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.content > span {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .edit-and-time {
@@ -181,12 +241,51 @@ export default {
   margin-left: 15px;
 }
 
-.start-finish{
-  margin-top:auto;
-  border-radius: 12px;
+.start-finish {
+  margin-top:10px;
+  border-radius: 25px;
   color: teal;
-  border: 1px solid teal;
-  padding: 5px;
+  border: 3px solid teal;
+  padding: 15px;
+}
+.track__preview_btn {
+  background-color: #ffffffa6 !important;
+  border-radius: 50px;
+  align-self: center;
+  margin-bottom: 24px;
+
+}
+.track__preview_info {
+  width: 100%;
+  height: 160px;
+  color: #ffffff;
+  display: flex;
+  font-size: 36px;
+  justify-content: center;
+  align-items: center;
+  /*background-color: #ffffffa6;*/
 }
 
+@media (max-width: 820px) {
+  .about{
+    flex-direction: column;
+  }
+  .edit-and-time {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+}
+@media (max-width: 565px) {
+  .content>span {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+  .content>span .btn{
+    margin: 10px 0;
+  }
+}
 </style>

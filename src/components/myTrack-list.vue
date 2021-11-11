@@ -1,16 +1,14 @@
 <template>
   <div class="track-list">
     <div class="list-header">
-      <h3>Каталог треков</h3>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem suscipit alias id voluptatem illo dolor beatae illum eveniet et consectetur corporis qui itaque pariatur praesentium voluptatibus harum, fugiat numquam officia! A consectetur quod soluta nobis quo eaque ad odit corporis ipsum quasi, culpa, itaque adipisci, accusamus commodi! Recusandae, eius et!</p>
+      <h3>Мои треки</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem suscipit alias id </p>
     </div>
-    <!-- v-if removes node from DOM tree completely.
-         if you want to keep it in DOM tree, use v-show
-    -->
+
     <div v-if="tracks.length > 0" class="track-list-grid">
       <transition-group name="track-list">
         <track-item
-            v-for="track in tracks"
+            v-for="track in fakeList"
             :track="track"
             :key="track.id"
             @remove="$emit('remove', track.id)"
@@ -27,7 +25,7 @@
 import TrackItem from "./track-item"
 
 export default {
-  name: "track-list",
+  name: "my-track-list",
   components : {
     TrackItem
   },
@@ -42,13 +40,20 @@ export default {
       title: 'Track List'
     }
   },
+  computed: {
+    //   !!fake list!!!
+    fakeList() {
+        return this.tracks.filter(el => {
+           return el.id % 2 === 0
+        })
+    }
+  },
 }
 </script>
 
 <style scoped>
   .list-header{
-    height: auto;
-    min-height: 300px;
+    height: 30vh;
     margin: 20px 0 20px 0;
     color: white;
     border-radius: 50px;

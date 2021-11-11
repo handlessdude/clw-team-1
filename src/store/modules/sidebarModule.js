@@ -7,6 +7,9 @@ export const sidebarModule = {
     getters: {
         getSidebarWidth(state){
             return `${state.isCollapsed ? state.SIDEBAR_WIDTH_COLLAPSED : state.SIDEBAR_WIDTH}px`
+        },
+        getMinSidebarWidth(state){
+            return `${state.SIDEBAR_WIDTH_COLLAPSED}px`
         }
     },
     mutations: {

@@ -11,8 +11,11 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
+    "date-fns": "^2.25.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.12",
+    "vue3-simple-file-input": "^1.0.3",
+    "vue3-datepicker": "^0.2.5",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -24,6 +27,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue3-datepicker": "^0.2.5"
   }
 }

@@ -1,15 +1,18 @@
 <template>
-  <input :value="modelValue" @input="updateInput" class="input" type="text">
+<textarea :value="modelValue"
+          @input="updateTextarea"
+          class="textarea"
+></textarea>
 </template>
 
 <script>
 export default {
-  name: "my-input",
+  name: "my-textarea",
   props: {
-    modelValue: [String, Number] //string OR number
+    modelValue: String
   },
   methods:{
-    updateInput(event) {
+    updateTextarea(event) {
       this.$emit('update:modelValue', event.target.value)
     }
   }
@@ -17,10 +20,11 @@ export default {
 </script>
 
 <style scoped>
-.input {
+.textarea {
   box-sizing: border-box;
   width: 100%;
-  min-height: 50px;
+  min-height: 150px;
+  resize: none;
   border: 1px solid teal;
   border-radius: 25px;
   padding: 10px 15px;

@@ -1,62 +1,70 @@
 <template>
   <div class="sidebar" :style="{ width: getSidebarWidth }">
-
     <div v-if="isCollapsed">
       <div class="logo"></div>
-      <hr style="margin:15px 10px;">
+      <hr style="margin: 15px 10px" />
     </div>
 
     <div v-else>
       <div class="logo-open"></div>
-      <hr style="margin:15px 10px;">
+      <hr style="margin: 15px 10px" />
     </div>
 
-    <sidebar-link to="/" icon="fas fa-home">Главная</sidebar-link>
-    <sidebar-link to="/tracks" icon="fas fa-truck-monster">Треки</sidebar-link>
-    <sidebar-link to="/catalogue" icon="fas fa-columns">Каталог</sidebar-link>
+    <my-link to="/" icon="fas fa-home">Главная</my-link>
+    <my-link to="/tracks/catalogue" icon="fas fa-truck-monster">Треки</my-link>
+    <my-link to="/catalogue" icon="fas fa-columns">Каталог</my-link>
 
     <span v-if="isCollapsed"></span>
     <div v-else class="account">
-      <hr style="margin:15px 10px;">
-      <div class="avatar"></div>
-      <h4>UserName</h4>
-      <p>Статус</p>
+      <hr style="margin: 15px 10px" />
+      <!-- <div class="avatar"></div> -->
+      <!-- Разобраться с аватаркой!Сделать динамической -->
+      <img
+        v-if="this.$store.state.actualUser.roles.includes('teacher')"
+        class="avatar"
+        :src="require(`@/components/Images/AvatarTeacher.png`)"
+        alt="User Avatar"
+      />
+      <img
+        v-else
+        class="avatar"
+        :src="require(`@/components/Images/Avatar.png`)"
+        alt="User Avatar"
+      />
+      <h4>{{ getUserInfo.user[0].fullName }}</h4>
+      <p>{{ getUserInfo.user[0].data[0].status }}</p>
     </div>
 
     <span
       class="collapse-icon"
-      :class="{'rotate-180': isCollapsed }"
+      :class="{ 'rotate-180': isCollapsed }"
       @click="toggleSidebar"
     >
-    <i class="fas fa-angle-double-left"></i>
-</span>
-</div>
+      <i class="fas fa-angle-double-left"></i>
+    </span>
+  </div>
 </template>
 
 <script>
-
 import { mapMutations, mapGetters, mapState } from "vuex";
-import SidebarLink from './ui-components/sidebar-link'
 
 export default {
   name: "sidebar",
-  components: {
-    SidebarLink,
-  },
   methods: {
     ...mapMutations({
-      toggleSidebar: 'sidebar/toggleSidebar',
+      toggleSidebar: "sidebar/toggleSidebar",
     }),
   },
   computed: {
     ...mapState({
-      isCollapsed: state => state.sidebar.isCollapsed,
+      isCollapsed: (state) => state.sidebar.isCollapsed,
     }),
     ...mapGetters({
-      getSidebarWidth: 'sidebar/getSidebarWidth',
-    })
+      getSidebarWidth: "sidebar/getSidebarWidth",
+      getUserInfo: "getUserInfo",
+    }),
   },
-}
+};
 </script>
 
 <style>
@@ -70,7 +78,6 @@ export default {
 </style>
 
 <style scoped>
-
 .sidebar {
   box-sizing: content-box;
   color: var(--light-text-color);
@@ -91,7 +98,7 @@ export default {
 }
 .collapse-icon {
   position: absolute;
-  bottom:0;
+  bottom: 0;
   padding: 0.75em;
   color: rgba(255, 255, 255, 0.7);
   transition: 0.2s linear;
@@ -99,16 +106,16 @@ export default {
 .logo {
   background-image: url(Images/Logo.png);
   background-size: cover;
-  width:35px;
-  height:35px;
+  width: 35px;
+  height: 35px;
 }
 .logo-open {
   background-image: url(Images/Logo-open.png);
   background-size: cover;
-  width:170px;
-  height:40px;
+  width: 170px;
+  height: 40px;
 }
-.sidebar-link {
+.my-link {
   margin: 20px 0;
 }
 .account {
@@ -121,11 +128,11 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  background-image: url(Images/Avatar.png);
+  /* background-image: url(Images/Avatar.png); */
   margin: 10px auto;
 }
 .collapse-icon:hover {
-  cursor:pointer;
+  cursor: pointer;
   color: var(--light-text-color);
 }
 .rotate-180 {

@@ -5,8 +5,8 @@
             v-for="trackDetail in trackDetails"
             :trackDetail="trackDetail"
             :key="trackDetail.id"
+            @remove="$emit('remove', trackDetail.id)"
         />
-<!--        @remove="$emit('remove', trackDetail)"-->
       </transition-group>
     </div>
     <p v-else>Курс не содержит элементов.</p>
@@ -31,11 +31,11 @@ export default {
 
 <style scoped>
 .track-detail-list{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
   margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 15px;
+  row-gap: 1em;
 }
 .track-detail-list-item {
   display: inline-block;
@@ -52,5 +52,23 @@ export default {
 }
 .track-detail-list-move {
   transition: transform 0.5s ease;
+}
+@media (max-width: 1100px) {
+  .track-detail-list{
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 15px;
+  row-gap: 1em;
+}
+}
+@media (max-width: 800px) {
+  .track-detail-list{
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: repeat(1, 1fr);
+  column-gap: 15px;
+  row-gap: 1em;
+}
 }
 </style>

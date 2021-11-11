@@ -15,7 +15,7 @@
 import { useRoute } from 'vue-router'
 import {mapState} from "vuex";
 export default {
-  name: "sidebar-link",
+  name: "my-link",
   props: {
     to: {
       type: String,

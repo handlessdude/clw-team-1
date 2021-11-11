@@ -1,72 +1,64 @@
-import store from '../store/store';
+import store from '@/store/store'
+import BasicRequester from '@/api/BasicRequester'
+
+class TrackOperationError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "TrackOperationError"
+    }
+}
+
 export default class TrackApi {
 
-    static trackAxios = store.getters.serverAccess
-
-    static async post(data) {
-        try {
-            const url = store.state.trackUrl
-            const response = await this.trackAxios.post(url, data, store.state.configs.postPutConfig)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
+    static #ensureTrackData(trackData) {
+        return {
+            name: trackData.name ?? "",
+            previewText: trackData.previewText ?? "",
+            previewPicture: trackData.previewPicture ?? "",
+            published: trackData.published ?? false,
+            dateTimeStart: trackData.dateTimeStart ?? 0,
+            dateTimeFinish: trackData.dateTimeFinish ?? 0,
+            mode: trackData.mode ?? ""
         }
     }
 
-    static async postPreview(formData) {
-        /*TODO: make out how it should be used*/
-        try {
-            const url = `${store.state.trackUrl}/preview/`
-            const response = await this.trackAxios.post(url, formData, store.state.configs.postPreviewConfig)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
-        }
+    static async post(trackData) {
+        const url = store.state.trackUrl
+        return await BasicRequester.basicRequest(BasicRequester.POST_METHOD, url, this.#ensureTrackData(trackData))
+                    .catch(({message}) => {
+                        throw new TrackOperationError(`Track post error: ${message}`)
+                    })
     }
 
     static async get(trackId) {
-        try {
-            const url = `${store.state.trackUrl}/${trackId}`
-            const response = await this.trackAxios.get(url, store.state.configs.getConfig)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
-        }
+        const url = `${store.state.trackUrl}/${trackId}`
+        return await BasicRequester.basicRequest(BasicRequester.GET_METHOD, url)
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track get error: ${message}`)
+            })
     }
 
-    static async put(data) {
-        try {
-            const url = store.state.trackUrl
-            const response = await this.trackAxios.put(url, data, store.state.configs.postPutConfig)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
-        }
+    static async put(trackId, trackData) {
+        const url = `${store.state.trackUrl}/${trackId}`
+        return await BasicRequester.basicRequest(BasicRequester.PUT_METHOD, url, this.#ensureTrackData(trackData))
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track put error: ${message}`)
+            })
     }
 
     static async delete(trackId) {
-        try {
-            const url = `${store.state.trackUrl}/${trackId}`
-            const response = await this.trackAxios.delete(url, store.state.configs.deleteConfig)
-            console.log(response)
-            return response
-        } catch (e) {
-            alert('Error has spawned!')
-            console.log(e)
-            return e
-        }
+        const url = `${store.state.trackUrl}/${trackId}`
+        return await BasicRequester.basicRequest(BasicRequester.DELETE_METHOD, url)
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track delete error: ${message}`)
+            })
     }
 
+    static async getTracks() {
+        const url = store.state.tracksUrl
+        return await BasicRequester.basicRequest(BasicRequester.GET_METHOD, url)
+            .catch(({message}) => {
+                throw new TrackOperationError(`Track list get error: ${message}`)
+            })
+    }
 }
